@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Place index</title>
+<style>
+.gpscoords { font-size: 70%; color: #ccc; cursor:pointer; }
+</style>
+<link href="lib/article.css" rel="stylesheet">
+<script src="lib/place_db.js" type="application/javascript"></script>
+<script>
+function filter (str) {
+	str = str.toLowerCase()
+	str = str.replace(/\*/,'.*')
+	var total = 0
+	var names = document.querySelectorAll('#listrecord p')
+	for (var i=0;i<names.length;i++) {
+		if (! names[i].textContent.toLowerCase().match(str)) names[i].style.display = 'none'
+		else { names[i].style.display = 'block'; total++ }
+		}
+	document.getElementById('total').textContent = total
+	}
+	
+
+function copyToClipboard (node) {
+	// this doesn't work on Safari because S doesn't support execCommand('copy')
+	var copybuffer = document.getElementById('copybuffer')
+	copybuffer.value = node.parentNode.textContent
+	copybuffer.focus()
+	copybuffer.select()
+	document.execCommand('copy')
+	document.getElementById('filter').focus()
+	}
+
+</script>
+</head>
+<body>
+<div id="out">
+  <div id="banner">
+    <div id="pagetitle">Place index<br>
+    </div>
+  </div>
+  <div id="subbanner">
+    <div>Filter <input id="filter" type="text" onInput="filter(this.value);" />
+    </div>
+  </div>
+  <div id="subsubbanner">
+    <div><a href="#explanations">Total <span id="total"></span></a></div>
+  </div>
+  <div id="subsubsubbanner" style="text-transform: none;">
+    <div>You can use * as a wildcard character when filtering.<br/>For example, '<code>lak*ag</code>' will match '<samp>Lakelin (Higley), Elizabeth Agnes</samp>'.</div>
+  </div>
+  <article>
+    <section id="listrecord">
+    </section>
+    <div id="places">
+    </div>
+  </article>
+</div>
+
+<input id="copybuffer" style="height:1px; width:1px;"/>
+
+<script>
+var out = ''
+var total = 0
+places.sort()
+var placeIndex = {}	
+for (var i=0;i<places.length;i++) {
+	if (placeIndex[places[i][0]]) {
+		placeIndex[places[i][0]].list.push(places[i][2])
+		}
+	else {
+		placeIndex[places[i][0]] = {}
+		placeIndex[places[i][0]].location = places[i][0]
+		placeIndex[places[i][0]].a = places[i][1]
+		placeIndex[places[i][0]].list = [places[i][2]]
+		total++
+		}
+	}
+	
+for (var place in placeIndex) {
+	if (placeIndex[place].location != 'xxxx') {
+		var coords = placeIndex[place].a.replace(/https:\/\/maps.google.com\/maps\?q=/,'')
+		coords = coords.replace(/http:\/\/maps.google.com\/maps\?q=/,'')
+		out += '<p><span><a href="'+placeIndex[place].a+'" target="_blank">'+placeIndex[place].location+'</a> <span class="gpscoords" onclick="copyToClipboard(this)">🗆'+coords+'</span></span>'
+		for (j=0;j<placeIndex[place].list.length;j++) {
+			out += ' <a class="detaillink" href="person.html?project=data&person='+placeIndex[place].list[j]+'" target="_blank">'+placeIndex[place].list[j]+'</a>'
+			}
+		out += '</a></p>'
+		}
+	}
+document.getElementById('total').textContent = total
+
+document.getElementById('listrecord').innerHTML = out
+
+document.getElementById('filter').focus()
+</script>
+</body>
+</html>

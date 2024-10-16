@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head id="head">
+<meta charset="utf-8">
+<title>Person page</title>
+
+<link href="lib/style.css" rel="stylesheet" />
+<style>
+#pageicon {
+  position: absolute;
+  font-size: 6rem;
+  padding: 1rem 2rem;
+}
+</style>
+
+<script src="lib/script.js"></script>
+<!--script src="events.js"></script-->
+<script src="history.js"></script>
+
+<script>
+// read in thisPerson
+var project = ''
+parameters = location.search.split('&');
+parameters[0] = parameters[0].substring(1);
+for (var p=0;p<parameters.length;p++) {  
+	pairs = parameters[p].split('=');
+	if (pairs[0] == 'person') { if (pairs[1]) { var thisPerson = pairs[1] } }
+	if (pairs[0] == 'project') { if (pairs[1]) { var project = pairs[1] } }
+	}
+
+//if (! project || project.match(/\.\./)) project = 'data'
+if (! project || project.match(/\.\./)) {
+    while (project === '' || project.match(/\.\./)) project = prompt('What project do you want to work with?')
+    window.location += '?project='+project
+    }
+
+// load the appropriate db file	
+var db = document.createElement('script')
+db.src = project+'/db.js'
+db.async = false
+document.head.appendChild(db)
+
+// load the appropriate census file	
+var db = document.createElement('script')
+db.src = project+'/census.js'
+db.async = false
+document.head.appendChild(db)
+
+// load the appropriate shared notes file	
+var db = document.createElement('script')
+db.src = project+'/notes.js'
+db.async = false
+document.head.appendChild(db)
+
+
+// load the appropriate timeline file	
+var tl = document.createElement('script')
+tl.src = project+'/'+thisPerson+'.txt'
+tl.async = false
+document.head.appendChild(tl)
+
+
+// get the root, if any
+projectRoot= project+'root'
+window.markList = new Set([])
+if (localStorage[projectRoot] && localStorage[projectRoot] !== '') {
+    window.mark = localStorage[projectRoot]
+    window.markList.add(mark)
+    //setTimeout(() => { makeMarkList() }, '500')
+    }
+
+function makeMarkList () {
+    // make a list of ancestors for the person indicaed to be the 'mark'
+    // this is then used to highlight relatives    
+    if (window.mark) getParent(window.mark)
+    }
+
+function getParent (id) {
+    if (db[id].father && db[db[id].father]) {
+        markList.add(db[id].father)
+        getParent(db[id].father)
+        }
+    if (db[id].mother && db[db[id].mother]) {
+        markList.add(db[id].mother)
+        getParent(db[id].mother)
+        }
+    }
+
+
+function openWindow (locn) {
+    const windowFeatures = "left=50,top=50";
+	//var newwindow = window.open(locn, 'newwindow', windowFeatures) 
+	var newwindow = window.open(locn, '_blank') 
+	newwindow.focus()
+	}
+
+
+</script>
+</head>
+
+
+<body onLoad="init()">
+<div id="summaryIn"><p></p></div>
+<div id="links"></div>
+<div id="in"></div>
+
+
+<div id="out">
+<div id="banner">
+  <div id="pagetitle"></div>
+</div>
+<div id="subbanner">
+  <div>&nbsp;</div>
+</div>
+<div id="subsubbanner">
+  <div>&nbsp;</div>
+</div>
+<div id="subsubsubbanner">
+  <div>&nbsp;</div>
+</div>
+<div id="main">
+
+<div class="dateAndRecord">
+  <div>
+    <div class="recordDate"><span style="font-size: 100%; margin-top:.8em;">-</span><span>&nbsp;</span></div>
+  </div>
+  <div id="summary" class="record">
+    <div>
+      <p>&nbsp;</p>
+    </div>
+  </div>
+  <div class="keypoints">&nbsp;</div>
+</div>
+</div>
+</div>
+
+<dialog id="copyNotice">Copied !</dialog>
+
+
+<script>
+
+</script>
+</body></html>
