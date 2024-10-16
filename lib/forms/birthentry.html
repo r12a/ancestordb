@@ -1,0 +1,1304 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Birth form</title>
+<link href="../../lib/style.css" rel="stylesheet">
+<style>
+td { vertical-align: top; padding-left: 1em; }
+details { margin-left: 2em; }
+</style>
+<script src="formentrylookup.js"></script>
+<script src="getplacenames.js"></script>
+<script>
+trace = false
+// read in project
+var project
+parameters = location.search.split('&');
+parameters[0] = parameters[0].substring(1);
+for (var p=0;p<parameters.length;p++) {  
+	pairs = parameters[p].split('=');
+	if (pairs[0] == 'project') { if (pairs[1]) { var project = pairs[1] } }
+	if (pairs[0] == 'person' && pairs[1]) { var theperson = pairs[1] }
+	}
+
+// load the appropriate db file	
+if (! project) alert('Specify the project name in the URL, using ?project=...')
+var db = document.createElement('script')
+db.id = 'database'
+db.src = '../../'+project+'/db.js'
+db.async = false
+document.head.appendChild(db);
+
+
+// load the appropriate census file	
+var db = document.createElement('script')
+db.src = '../../'+project+'/census.js'
+db.async = false
+document.head.appendChild(db)
+
+
+
+
+if (theperson) {
+    setTimeout(() => autoPropagate(theperson), 1000)
+    }
+</script>
+<script>
+
+function openWindow (locn) {
+    const windowFeatures = "left=50,top=50";
+	//var newwindow = window.open(locn, 'newwindow', windowFeatures) 
+	var newwindow = window.open(locn, 'newwindow') 
+	newwindow.focus()
+	}
+
+function openRecord (locn, ext) {
+	var newwindow = window.open('../../'+project+'_records/'+locn+ext, 'newwindow') 
+	output.focus()
+	newwindow.focus()
+	}
+
+function makeNotes (content, target) {
+	segments = content.split('\n')
+	var out = 'fnotes: ['
+	for (var i=0;i<segments.length;i++) out += '"'+segments[i]+'", '
+    out += '],'
+	document.getElementById(target).textContent = out
+	}
+
+
+
+
+
+
+
+function autoPropagate (person) {
+    // Pull up a list of ids for related people, and fill in some fields automatically
+    if (person === '') {
+        alert('No id provided.')
+        return
+        }
+
+    // add id for parameter driven use
+    document.getElementById('idIn').value = person
+
+
+    // populate the places datalist
+    findallplaces()
+    makePlacesDatalist()
+
+    // make a list of relatives to the right
+	listRelations(person)
+    
+    // fill in the page building data
+    if (db[person] && db[person].birth) {
+        document.getElementById('birthYearIn').value = db[person].b.trim()
+        document.getElementById('birthDateIn').value = db[person].bdate.trim()
+    
+        var dataItems = db[person].birth
+        var notes = ''
+        var fnotes = ''
+        var discussion = ''
+        console.log('dataItems', dataItems)
+        
+        if (dataItems.timestamp) document.getElementById('timestampIn').value = dataItems.timestamp.trim()
+        
+        if (dataItems.place) document.getElementById('birthPlaceIn').value = dataItems.place.trim()
+        
+        if (dataItems.athome) document.getElementById('atHomeIn').value = dataItems.athome.trim()
+        
+        if (dataItems.focc) document.getElementById('foccIn').value = dataItems.focc.trim()
+        
+        if (dataItems.informant) document.getElementById('informantIn').value = dataItems.informant.trim()
+        
+        if (dataItems.mentioned) document.getElementById('mentionedIn').value = dataItems.mentioned.trim()
+        
+        if (dataItems.bapplace) document.getElementById('bapPlaceIn').value = dataItems.bapplace.trim()
+        
+        if (dataItems.bapyear) document.getElementById('bapYearIn').value = dataItems.bapyear.trim()
+        
+        if (dataItems.bapdate) document.getElementById('bapDateIn').value = dataItems.bapdate.trim()
+        
+        if (dataItems.denomination) document.getElementById('denominationIn').value = dataItems.denomination.trim()
+
+        //if (dataItems.gps) {
+            //var fields = dataItems.gps[0].split('https:') 
+            //document.getElementById('gpsPlace').value += fields[0].trim()
+            //document.getElementById('gpsCoords').value = fields[1].replace('//maps.google.com/maps?q=','').trim()
+            //}
+         if (dataItems.gps) {
+            out = ''
+            for (i=0;i<dataItems.gps.length;i++)  out += `${ dataItems.gps[i].replace(/ https:\/\/maps.google.com\/maps\?q=/,':') }\n`
+            document.getElementById('gpsIn').value = out
+            }
+
+
+         if (dataItems.images) {
+            out = ''
+            for (i=0;i<dataItems.images.length;i++)  out += `${ dataItems.images[i].replace(/url:records\//,'') }\n`
+            document.getElementById('recordsIn').value = out
+            }
+        
+        
+        if (dataItems.discussion) document.getElementById('censusDisc').value = dataItems.discussion.trim()
+        
+        if (dataItems.caution) document.getElementById('cautionIn').value = dataItems.caution.trim()
+       
+    // get sources
+    if (dataItems.sources) {
+        formatSource(dataItems.sources, '')
+        }
+        
+        draftResult()
+        }
+    
+    // set parameters for links at top of the page
+    document.getElementById('deathLink').href = `dthentry.html?project=${ project }&person=${ theperson }`
+    document.getElementById('marriageLink').href = `marriageentry.html?project=${ project }&person=${ theperson }`
+    document.getElementById('censusLink').href = `censusentry.html?project=${ project }&person=${ theperson }`
+    document.getElementById('eventLink').href = `evententry.html?project=${ project }&person=${ theperson }`
+	}
+
+
+function formatSource (sources, discussion) {
+    // wrap source lines in link markup
+    if (trace) console.log(enter, 'formatSource(',sources,')')
+
+    if (typeof sources === 'undefined') return ''
+    
+    var sourceList = sources.split('SOURCE:')
+    //console.log(sourceList)
+    
+    var counter = 0
+    for (s=0;s<sourceList.length;s++) {
+        if (sourceList[s].trim() === '') continue
+        
+        // assign the output area names
+        switch (counter) {
+            case 0: target = 'index'; break
+            case 1: target = 'bap'; break
+            case 2: target = 'second'; break
+            case 3: target = 'third'; break
+            }
+        counter++
+        console.log(target, sourceList[s])
+    
+        var lines = sourceList[s].split('\n')
+        for (var i=0;i<lines.length;i++) {
+            if (lines[0].includes('http')) {
+                parts = lines[0].split('http')
+                document.getElementById(target+'SourceIn').value = parts[0].trim()
+                document.getElementById(target+'SourceURLIn').value = `http${ parts[1]}`
+                body = ''
+                for (j=1;j<lines.length;j++) body += lines[j]+'\n'
+                document.getElementById(target+'PastedIn').value = body
+                document.getElementById(target).open = true
+                }
+            else if (lines[i].match('SOURCE') && lines[i].match('url:')) {
+                parts = lines[i].split('url:')
+                parts[0] = parts[0].replace(/SOURCE: /,'')
+                lines[i] = `<img src="lib/i/source.png" alt="Source link" title="Source link"><a target="_blank" href="${ window.project }/${ parts[1] }">${ parts[0] }</a>`
+                }
+            else {
+                title = lines[0].replace(/SOURCE: /,'')
+                document.getElementById(target+'SourceIn').value = title.trim()
+                body = ''
+                for (j=1;j<lines.length;j++) body += lines[j]+'\n'
+                document.getElementById(target+'PastedIn').value = body
+                document.getElementById(target).open = true
+                }
+            }
+            }
+    
+    sources = lines.join('\n').replace(/\[|\]/g,'')
+    
+    console.log(sources)
+    //if (discussion) sources += '\n<img src="lib/i/discn.png" alt="Commentary" title="Commentary">'+discussion
+    
+    if (trace) console.log(exit,'formatSource:',sources)
+    return sources
+    }
+
+
+
+function addQuotesToOLD (content) {
+    // quotes no longer needed. Just normalisation of lines.
+	var out = ''
+	var lines = content.split('\n')
+	for (var i=0;i<lines.length;i++) {
+		if (lines[i].match(':')) {
+			lines[i] = lines[i].replace(/\s+/g,' ')
+			out += lines[i]
+            if (i<lines.length-1) out += '\n'
+			}
+		else if (lines[i].match('\t')) {
+			var parts = lines[i].split('\t')
+			parts[0] = parts[0].replace(/ /g,'').replace(/'/g,'')
+			parts[1] = parts[1].replace(/[\s]+/g,' ')
+			out += parts[0]+': '+parts[1].trim()
+			out += '\n'
+			}
+		}
+	return out
+	}
+
+function addQuotesTo (content) { 
+    // quotes no longer needed. Just normalisation of lines.
+	var out = ''
+	var lines = content.split('\n')
+	for (var i=0;i<lines.length;i++) {
+        if (! lines[i].includes(':')) lines[i] = lines[i].replace(/\t/,': ')
+        lines[i] = lines[i].replace(/\s+/g,' ')
+		out += lines[i].trim()
+        if (i<lines.length-1) out += '\n'
+		}
+	return out
+	}
+
+
+
+function clearAll () {
+	inputs = document.querySelectorAll('input, textarea')
+	for (var i=0;i<inputs.length;i++) inputs[i].value = ''
+	
+	divs =  document.getElementById('draft').querySelectorAll('div')
+	for (i=0;i<divs.length;i++) divs[i].textContent = ''
+	document.getElementById('discussion').textContent = '"discussion: "'
+	document.getElementById('start').textContent = "\"birth\": ["
+	document.getElementById('end').textContent = "]"
+	}
+
+
+function formatGPS (str) {
+	str = str.replace(/https:\/\/maps.google.com\/maps\?q=/,'')
+	str = str.trim().replace(/,/,' ').replace(/\s+/,',')
+	return str
+	}
+</script>
+<style>
+#draft p {
+	margin: 0;
+	}
+#references, #certificateTemplate, #parishTemplate {
+    clear: right;
+	font-size: 80%;
+	float: right;
+    margin-block-start: 4rem;
+	}
+#references p, #certificateTemplate p, #parishTemplate p {
+	margin: 0;
+	}
+#references h3, #certificateTemplate h3, #parishTemplate h3 {
+	margin-bottom: 0;
+	}
+.redo { font-size:120%; margin-left: 1em; cursor: pointer; }
+.copy { margin-left: 2em; cursor: pointer; background-color: rgba(107,167,227,1.00); color: white; border-radius: 5px; }
+.copy:hover { background-color: rgba(11,124,236,1.00); color: white; border-radius: 5px; }
+.accept:hover { background-color: rgba(11,124,236,1.00); color: white; border-radius: 5px; }
+.heading { font-weight:bold; padding-top: 1em; font-size: 110%; }
+</style>
+
+
+
+
+
+
+<script>
+
+function draftResult () {
+    // called each time a field is changed; updates the output
+    
+
+// index
+    if (document.getElementById('indexSourceIn').value.trim() || document.getElementById('indexSourceURLIn').value.trim())
+        document.getElementById('indexSource').textContent = `SOURCE: ${ document.getElementById('indexSourceIn').value.trim() }  ${ document.getElementById('indexSourceURLIn').value.trim() },` 
+    else document.getElementById('indexSource').textContent = ''
+    
+    if (document.getElementById('indexPastedIn').value.trim()) 
+        document.getElementById('indexPasted').textContent = addQuotesTo(document.getElementById('indexPastedIn').value.trim())
+    else document.getElementById('indexPasted').textContent = ''
+    
+    if (document.getElementById('indexTextIn').value.trim()) 
+        document.getElementById('indexText').textContent = `text: ${ document.getElementById('indexTextIn').value.trim() }`
+    else document.getElementById('indexText').textContent = ''
+
+
+
+
+// second source
+    if (document.getElementById('secondSourceIn').value.trim() || document.getElementById('secondSourceURLIn').value.trim())
+        document.getElementById('secondSource').textContent = `SOURCE: ${ document.getElementById('secondSourceIn').value.trim() }  ${ document.getElementById('secondSourceURLIn').value.trim() }` 
+    else document.getElementById('secondSource').textContent = ''
+ 
+    if (document.getElementById('secondPastedIn').value.trim()) 
+        document.getElementById('secondPasted').textContent = addQuotesTo(document.getElementById('secondPastedIn').value.trim())
+    else document.getElementById('secondPasted').textContent = ''
+ 
+    if (document.getElementById('secondTextIn').value.trim()) 
+        document.getElementById('secondText').textContent = `text: ${ document.getElementById('secondTextIn').value.trim() }`
+    else document.getElementById('secondText').textContent = ''
+
+
+
+
+// third source
+    if (document.getElementById('thirdSourceIn').value.trim() || document.getElementById('thirdSourceURLIn').value.trim())
+        document.getElementById('thirdSource').textContent = `\nSOURCE: ${ document.getElementById('thirdSourceIn').value.trim() }  ${ document.getElementById('thirdSourceURLIn').value.trim() }` 
+    else document.getElementById('thirdSource').textContent = ''
+ 
+    if (document.getElementById('thirdPastedIn').value.trim()) 
+        document.getElementById('thirdPasted').textContent = addQuotesTo(document.getElementById('thirdPastedIn').value.trim())
+    else document.getElementById('thirdPasted').textContent = ''
+ 
+    if (document.getElementById('thirdTextIn').value.trim()) 
+        document.getElementById('thirdText').textContent = `text: ${ document.getElementById('thirdTextIn').value.trim() }`
+    else document.getElementById('thirdText').textContent = ''
+
+
+
+
+
+// baptism record
+    if (document.getElementById('bapSourceIn').value.trim() || document.getElementById('bapSourceURLIn').value.trim())
+        document.getElementById('bapSource').textContent = `\nSOURCE: ${ document.getElementById('bapSourceIn').value.trim() }  ${ document.getElementById('bapSourceURLIn').value.trim() }` 
+    else document.getElementById('bapSource').textContent = ''
+ 
+    if (document.getElementById('bapPastedIn').value.trim()) 
+        document.getElementById('bapPasted').textContent = addQuotesTo(document.getElementById('bapPastedIn').value.trim())
+    else document.getElementById('bapPasted').textContent = ''
+ 
+    if (document.getElementById('bapTextIn').value.trim()) 
+        document.getElementById('bapText').textContent = `text: ${ document.getElementById('bapTextIn').value.trim() }`
+    else document.getElementById('bapText').textContent = ''
+ 
+
+
+// harvested data
+
+    if (document.getElementById('timestampIn').value.trim()) {
+        document.getElementById('timestamp').textContent = `timestamp: "${ document.getElementById('timestampIn').value.trim() }",`
+        }
+    else document.getElementById('timestamp').textContent = ''
+
+    if (document.getElementById('birthPlaceIn').value.trim()) {
+        document.getElementById('birthPlace').textContent = `place: "${ document.getElementById('birthPlaceIn').value.trim() }",`
+        }
+    else document.getElementById('birthPlace').textContent = ''
+
+    if (document.getElementById('atHomeIn').value.trim()) {
+        document.getElementById('atHome').textContent = `athome: "${ document.getElementById('atHomeIn').value.trim() }",`
+        }
+    else document.getElementById('atHome').textContent = ''
+
+    if (document.getElementById('foccIn').value.trim()) 
+        document.getElementById('focc').textContent = `focc: "${ document.getElementById('foccIn').value.trim() }",`
+    else document.getElementById('focc').textContent = ''
+
+    if (document.getElementById('mmnIn').value.trim()) 
+        document.getElementById('mmn').textContent = `mmn: "${ document.getElementById('mmnIn').value.trim() }",`
+    else document.getElementById('mmn').textContent = ''
+
+    if (document.getElementById('informantIn').value.trim()) 
+        document.getElementById('informant').textContent = `informant: "${ document.getElementById('informantIn').value.trim() }",`
+    else document.getElementById('informant').textContent = ''
+
+    if (document.getElementById('mentionedIn').value.trim()) 
+        document.getElementById('mentioned').textContent = `mentioned: "${ document.getElementById('mentionedIn').value.trim() }",`
+    else document.getElementById('mentioned').textContent = ''
+
+    if (document.getElementById('bapPlaceIn').value.trim()) 
+        document.getElementById('bapPlace').textContent = `bapplace: "${ document.getElementById('bapPlaceIn').value.trim() }",`
+    else document.getElementById('bapPlace').textContent = ''
+ 
+    if (document.getElementById('bapYearIn').value.trim()) 
+        document.getElementById('bapYear').textContent = `bapyear: "${ document.getElementById('bapYearIn').value.trim() }",`
+    else document.getElementById('bapYear').textContent = ''
+ 
+    if (document.getElementById('bapDateIn').value.trim()) 
+        document.getElementById('bapDate').textContent = `bapdate: "${ document.getElementById('bapDateIn').value.trim() }",`
+    else document.getElementById('bapDate').textContent = ''
+ 
+    if (document.getElementById('denominationIn').value.trim()) 
+        document.getElementById('denomination').textContent = `denomination: "${ document.getElementById('denominationIn').value.trim() }",`
+    else document.getElementById('denomination').textContent = ''
+
+
+    if (document.getElementById('censusNotes').value) {
+        document.getElementById('note').textContent = "notes: \u0060"+document.getElementById('censusNotes').value+"\u0060,"
+        }
+
+    if (document.getElementById('censusDisc').value) {
+        document.getElementById('discussion').textContent = "discussion: \u0060"+document.getElementById('censusDisc').value+"\u0060,"
+        }
+
+    if (document.getElementById('cautionIn').value) {
+        document.getElementById('caution').textContent = "caution: \u0060"+document.getElementById('cautionIn').value+"\u0060,"
+        }
+
+
+
+    /*if (document.getElementById('gpsIn').value.trim()) {
+        lines = document.getElementById('gpsIn').value.split('\n')
+        output = ''
+        for (o=0;o<lines.length;o++) {
+            if (lines[o].trim() === '') continue
+            console.log('lines',lines[o])
+            temp = lines[o].split(':')
+            output += '"'+temp[0]+' https://maps.google.com/maps?q='+temp[1].replace(/ /g,'')+'"'
+            if (o<lines.length-1) output += ', '
+            }
+        document.getElementById('gps').textContent = `gps: [${ output }],`
+        }
+    else document.getElementById('gps').textContent = '' */
+    
+    
+    if (document.getElementById('gpsIn').value.trim()) {
+        lines = document.getElementById('gpsIn').value.split('\n')
+        output = ''
+        for (o=0;o<lines.length;o++) {
+            if (lines[o].trim() === '') continue
+            //console.log('lines',lines[o])
+            output += `"${ lines[o] }"`
+            if (o<lines.length-1) output += ', '
+            }
+        document.getElementById('gps').textContent = `gps: [${ output }],`
+        }
+    else document.getElementById('gps').textContent = ''
+    
+    
+    if (document.getElementById('recordsIn').value.trim()) {
+        var imagesArray = []
+        imagesArray = document.getElementById('recordsIn').value.split('\n')
+
+        var imagesOut = ''
+        for (i=0;i<imagesArray.length;i++) {
+            if (imagesArray[i].trim() === '') continue
+            parts = imagesArray[i].split(' ')
+            if (imagesArray[i].match('http')) {} //
+            else parts[parts.length-1] = 'url:../'+project+'_records/'+parts[parts.length-1]
+            imagesOut += '"'+parts.join(' ').trim()+'"'
+            if (i<imagesArray.length-1) imagesOut += ', '
+            }
+        if (imagesArray.length > 0) document.getElementById('images').textContent = 'images: ['+imagesOut+'],'
+        }
+    else document.getElementById('images').textContent = ''
+
+
+    // check for timestamp
+    if (document.getElementById('timestamp').textContent === '') {
+        document.getElementById('timestamp').textContent = 'Add timestamp'
+        document.getElementById('timestamp').style.background = 'red'
+        document.getElementById('timestamp').style.color = 'white'
+        }
+    else {
+        document.getElementById('timestamp').style.background = 'white'
+        document.getElementById('timestamp').style.color = 'brown'
+        }
+
+    }
+
+
+function checkDB (fieldname, dbfield, checkID) {
+    // checks certain values against what currently in the top-level db, and raises flags if they differ
+
+    thisPerson = document.getElementById('idIn').value.trim()
+
+    if (document.getElementById(fieldname).value.trim() !== db[thisPerson][dbfield])  document.getElementById(checkID).textContent = `The db currently has ${ db[thisPerson][dbfield] }`
+    else { document.getElementById(checkID).textContent = `` }
+
+    }
+
+
+function getMonthOnly (MMM) {
+    // converts Jan to 01, and so on
+    switch (MMM.toLowerCase()) {
+        case 'jan': return '01'
+        case 'feb': return '02'
+        case 'mar': return '03'
+        case 'apr': return '04'
+        case 'may': return '05'
+        case 'jun': return '06'
+        case 'jul': return '07'
+        case 'aug': return '08'
+        case 'sep': return '09'
+        case 'oct': return '10'
+        case 'nov': return '11'
+        case 'dec': return '12'
+        default: return '???'
+        }
+    }
+
+function getMonth (dateValue) {
+console.log(dateValue)
+    parts = dateValue.replace('~','').split(' ')
+    while (parts[0].length < 2) parts[0] = '0'+parts[0]
+    month = ''
+    switch (parts[1].toLowerCase()) {
+        case 'jan': month = '01'; break
+        case 'feb': month = '02'; break
+        case 'mar': month = '03'; break
+        case 'apr': month = '04'; break
+        case 'may': month = '05'; break
+        case 'jun': month = '06'; break
+        case 'jul': month = '07'; break
+        case 'aug': month = '08'; break
+        case 'sep': month = '09'; break
+        case 'oct': month = '10'; break
+        case 'nov': month = '11'; break
+        case 'dec': month = '12'; break
+        }
+    return month+'-'+parts[0]
+    }
+
+
+function getMonthOLD (dateValue) {
+    parts = dateValue.replace('~','').split(' ')
+    while (parts[0].length < 2) parts[0] = '0'+parts[0]
+    month = ''
+    switch (parts[1]) {
+        case 'Jan': month = '01'; break
+        case 'Feb': month = '02'; break
+        case 'Mar': month = '03'; break
+        case 'Apr': month = '04'; break
+        case 'May': month = '05'; break
+        case 'Jun': month = '06'; break
+        case 'Jul': month = '07'; break
+        case 'Aug': month = '08'; break
+        case 'Sep': month = '09'; break
+        case 'Oct': month = '10'; break
+        case 'Nov': month = '11'; break
+        case 'Dec': month = '12'; break
+        }
+    return month+'-'+parts[0]
+    }
+
+
+function fillAtHome () {
+    if (db[theperson].father) document.getElementById('atHomeIn').value += db[theperson].father+' '
+    if (db[theperson].mother) document.getElementById('atHomeIn').value += db[theperson].mother+' '
+    }
+</script></head>
+
+
+<body>
+<div id="out">
+  <div id="banner">
+    <div id="pagetitle">Birth record entry<br>
+    </div>
+  </div>
+  <div id="subbanner">
+    <div><a id="marriageLink" href="marriageentry.html" target="_blank">Marriage</a> • <a id="deathLink" href="dthentry.html" target="_blank">Death</a> • <a id="censusLink" href="censusentry.html" target="_blank">Census</a> • <a id="eventLink" href="evententry.html" target="_blank">Event</a></div>
+  </div>
+  <div id="subsubbanner">
+    <div>
+      &nbsp;
+    <strong>Id:</strong> 
+
+<input type="text" id="idIn" style="width:200px;" placeholder="Add ID, then click on [Load].">
+<button id="load" title="Load data for this person" onclick="document.location=`birthentry.html?project=${ project }&person=${ document.getElementById('idIn').value }`">Load</button>
+<button id="clearAll" onClick="document.location=`birthentry.html?project=${ project }`" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>
+
+    
+</div>
+</div>
+<div id="main">
+
+<div id="references">
+</div>
+
+<div id="certificateTemplate" style="min-width: 14rem;">
+
+<p style="font-style: italic;">Use these templates to<br>
+speed up data entry.</p>
+
+<h3>General</h3>
+<textarea onClick="this.select()">Name:&nbsp;
+Father:&nbsp;
+Father occ:&nbsp;
+Mother:&nbsp;
+Residence:&nbsp;
+Place born:&nbsp;
+Baptism place:&nbsp;
+Birth date:&nbsp;
+Baptism date:&nbsp;
+Father occ:&nbsp;
+Mother née:&nbsp;
+Informant:&nbsp;
+Denomination:&nbsp;
+Reg details:&nbsp;
+</textarea>
+
+<h3>Certificate</h3>
+<textarea onClick="this.select()">When:&nbsp;
+Where:&nbsp;
+Name:&nbsp;
+Father:&nbsp;
+Mother:&nbsp;
+Father occ:&nbsp;
+Informant:&nbsp;
+Reg date:&nbsp;
+Other:&nbsp;
+</textarea>
+
+<h3>Parish record</h3>
+<textarea onClick="this.select()">Parish:&nbsp;
+When:&nbsp;
+Name:&nbsp;
+Parents:&nbsp;
+Surname:&nbsp;
+Abode:&nbsp;
+Father occ:&nbsp;</textarea>
+</div>
+
+
+<p style="margin: 0 4rem; font-style: italic; font-size: 85%;">If you have scans of certificates or parish records, etc. point to them in the section "Record scans".<br>
+The "Source #1" and other numbered headings allow you to capture the information from a single source. (On a person summary page that information is revealed by clicking on a black triangle to the right.)<br>
+The fields under "Data for building the page"  contain text snippets that will be used to build the person's summary page. (The data should be extracted from the sources, and is structured in a way that it can be successfully inserted into the person's summary page.)</p>
+
+<summary style="margin-block:1rem; font-style: italic;">Converter</summary>
+   <p style="margin: 0 4rem; font-style:italic; color: teal;"><textarea id="copyIn" placeholder="This is a temporary field. Drop OLD data into the textarea and click GO. This function finds stuff to put in the page building data list." style="width: 36rem; height: 4rem;"></textarea> <button onClick="doConversion()">GO</button></p>
+
+
+
+
+
+<details id="index" open>
+<summary class="heading">Source #1</summary>
+<table>
+    <tr>
+    <td>Source:</td>
+    <td>
+    <input type="text" id="indexSourceIn"  class="sourceBox"
+        onInput="draftResult()"
+        placeholder="Source name.">
+    <input type="text" id="indexSourceURLIn"  class="sourceBox"
+            onInput="draftResult()" 
+            placeholder="Source URL.">
+    <button onClick="openWindow(document.getElementById('indexSourceURLIn').value)">GO</button>
+
+    </td>
+    </tr>
+    
+    <tr>
+    <td>Key-value<br>pairs:<br><button 
+        onClick="document.getElementById('indexPastedIn').value = tabs2colons(document.getElementById('indexPastedIn').value)">Add colons</button><br><button 
+        onClick="document.getElementById('indexPastedIn').value = removeEmpty(document.getElementById('indexPastedIn').value)">Remove empty</button></td>
+    <td><textarea id="indexPastedIn"  class="tallPasteBox"
+        placeholder="Copy-paste lists here from transcript pages. (Each line should be [type: value]. Only lines with a colon are captured.)"
+        onInput="draftResult()"></textarea></td>
+    </tr>
+    
+    <tr>
+    <td rowspan="2">Text:</td>
+     <td><textarea id="indexTextIn" class="textBox" 
+        placeholder="Copy-paste or write textual information here."
+        onInput="draftResult()"></textarea>
+        </td>
+    </tr>
+</table>
+</details>
+      
+      
+
+
+
+
+
+
+
+
+
+
+<details id="bap">
+<summary class="heading">Source #2</summary>
+<table>
+<tr>
+<td>Source:</td>
+<td><input type="text" id="bapSourceIn" class="sourceBox"
+    placeholder="Source name"
+    onInput="draftResult()">
+    <input type="text" id="bapSourceURLIn" class="sourceBox"
+    placeholder="Source URL"
+    onInput="draftResult()">
+    <button onClick="openWindow(document.getElementById('bapSourceURLIn').value)">GO</button>
+    </td>
+</tr>
+<tr>
+<td>Key-value<br>pairs:<br><button 
+        onClick="document.getElementById('bapPastedIn').value = tabs2colons(document.getElementById('bapPastedIn').value)">Add colons</button><br><button 
+        onClick="document.getElementById('bapPastedIn').value = removeEmpty(document.getElementById('bapPastedIn').value)">Remove empty</button></td>
+<td><textarea id="bapPastedIn" class="tallPasteBox"
+    placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
+    onInput="draftResult()"></textarea>
+    <span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('bapPastedIn'))    ">✚</span>
+    </td>
+</tr>
+<tr>
+<td>Text:</td>
+<td><textarea id="bapTextIn" class="textBox" 
+    placeholder="Copy-paste or write textual information here.)"
+    onInput="draftResult()"></textarea>
+    </td>
+</tr>
+</table>
+</details>
+
+
+
+<script>
+function removeBrackets (node) {
+    // removes "[ and ]", from copied older records
+    out = node.value.replace(/\]",/g,'').replace(/"\[/g,'')
+    node.value = out  
+    }
+</script>
+
+
+
+
+
+
+
+<details id="second">
+<summary class="heading">Source #3</summary>
+<table>
+<tr>
+<td>Source:</td>
+<td><input type="text" id="secondSourceIn" class="sourceBox"
+    placeholder="Source name"
+    onInput="draftResult()">
+    <input type="text" id="secondSourceURLIn" class="sourceBox"
+    placeholder="Source URL"
+    onInput="draftResult()">
+    <button onClick="openWindow(document.getElementById('secondSourceURLIn').value)">GO</button>
+    </td>
+</tr>
+<!--tr>
+<td>Image:</td>
+<td><input type="text" id="secondImageIn" class="imageBox" 
+    placeholder="File name of image in 'records' folder (no ext)"
+    onInput="draftResult()">
+    <input type="text" id="secondImageExtIn" value=".jpg" class="extBox" 
+    placeholder="Extension"
+    onInput="draftResult()">
+    </td>
+</tr-->
+<tr>
+<td>Key-value<br>pairs:<br><button 
+        onClick="document.getElementById('secondPastedIn').value = tabs2colons(document.getElementById('secondPastedIn').value)">Add colons</button><br><button 
+        onClick="document.getElementById('bapPastedIn').value = removeEmpty(document.getElementById('secondPastedIn').value)">Remove empty</button></td>
+<td><textarea id="secondPastedIn" class="tallPasteBox"
+    placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
+    onInput="draftResult()"></textarea>
+    </td>
+</tr>
+<tr>
+<td>Text:</td>
+<td><textarea id="secondTextIn" class="textBox" 
+    placeholder="Copy-paste or write textual information here.)"
+    onInput="draftResult()"></textarea>
+    </td>
+</tr>
+</table>
+</details>
+
+
+
+
+
+
+
+
+
+<details id="third">
+<summary class="heading">Source #4</summary>
+<table>
+<tr>
+<td>Source:</td>
+<td><input type="text" id="thirdSourceIn" class="sourceBox"
+    placeholder="Source name"
+    onInput="draftResult()">
+    <input type="text" id="thirdSourceURLIn" class="sourceBox"
+    placeholder="Source URL"
+    onInput="draftResult()">
+    <button onClick="openWindow(document.getElementById('thirdSourceURLIn').value)">GO</button>
+    </td>
+</tr>
+<!--tr>
+<td>Image:</td>
+<td><input type="text" id="thirdImageIn" class="imageBox" 
+    placeholder="File name of image in 'records' folder (no ext)"
+    onInput="draftResult()">
+    <input type="text" id="thirdImageExtIn" value=".jpg" class="extBox" 
+    placeholder="Extension"
+    onInput="draftResult()">
+    </td>
+</tr-->
+<tr>
+<td>Key-value<br>pairs:<br>pairs:<br><button 
+        onClick="document.getElementById('thirdPastedIn').value = tabs2colons(document.getElementById('thirdPastedIn').value)">Add colons</button><br><button 
+        onClick="document.getElementById('thirdPastedIn').value = removeEmpty(document.getElementById('thirdPastedIn').value)">Remove empty</button></td>
+<td><textarea id="thirdPastedIn" class="tallPasteBox"
+    placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
+    onInput="draftResult()"></textarea>
+    </td>
+</tr>
+<tr>
+<td>Text:</td>
+<td><textarea id="thirdTextIn" class="textBox" 
+    placeholder="Copy-paste or write textual information here.)"
+    onInput="draftResult()"></textarea>
+    </td>
+</tr>
+</table>
+</details>
+
+
+<details open>
+<summary class="heading">Record scans</summary>
+<table>
+<tr>
+<td>Files:</td>
+<td><textarea id="recordsIn" class="mediumPasteBox"
+    placeholder="Add the link text you want, followed by the filename+ext. One link per line."
+    onInput="draftResult()"></textarea>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="file" multiple id="getFileName" style="width:40em;" onInput="draftResult()" placeholder="A comma-separated list of filenames (no extension)"></td>
+<script>
+document.getElementById('getFileName').addEventListener('change', function(event) {
+    const files = event.target.files
+    out = ''
+    for (let i = 0; i < files.length; i++) {
+        if (i>0) out += '\n'
+        out += files[i].name
+        //console.log('File name:', files[i].name)
+        }
+    document.getElementById('recordsIn').value += out
+    })
+</script>
+</tr>
+<tr>
+<td>Test box:</td>
+<td><input type="text" id="recordTester" class="imageBox" 
+    placeholder="Copy filename here & press GO to see the record.">
+    <input type="text" id="recordTesterExtIn" class="extBox" value=".jpg" 
+    placeholder="Extension">
+    <button onClick="openRecord(document.getElementById('recordTester').value, document.getElementById('recordTesterExtIn').value)">GO</button>
+    </td>
+</tr>
+</table>
+</details>
+
+
+
+<!-- items that get filled in by autoPropagate, but that are no longer used.
+Need to fix this properly at some point. -->
+<div style="display: none">
+<p id="bapFatherIn"></p>
+<p id="bapMotherIn"></p>
+</div>
+
+
+
+<table style="margin-inline-start: 2rem; margin-block-start: 4rem; color: teal;">
+      <tr>
+        <td colspan="4" class="heading">Data for building the page:</td></tr>
+ 
+     <tr>
+        <td>Timestamp:</td>
+        <td colspan="3"><input type="text" id="timestampIn"
+            placeholder="YYYY-MM-DD"
+            onInput="draftResult()">
+            </td>
+      </tr>
+       <tr>
+        <td>Family residence:</td>
+        <td colspan="3">
+            <input type="text" id="birthPlaceIn" list="gpsList"
+            placeholder="Place where they lived." class="wideInputBox"
+            onInput="draftResult();"
+            onFocus="checkDB('birthPlaceIn', 'bplace', 'bplaceCheck')">
+            <span class="instructions" id="bplaceCheck" style="color:red;"></span></td>
+     </tr>
+       <tr>
+        <td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
+        <td colspan="3">
+            <input type="text" id="atHomeIn"
+            placeholder="Ids of resident parents & spouses." class="wideInputBox"
+            onInput="draftResult();"></td>
+     </tr>
+<tr>
+        <td>Baptism place:</td>
+        <td><input type="text" id="bapPlaceIn"  list="gpsList"
+            placeholder="Church, town, county." class="wideInputBox"
+            onInput="draftResult()">
+            </td>
+</tr>
+    <tr>
+        <td>Birth date:</td>
+        <td colspan="3"><input type="text" id="birthDateIn"
+            placeholder="DD MMM or MMM-MMM, etc."
+            onFocus="checkDB('birthDateIn', 'bdate', 'bdateCheck')">
+            <span class="instructions" id="bdateCheck" style="color:red;"></span>
+            </td>
+      </tr>
+     <tr>
+        <td>Birth year:</td>
+        <td colspan="3"><input type="text" id="birthYearIn"
+            placeholder="YYYY"
+            onFocus="checkDB('birthYearIn', 'b', 'bCheck')">
+            <span class="instructions" id="bCheck" style="color:red;"></span>
+<script>
+function makeTimestamp () {
+    daymonth = document.getElementById('birthDateIn').value.trim()
+    year = document.getElementById('birthYearIn').value.trim()   
+    if (daymonth.match('-')) {
+        switch (daymonth) {
+            case 'Jan-Mar': out = "02-15"; break
+            case 'Apr-Jun': out = "05-15"; break
+            case 'Jul-Sep': out = "08-15"; break
+            case 'Oct-Dec': out = "11-15"; break
+            default: out = daymonth
+            }
+        document.getElementById('timestampIn').value = year+'-'+out
+        } 
+    else if (daymonth.match('~')) {
+        daymonth = daymonth.replace(/~/,'')+' 15'
+        document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
+        }
+    else {
+        components = daymonth.split(' ')
+        document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
+        }
+    }
+</script>
+    <button class="copy" title="Add timestamp." onClick="makeTimestamp()">Make time stamp</button>
+            </td>
+      </tr>
+ <tr>
+<td>Baptism date:</td>
+<td><input type="text" id="bapDateIn"
+    placeholder="DD MMM" 
+    onInput="draftResult()">
+        </td>
+</tr>
+<tr>
+<td>Baptism year:</td>
+<td><input type="text" id="bapYearIn" 
+    placeholder="YYYY" 
+    onInput="draftResult()">
+    <button class="copy" title="Add timestamp & approx birth." onClick="
+    daymonth = document.getElementById('bapDateIn').value.trim()
+    year = document.getElementById('bapYearIn').value.trim()
+    document.getElementById('birthYearIn').value = year
+    document.getElementById('birthDateIn').value = '~'+daymonth
+    components = daymonth.split(' ')
+    document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
+    ">Make time stamp</button>
+    </td>
+</tr>
+     <tr>
+        <td>Father occ:</td>
+        <td colspan="3"><input type="text" id="foccIn"
+            placeholder="Add if you can." class="wideInputBox"
+            onInput="draftResult()"></td>
+      </tr>
+      <tr>
+        <td>Mother née:</td>
+        <td colspan="3"><input type="text" id="mmnIn"
+            placeholder="Name" class="wideInputBox"
+            onInput="draftResult()"></td>
+      </tr>
+      <tr>
+        <td>Informant:</td>
+        <td colspan="3"><input type="text" id="informantIn"  
+            placeholder="ID/name, relationship." class="wideInputBox"
+            onInput="draftResult()"></td>
+      </tr>
+      <tr>
+        <td>Mentions:</td>
+        <td colspan="3"><input type="text" id="mentionedIn"  
+            placeholder="Comma-separated list of ids for people mentioned." class="wideInputBox"
+            onInput="draftResult()"></td>
+      </tr>
+
+      <tr>
+        <td>Denomination:</td>
+        <td><input type="text" id="denominationIn"  
+            placeholder="Religion" class="wideInputBox"
+            onInput="draftResult()">
+            </td>
+      </tr>
+
+
+
+      <!--tr>
+        <td>GPS:</td>
+        <td><select id="gpsListOLD" onChange="
+            newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+this.value
+            draftResult()
+            "></select></td>
+      </tr-->
+
+      <tr>
+        <td>More GPS:</td>
+        <td>
+        <button title="Add a template for a new place" onClick="newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+`xxxx https://www.google.com/maps?q=xxx`
+            draftResult()">New</button>
+        <input id="findBlock" type="text" list="gpsList" placeholder="Search for known places" style="width:29em" onchange="
+            newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+this.value
+            draftResult()
+            this.value = ''">
+        <datalist id="gpsList"></datalist>
+        </td>
+        <!--td><select id="gpsList" onChange="
+            newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+this.value
+            draftResult()
+            "></select></td-->
+      </tr>
+
+
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan="3"><textarea id="gpsIn" onInput="draftResult()" placeholder="Use the selection control above or type directly to add locations here, one per line. The end result should look like this: Blakemore Gate https://www.google.com/maps?q=52.6040598, -2.9199274"></textarea></td>
+      </tr>
+
+    <tr>
+        <td>Notes:</td>
+        <td colspan="3"><textarea id="censusNotes"
+            onInput="draftResult()"
+            placeholder="Can be multi-line. Each line can optionally begin with intro: or quote: (or note:, but that's the default). Intro lines are italicised, and should be used only to introduce the note. Quote lines receive quote marks and italicisation."></textarea></td>
+      </tr>
+      <tr>
+        <td>FNotes:</td>
+        <td colspan="3"><textarea id="censusFNotes"
+            onInput="makeNotes(this.value,'fnote')" 
+            placeholder="Each paragraph here will be listed below the entry as footnotes.  Like for the notes field, use {xxxx:kx} for people's names."></textarea></td>
+      </tr>
+      <tr>
+        <td>Discussion:</td>
+        <td colspan="3"><textarea id="censusDisc"
+            onInput="draftResult()"
+            placeholder="This is for commentary on the entry, such as to justify choices made. Discussion text is not displayed on the general UI, but a speech bubble icon is added. Click on the icon or reveal the sources to see the text."></textarea></td>
+      </tr>
+      <tr>
+        <td>Caution:</td>
+        <td colspan="3"><textarea id="cautionIn"
+            onInput="draftResult()"
+            placeholder="Use to draw attention to guesswork or items needing further corroboration, etc. Text is displayed by clicking on a warning icon in the person summary page."></textarea></td>
+      </tr>
+   </table>
+   
+   
+   
+   <script>
+   // drop OLD data into the textarea and click GO
+   // this function finds stuff to put in the page building data list
+   function doConversion () {
+        lines = document.getElementById('copyIn').value.split('\n')
+        for (i=0;i<lines.length;i++) {
+            lines[i] = lines[i].trim().replace(/"/g,'')
+            if (lines[i] === '') continue
+            console.log(lines[i])
+            
+            if (lines[i].startsWith('year:')) outId = 'birthYearIn'
+            
+            else if (lines[i].startsWith('date:')) outId = 'birthDateIn'
+            
+            else if (lines[i].startsWith('place:')) outId = 'birthPlaceIn'
+            
+            else if (lines[i].startsWith('bapyear:')) outId = 'bapYearIn'
+            
+            else if (lines[i].startsWith('bapdate:')) outId = 'bapDateIn'
+            
+            else if (lines[i].startsWith('bapplace:')) outId = 'bapPlaceIn'
+            
+            else if (lines[i].startsWith('focc:')) outId = 'foccIn'
+            
+            else if (lines[i].startsWith('mmn:')) outId = 'mnnIn'
+            
+            else if (lines[i].startsWith('informant:')) outId = 'informantIn'
+            
+            else if (lines[i].startsWith('mentioned:')) outId = 'mentionedIn'
+            
+            else if (lines[i].startsWith('denomination:')) outId = 'denominationIn'
+            
+            else outId = ''
+            
+            value = lines[i].split(':')
+            if (outId) document.getElementById(outId).value = value[1].replace(/,$/,'').trim()
+            console.log(value[1].replace(/,$/,'').trim())
+            }
+        
+        // create the timestamp
+        if (document.getElementById('birthDateIn').value !== '' && document.getElementById('birthYearIn').value !== '') document.getElementById('timestampIn').value = document.getElementById('birthYearIn').value+'-'+getMonth(document.getElementById('birthDateIn').value)
+        }
+   </script>
+    
+
+    <p class="" style="margin: 4rem 0 0 2rem; font-style:italic; color: teal;">When all the data is entered, copy the text below to the db.js file, under 'birth'.</p>
+    
+    <!--<p style="text-align: center;"><button style="font-size: 2rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Generate data</button></p>-->
+    
+    <div title="Copy data to clipboard" style="margin: auto; margin-block-start: 2rem; text-align: center; font-size: 2rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige; cursor: pointer; width: 60%;" 
+    onclick="draftResult(); console.log(prepCopy()); navigator.clipboard.writeText(prepCopy()); document.getElementById('copyNotice').style.display = 'block'; setTimeout(() => { document.getElementById('copyNotice').style.display = 'none' }, '500')">Copy
+    <img src="../../lib/i/copytiny.svg" alt="" style="height:1em; width:1em; vertical-align: middle;">
+    </div>
+   
+   
+<div id="draft" contenteditable style="margin:2rem; color: brown;">
+<!--<div id="start">birth: {</div>-->
+<div id="timestamp"></div>
+<div id="birthYear"></div>
+<div id="name"></div>
+<div id="birthDate"></div>
+<div id="birthPlace"></div>
+<div id="atHome"></div>
+<div id="focc"></div>
+<div id="mmn"></div>
+<div id="siblings"></div>
+<div id="informant"></div>
+<div id="mentioned"></div>
+<div id="bapPlace"></div>
+<div id="bapYear"></div>
+<div id="bapDate"></div>
+<div id="denomination"></div>
+<div id="images"></div>
+<div id="gps"></div>
+
+<div id="note" style="white-space: pre;"></div>
+<div id="fnote"></div>
+<div id="discussion" style="white-space: pre;"></div>
+<div id="caution" style="white-space: pre;"></div>
+
+<div style="white-space:pre-line">sources: `</div>
+
+<!-- index -->
+<div id="indexSource" style="white-space: pre;"></div>
+<div id="indexText" style="white-space: pre;"></div>
+<div id="indexName"></div>
+<div id="indexPasted" style="white-space:pre-line"></div>
+<div id="birthRecord"></div>
+
+<!-- baptism -->
+<div id="bapSource" style="white-space: pre;"></div>
+<div id="bapImage"></div>
+<div id="bapParish"></div>
+<div id="bapBorn"></div>
+<div id="bapName"></div>
+<div id="bapFather"></div>
+<div id="bapMother"></div>
+<div id="bapAbode"></div>
+<div id="bapOcc"></div>
+<div id="bapText"></div>
+<div id="bapPasted" style="white-space:pre-line"></div>
+
+<div id="place"></div>
+<div id="relation"></div>
+<div id="occ"></div>
+
+<!-- 2nd source -->
+<div id="secondSource" style="white-space: pre;"></div>
+<div id="secondImage"></div>
+<div id="secondPasted" style="white-space:pre-line"></div>
+<div id="secondText" style="white-space:pre-line"></div>
+
+<!-- 3rd source -->
+<div id="thirdSource" style="white-space: pre;"></div>
+<div id="thirdImage"></div>
+<div id="thirdPasted" style="white-space:pre-line"></div>
+<div id="thirdText" style="white-space:pre-line"></div>
+
+<div id="end">`<!--}-->,</div>
+<div id="father" style="display:none;"></div>
+<div id="fatherId" style="display:none;"></div>
+<div id="mother" style="display:none;"></div>
+<div id="motherId" style="display:none;"></div>
+
+
+
+
+<!-- certificate -->
+<div id="certSource" style="white-space: pre;"></div>
+<div id="certImage"></div>
+<div id="certWhen"></div>
+<div id="certWhere"></div>
+<div id="certName"></div>
+<div id="certFName"></div>
+<div id="certMName"></div>
+<div id="certOcc"></div>
+<div id="certCause"></div>
+<div id="certInformant"></div>
+<div id="certRegd"></div>
+<div id="certOther" style="white-space:pre-line"></div>
+</div>
+      
+
+
+
+<script>
+
+
+function prepCopy () {
+    var draft, copied, divs
+    
+    draft = document.getElementById('draft')
+    copied = ''
+    divs = draft.querySelectorAll('div')
+    for (i=0;i<divs.length;i++) {
+        if (divs[i].textContent.trim() !== '') copied += divs[i].textContent+'\n'
+        }
+    return copied
+    }
+
+
+
+function prepCopyX () {
+    draft = document.getElementById('draft')
+    copied = document.getElementById('draftCopy')
+    copied.value = ''
+    divs = draft.querySelectorAll('div')
+    for (i=0;i<divs.length;i++) {
+        if (divs[i].textContent.trim() !== '') copied.value += divs[i].textContent+'\n'
+        }
+    copied.focus()
+    copied.select()
+    document.execCommand('copy')
+    return false
+    }
+</script>
+    <!--<p style="text-align: center;"><button style="font-size: 1.5rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Regenerate to include timestamp</button></p>-->
+
+
+<!--<div style="text-align: center;"><button  style="font-size: 2rem;" onClick="prepCopy()">Copy</button> <textarea style="block-size:2rem;inline-size:1rem; vertical-align: bottom;" id="draftCopy"></textarea></div>-->
+
+
+    <pre id="places">
+    </pre>
+  </div>
+</div>
+
+<dialog id="copyNotice">Copied !</dialog>
+
+
+<script>
+document.getElementById('clearAll').href = document.location
+</script>
+</body>
+</html>

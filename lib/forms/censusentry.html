@@ -1,0 +1,1098 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Census form</title>
+<link href="../../lib/style.css" rel="stylesheet">
+<script src="formentrylookup.js"></script>
+<script src="getplacenames.js"></script>
+
+
+<script>
+// read in project
+var project
+parameters = location.search.split('&');
+parameters[0] = parameters[0].substring(1);
+for (var p=0;p<parameters.length;p++) {  
+	pairs = parameters[p].split('=');
+	if (pairs[0] == 'project' && pairs[1]) project = pairs[1] 
+	if (pairs[0] == 'person' && pairs[1]) { var theperson = pairs[1] }
+	}
+
+// load the appropriate db file	
+if (! project) alert('Specify the project name in the URL, using ?project=...')
+var db = document.createElement('script')
+db.src = '../../'+project+'/db.js'
+db.async = false
+document.head.appendChild(db)
+
+
+// load the appropriate census file	
+var db = document.createElement('script')
+db.src = '../../'+project+'/census.js'
+db.async = false
+document.head.appendChild(db)
+
+
+
+
+
+function draftNotes () {
+    // writes stuff to the notes panel
+    var out, node, headId, wifeId, children, others, servants, personName, personAge
+    
+    out = ''
+    node = document.getElementById('censusNotes')
+    headId = document.getElementById('headId').value
+    wifeId = document.getElementById('wifeId').value
+    
+    if (headId) out += `{${ headId }:kx0}`
+    else out +=  `${ document.getElementById('censusHeadName').value }<sup class="ageTag">${ document.getElementById('censusHeadAge').value }</sup>`
+    if (document.getElementById('censusOcc').value) out += ` was a ${ document.getElementById('censusOcc').value }`
+    else if (document.getElementById('censusHeadOcc').value) out += ` was a ${ document.getElementById('censusHeadOcc').value }`
+    out += '. '
+    
+    if (document.getElementById('censusWifeName').value 
+        && document.getElementById('censusWifeOcc').value) {
+        if (wifeId) out += `His wife {${ wifeId }:kx0}`
+        else out +=  `His wife ${ document.getElementById('censusWifeName').value }, ${ document.getElementById('censusWifeAge').value },`
+        if (document.getElementById('censusWifeOcc').value) out += ` was a ${ document.getElementById('censusWifeOcc').value }`
+        out += '.'
+        }
+    
+   else if (document.getElementById('censusWifeName').value 
+        && document.getElementById('wifeId').value == '') {
+        out +=  `His wife ${ document.getElementById('censusWifeName').value } was ${ document.getElementById('censusWifeAge').value }`
+        out += '.'
+        }
+    
+    children = document.getElementById('child').querySelectorAll('div')
+    
+    if (children && children.length>0) {
+        if (children.length === 1) out += `\nThe child was `
+        else out += `\nThe children were `
+        for (var i=0;i<children.length;i++) {
+            if (i>0) out += ','
+            if (i === children.length-1 && children.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (children[i].querySelector('.inputID').value.trim()) personName = ` {${ children[i].querySelector('.inputID').value }:k}`
+            else personName = `${ children[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ children[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = children[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+    
+    others = document.getElementById('other').querySelectorAll('div')
+    
+    if (others && others.length>0) {
+        if (others.length === 1) out += `\nAlso at the house was `
+        else out += `\nAlso at the house were `
+        for (var i=0;i<others.length;i++) {
+            if (i>0) out += ','
+            if (i === others.length-1 && others.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (others[i].querySelector('.inputID').value.trim()) personName = ` {${ others[i].querySelector('.inputID').value }:kfm}`
+            else personName = `${ others[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ others[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = others[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+    
+    visitors = document.getElementById('visitor').querySelectorAll('div')
+    
+    if (visitors && visitors.length>0) {
+        if (visitors.length === 1) out += `\nThere was also a boarder visitor, `
+        else out += `\nBoarders Visitors included `
+        for (var i=0;i<visitors.length;i++) {
+            if (i>0) out += ', '
+            if (i === visitors.length-1 && visitors.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (visitors[i].querySelector('.inputID').value.trim()) personName = ` {${ visitors[i].querySelector('.inputID').value }:kfm}`
+            else personName = `${ visitors[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ visitors[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = visitors[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+    
+    servants = document.getElementById('serv').querySelectorAll('div')
+    
+    if (servants && servants.length>0) {
+        if (servants.length === 1) out += `\nThe servant at the house was `
+        else out += `\nThe servants at the house were `
+        for (var i=0;i<servants.length;i++) {
+            if (i>0) out += ', '
+            if (i === servants.length-1 && servants.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (servants[i].querySelector('.inputID').value.trim()) personName = ` {${ servants[i].querySelector('.inputID').value }:kfm}`
+            else personName = `${ servants[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ servants[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = servants[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+
+    node.value = out
+    }
+
+
+
+
+
+function draftNotesX () {
+    // writes stuff to the notes panel
+    var out, node, headId, wifeId
+    
+    out = ''
+    node = document.getElementById('censusNotes')
+    headId = document.getElementById('headId').value
+    wifeId = document.getElementById('wifeId').value
+    
+    if (headId) out += `{${ headId }:kx0}`
+    else out +=  `${ document.getElementById('censusHeadName').value }<sup class="ageTag">${ document.getElementById('censusHeadAge').value }</sup>`
+    if (document.getElementById('censusOcc').value) out += ` was a ${ document.getElementById('censusOcc').value }`
+    else if (document.getElementById('censusHeadOcc').value) out += ` was a ${ document.getElementById('censusHeadOcc').value }`
+    out += '. '
+    
+    if (document.getElementById('censusWifeName').value 
+        && document.getElementById('censusWifeOcc').value) {
+        if (wifeId) out += `His wife {${ wifeId }:kx0}`
+        else out +=  `His wife ${ document.getElementById('censusWifeName').value }, ${ document.getElementById('censusWifeAge').value },`
+        if (document.getElementById('censusWifeOcc').value) out += ` was a ${ document.getElementById('censusWifeOcc').value }`
+        out += '.'
+        }
+    
+   else if (document.getElementById('censusWifeName').value 
+        && document.getElementById('wifeId').value == '') {
+        out +=  `His wife ${ document.getElementById('censusWifeName').value } was ${ document.getElementById('censusWifeAge').value }`
+        out += '.'
+        }
+    
+    var children = document.getElementById('child').querySelectorAll('div')
+    
+    if (children && children.length>0) {
+        if (children.length === 1) out += `\nThe child was `
+        else out += `\nThe children were `
+        for (var i=0;i<children.length;i++) {
+            if (i>0) out += ','
+            if (i === children.length-1 && children.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (children[i].querySelector('.inputID').value.trim()) childName = ` {${ children[i].querySelector('.inputID').value }:k}`
+            else childName = `${ children[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ children[i].querySelector('.inputAge').value }</sup>`
+            
+            childOcc = children[i].querySelector('.inputOcc').value.trim()
+            
+            out += childName
+            if (childOcc) out += `, ${ childOcc }`
+            
+            /*
+            if (children[i].querySelector('.inputID').value.trim()) out += ` {${ children[i].querySelector('.inputID').value }:k}`
+            else out += ` ${ children[i].querySelector('.inputName').value }<sup class="ageTag">${ children[i].querySelector('.inputAge').value }</sup>`
+            //if (children[i].querySelector('.inputAge').value) out += `, ${ children[i].querySelector('.inputAge').value }`
+            if (children[i].querySelector('.inputOcc').value) out += `, ${ children[i].querySelector('.inputOcc').value }`
+            */
+            }
+        out += '.'
+        }
+    
+    var others = []; var servs = []; var visitors = []
+    others = document.getElementById('other').querySelectorAll('div')
+    servs = document.getElementById('serv').querySelectorAll('div')
+    visitors = document.getElementById('visitor').querySelectorAll('div')
+    
+    var allothers = document.querySelectorAll('#other div, #serv div, #visitor div')
+
+    if (allothers.length>0 ) {
+        out += `\nAlso at the house`
+        if (allothers.length === 1) out += ' was '
+        else out += ' were '
+        for (var i=0;i<allothers.length;i++) {
+            if (i === allothers.length-1  && allothers.length > 1) out += ' and '
+            if (allothers[i].querySelector('.inputID').value) out += `{${ allothers[i].querySelector('.inputID').value }:kfm}, `
+            else out += allothers[i].querySelector('.inputName').value+', '
+            if (allothers[i].querySelector('.inputAge').value) out += allothers[i].querySelector('.inputAge').value+', '
+            if (allothers[i].querySelector('.inputOcc').value) out += `, ${ allothers[i].querySelector('.inputOcc').value }`
+            }
+        out += '.'
+        }
+
+    node.value = out
+    }
+
+
+function fillPlacesPulldown () {
+    // populate the places datalist
+    findallplaces()
+    makePlacesDatalist()
+    }
+    
+
+
+function getDate (year) { 
+	var date
+	switch (year) {
+		case '1841': date = '1841-06-06'; break
+		case '1851': date = '1851-03-03'; break
+		case '1861': date = '1861-04-07'; break
+		case '1871': date = '1871-04-02'; break
+		case '1881': date = '1881-04-03'; break
+		case '1891': date = '1891-04-05'; break
+		case '1901': date = '1901-03-31'; break
+		case '1911': date = '1911-04-02'; break
+		case '1921': date = '1921-06-19'; break
+		case '1939': date = '1939-09-29'; break		
+		}
+	//document.getElementById('year').textContent = year
+	document.getElementById('date').textContent = '"'+date+'": {'
+	}
+
+function doRelation (type) { 
+	document.getElementById('relation').innerHTML = 'relation: "'+type+'",'
+	switch (type) {
+		case 'head': document.getElementById('headId').value = document.getElementById('censusId').value; break
+		case 'wife': document.getElementById('wifeId').value = document.getElementById('censusId').value; break
+		}
+	}
+
+function addChild () {
+	var input = document.createElement('input')
+	currentChildren = document.getElementById('children').querySelectorAll('input')
+	if (currentChildren) numberOfChildren = currentChildren.length+1
+	else numberOfChildren = 1
+	input.style.width = '400px'
+	input.id = 'child'+numberOfChildren
+	input.oninput = function () { updateField(this.id+'out', '"'+this.value+'"') }
+	document.getElementById('children').appendChild(document.createElement('br'))
+	document.getElementById('children').appendChild(input)
+	
+	p = document.createElement('p')
+	p.id = input.id+'out'
+	document.getElementById('childrenOut').appendChild(p)
+	}
+
+function addField (type) {
+	var input = document.createElement('input')
+	currentPeople = document.getElementById(type).querySelectorAll('input')
+	if (currentPeople) numberOfPeople = currentPeople.length+1
+	else currentPeople = 1
+	input.style.width = '400px'
+	input.id = type+numberOfPeople
+	input.oninput = function () { updateField(this.id+'out', type+': '+this.value) }
+	document.getElementById(type).appendChild(document.createElement('br'))
+	document.getElementById(type).appendChild(input)
+	
+	p = document.createElement('div')
+	p.id = input.id+'out'
+	document.getElementById(type+'Out').appendChild(p)
+	}
+
+function addField (type) {
+    var out = ''
+    
+	currentPeople = document.getElementById(type).querySelectorAll('div')
+	if (currentPeople) numberOfPeople = currentPeople.length+1
+	else currentPeople = 1
+    
+    var div = document.createElement('div')
+    div.id = type+numberOfPeople
+    
+    var inputID = document.createElement('input')
+    inputID.className = 'inputID'
+    inputID.placeholder = 'ID (if available)'
+	inputID.oninput = function () { updateSplitField(this.parentNode.id, type) }
+    div.appendChild(inputID)
+
+    var inputName = document.createElement('input')
+    inputName.className = 'inputName'
+    inputName.placeholder = 'Full name'
+	inputName.oninput = function () { updateSplitField(this.parentNode.id, type) }
+    div.appendChild(inputName)
+
+    var inputAge = document.createElement('input')
+    inputAge.className = 'inputAge'
+    inputAge.placeholder = 'Age'
+    inputAge.style.width = '2rem'
+	inputAge.oninput = function () { updateSplitField(this.parentNode.id, type) }
+    div.appendChild(inputAge)
+
+    var inputOcc = document.createElement('input')
+    inputOcc.className = 'inputOcc'
+    inputOcc.placeholder = 'Occupation'
+	inputOcc.oninput = function () { updateSplitField(this.parentNode.id, type) }
+    div.appendChild(inputOcc)
+
+    var inputOther = document.createElement('input')
+    inputOther.className = 'inputOther'
+    inputOther.placeholder = 'Other'
+	inputOther.oninput = function () { updateSplitField(this.parentNode.id, type) }
+    div.appendChild(inputOther)
+
+    var inputBorn = document.createElement('input')
+    inputBorn.className = 'inputBorn'
+    inputBorn.placeholder = 'Born at'
+	inputBorn.oninput = function () { updateSplitField(this.parentNode.id, type) }
+    div.appendChild(inputBorn)
+
+    document.getElementById(type).appendChild(div)
+
+
+	
+	p = document.createElement('div')
+	p.id = div.id+'out'
+	document.getElementById(type+'Out').appendChild(p)
+	}
+
+
+function updateSplitField (id, type) {
+    draftResult()
+    return
+	}
+
+function updateSplitFieldOLD (id, type) {
+    var out = ''
+    var content = ''
+    inputs = document.getElementById(id).querySelectorAll('input')
+    for (var i=0;i<inputs.length;i++) content += inputs[i].value+', '
+	document.getElementById(id+'out').innerHTML = type+": "+content
+	}
+
+function updateField (id, content) { 
+	document.getElementById(id).innerHTML = content
+	}
+
+function makeNotes (content, target) {
+	segments = content.split('\n')
+	var out = ''
+	for (var i=0;i<segments.length;i++) out += '<div>'+target+': '+segments[i]+'</div>'
+	document.getElementById(target).innerHTML = out
+	}
+
+function findParentIds (person) {
+	person = document.getElementById('censusId').value
+	if (db[person]) {
+		if (fid = db[person].father) {
+			document.getElementById('headId').value = fid;
+			}
+		if (mid = db[person].mother) {
+			document.getElementById('wifeId').value = mid;
+			}
+		}
+	}
+
+
+function formatGPS (str) {
+	str = str.replace(/https:\/\/maps.google.com\/maps\?q=/,'')
+	str = str.trim().replace(/,/,' ').replace(/\s+/,',')
+	return str
+	}
+
+
+
+
+
+function draftResult () {
+    // called each time a field is changed; updates the output
+    
+    //document.getElementById('id').textContent = `"id: ${ document.getElementById('idIn').value.trim() }",`
+    
+    var otherCensusYear
+    
+    //draftNotes()
+
+    if (document.getElementById('otherCensus').value.trim() === '') {
+        document.getElementById('title').textContent = `"${ document.getElementById('yearList').elements['censusYear'].value }_${ document.getElementById('censusId').value }": {`
+
+        document.getElementById('censusptr').textContent = `census: "${ document.getElementById('yearList').elements['censusYear'].value }_${ document.getElementById('censusId').value }",`
+
+        getDate(document.getElementById('yearList').elements['censusYear'].value)
+        }
+    else {
+        otherCensusYear = document.getElementById('otherCensus').value.trim().split('-')[0]
+        document.getElementById('title').textContent = `"${ otherCensusYear }_${ document.getElementById('censusId').value }": {`
+
+        document.getElementById('censusptr').textContent = `census: "${ otherCensusYear }_${ document.getElementById('censusId').value.trim() }",`
+        }
+
+    doRelation(document.getElementById('relationToHead').elements['censusRelation'].value)
+
+    
+    if (document.getElementById('censusRecordURL').value.trim()) {
+        if (document.getElementById('yearList').elements['censusYear'].value == '1939') var recordType='Registration'
+        else recordType='Census'
+        var scans = document.getElementById('censusRecordURL').value.split(',')
+        var scanOut = ''
+        for (i=0;i<scans.length;i++) {
+            if (scans[i].match('http')) scanOut += `"${ recordType } record ${ scans[i] }"`
+            else scanOut += `"${ recordType } record url:../${ project }_records/${ scans[i] }"`
+            //scanOut += `"${ recordType } record url:records/${ scans[i] }.jpg"`
+            if (i<scans.length-1) scanOut += ', '
+            }
+        document.getElementById('record').textContent = `images: [${ scanOut }],`
+        }
+    else document.getElementById('record').textContent = ''
+    
+    /*if (document.getElementById('censusRecordURL').value.trim()) {
+        if (document.getElementById('yearList').elements['censusYear'].value == '1939') var recordType='Registration'
+        else recordType='Census'
+        document.getElementById('record').textContent = `images: ["${ recordType } record url:records/${ document.getElementById('censusRecordURL').value.trim() }.jpg"],`
+        }
+    else document.getElementById('record').textContent = ''*/
+    
+    if (document.getElementById('censusSourceName').value.trim() || document.getElementById('censusSourceURL').value.trim()) document.getElementById('source').textContent = `source: "${ document.getElementById('censusSourceName').value.trim() } ${ document.getElementById('censusSourceURL').value }",` 
+    else document.getElementById('source').textContent = ''
+    
+    if (document.getElementById('censusSourceDetails').value.trim()) document.getElementById('sourceDetails').textContent = `details: "${ document.getElementById('censusSourceDetails').value.trim() }",` 
+    else document.getElementById('sourceDetails').textContent = ''
+    
+  
+      
+    if (document.getElementById('censusCParish').value.trim()) {
+        out = ''
+        out += `cparish: "`
+        if (document.getElementById('censusCParish').value.trim()) out +=  document.getElementById('censusCParish').value.trim()+'",'
+        /*if (document.getElementById('censusSRD').value.trim() || document.getElementById('censusRD').value.trim()) out += ', '
+        if (document.getElementById('censusSRD').value.trim()) out +=  'srd ' + document.getElementById('censusSRD').value.trim()
+        if (document.getElementById('censusRD').value.trim()) out += ', '
+        if (document.getElementById('censusRD').value.trim()) out +=  'rd ' + document.getElementById('censusRD').value.trim()*/
+        document.getElementById('cparish').textContent = out
+        }
+    else document.getElementById('cparish').textContent = ''
+  
+  
+    if (document.getElementById('censusPlace').value.trim()) document.getElementById('place').textContent = `place: "${ document.getElementById('censusPlace').value.trim() }",` 
+    else document.getElementById('place').textContent = ''
+    
+    if (document.getElementById('roomsIn').value.trim()) document.getElementById('rooms').textContent = `rooms: "${ document.getElementById('roomsIn').value.trim() }",` 
+    else document.getElementById('rooms').textContent = ''
+    
+    
+    
+    if (document.getElementById('headId').value.trim() || document.getElementById('censusHeadName').value.trim() || document.getElementById('censusHeadAge').value.trim() || document.getElementById('censusHeadOcc').value.trim() || document.getElementById('censusHeadBorn').value.trim() || document.getElementById('censusHeadOther').value.trim()) {
+        /*var headSummary = []
+        if (document.getElementById('headId').value.trim()) headSummary.push(document.getElementById('headId').value.trim())
+        else headSummary.push(document.getElementById('censusHeadName').value.trim())
+        if (document.getElementById('censusHeadName').value.trim()) headSummary.push(document.getElementById('censusHeadName').value.trim())
+        else headSummary.push('unknown')
+        if (document.getElementById('censusHeadAge').value.trim()) headSummary.push(document.getElementById('censusHeadAge').value.trim())
+        if (document.getElementById('censusHeadOcc').value.trim()) headSummary.push(document.getElementById('censusHeadOcc').value.trim())
+        if (document.getElementById('censusHeadOther').value.trim()) headSummary.push(document.getElementById('censusHeadOther').value.trim())
+        if (document.getElementById('censusHeadBorn').value.trim()) headSummary.push(document.getElementById('censusHeadBorn').value.trim())
+        document.getElementById('head').textContent = `head: "${ headSummary.join(';') }",` 
+        */
+        var headSummary = ''
+        if (document.getElementById('headId').value.trim()) headSummary += document.getElementById('headId').value.trim()+';'
+        else if (document.getElementById('censusHeadName').value.trim()) headSummary += document.getElementById('censusHeadName').value.trim()+';'
+        else headSummary += ';'
+        if (document.getElementById('censusHeadName').value.trim()) headSummary += document.getElementById('censusHeadName').value.trim()+';'
+        else headSummary += 'unknown;'
+        if (document.getElementById('censusHeadAge').value.trim()) headSummary += document.getElementById('censusHeadAge').value.trim()+';'
+        else headSummary += ';'
+        if (document.getElementById('censusHeadOcc').value.trim()) headSummary += document.getElementById('censusHeadOcc').value.trim()+';'
+        else headSummary += ';'
+        if (document.getElementById('censusHeadOther').value.trim()) headSummary += document.getElementById('censusHeadOther').value.trim()+';'
+        else headSummary += ';'
+        if (document.getElementById('censusHeadBorn').value.trim()) headSummary += document.getElementById('censusHeadBorn').value.trim()
+ 
+        document.getElementById('head').textContent = `head: "${ headSummary }",` 
+        }
+    else document.getElementById('head').textContent = ''
+    
+    if (document.getElementById('wifeId').value.trim() || document.getElementById('censusWifeName').value.trim() || document.getElementById('censusWifeAge').value.trim() || document.getElementById('censusWifeOcc').value.trim() || document.getElementById('censusWifeBorn').value.trim() || document.getElementById('censusWifeOther').value.trim()) {
+        var wifeSummary = ''
+        if (document.getElementById('wifeId').value.trim()) wifeSummary += document.getElementById('wifeId').value.trim()+';'
+        else if (document.getElementById('censusWifeName').value.trim()) wifeSummary += document.getElementById('censusWifeName').value.trim()+';'
+        else wifeSummary += ';'
+        if (document.getElementById('censusWifeName').value.trim()) wifeSummary += document.getElementById('censusWifeName').value.trim()+';'
+        else wifeSummary += 'unknown;'
+        if (document.getElementById('censusWifeAge').value.trim()) wifeSummary += document.getElementById('censusWifeAge').value.trim()+';'
+        else wifeSummary += ';'
+        if (document.getElementById('censusWifeOcc').value.trim()) wifeSummary += document.getElementById('censusWifeOcc').value.trim()+';'
+        else wifeSummary += ';'
+        if (document.getElementById('censusWifeOther').value.trim()) wifeSummary += document.getElementById('censusWifeOther').value.trim()+';'
+        else wifeSummary += ';'
+        if (document.getElementById('censusWifeBorn').value.trim()) wifeSummary += document.getElementById('censusWifeBorn').value.trim()
+ 
+        document.getElementById('wife').textContent = `wife: "${ wifeSummary }",` 
+        /*var wifeSummary = []
+        if (document.getElementById('wifeId').value.trim()) wifeSummary.push(document.getElementById('wifeId').value.trim())
+        else wifeSummary.push(document.getElementById('censusWifeName').value.trim())
+        if (document.getElementById('censusWifeName').value.trim()) wifeSummary.push(document.getElementById('censusWifeName').value.trim())
+        else wifeSummary.push('unknown')
+        if (document.getElementById('censusWifeAge').value.trim()) wifeSummary.push(document.getElementById('censusWifeAge').value.trim())
+        if (document.getElementById('censusWifeOcc').value.trim()) wifeSummary.push(document.getElementById('censusWifeOcc').value.trim())
+        if (document.getElementById('censusWifeOther').value.trim()) wifeSummary.push(document.getElementById('censusWifeOther').value.trim())
+        if (document.getElementById('censusWifeBorn').value.trim()) wifeSummary.push(document.getElementById('censusWifeBorn').value.trim())
+        document.getElementById('wife').textContent = `wife: "${ wifeSummary.join(';') }",` 
+        */
+        }
+    else document.getElementById('wife').textContent = ''
+
+
+    var children = document.getElementById('child').querySelectorAll('div')
+    if (children && children.length>0) {
+        out = ''
+        for (var i=0;i<children.length;i++) {
+            if (i>0) out += ', '
+            out += '\n"'
+            // use the name if there is no id
+            if (children[i].querySelector('.inputID').value.trim()) out += children[i].querySelector('.inputID').value
+            else out += children[i].querySelector('.inputName').value
+            out += `;${ children[i].querySelector('.inputName').value }`
+            out += `;${ children[i].querySelector('.inputAge').value }`
+            out += `;${ children[i].querySelector('.inputOcc').value }`
+            out += `;${ children[i].querySelector('.inputOther').value }`
+            out += `;${ children[i].querySelector('.inputBorn').value }`
+            out += '"'
+            }
+        document.getElementById('children').textContent = `children: [${ out }\n],`
+        }
+    else document.getElementById('children').textContent = ''
+
+
+    var others = document.getElementById('other').querySelectorAll('div')
+    if (others && others.length>0) {
+        out = ''
+        for (var i=0;i<others.length;i++) {
+            if (i>0) out += ', '
+            out += '\n"'
+            // use the name if there is no id
+            if (others[i].querySelector('.inputID').value.trim()) out += others[i].querySelector('.inputID').value
+            else out += others[i].querySelector('.inputName').value
+            out += `;${ others[i].querySelector('.inputName').value }`
+            out += `;${ others[i].querySelector('.inputAge').value }`
+            out += `;${ others[i].querySelector('.inputOcc').value }`
+            out += `;${ others[i].querySelector('.inputOther').value }`
+            out += `;${ others[i].querySelector('.inputBorn').value }`
+            out += '"'
+            }
+        document.getElementById('otherOut').textContent = `others: [${ out }\n],`
+        }
+    else document.getElementById('otherOut').textContent = ''
+
+
+    var visitors = document.getElementById('visitor').querySelectorAll('div')
+    if (visitors && visitors.length>0) {
+        out = ''
+        for (var i=0;i<visitors.length;i++) {
+            if (i>0) out += ', '
+            out += '\n"'
+            // use the name if there is no id
+            if (visitors[i].querySelector('.inputID').value.trim()) out += visitors[i].querySelector('.inputID').value
+            else out += visitors[i].querySelector('.inputName').value
+            out += `;${ visitors[i].querySelector('.inputName').value }`
+            out += `;${ visitors[i].querySelector('.inputAge').value }`
+            out += `;${ visitors[i].querySelector('.inputOcc').value }`
+            out += `;${ visitors[i].querySelector('.inputOther').value }`
+            out += `;${ visitors[i].querySelector('.inputBorn').value }`
+            out += '"'
+            }
+        document.getElementById('visitorOut').textContent = `visitors: [${ out }\n],`
+        }
+    else document.getElementById('visitorOut').textContent = ''
+
+
+    var servs = document.getElementById('serv').querySelectorAll('div')
+    if (servs && servs.length>0) {
+        out = ''
+        for (var i=0;i<servs.length;i++) {
+            if (i>0) out += ', '
+            out += '\n"'
+            // use the name if there is no id
+            if (servs[i].querySelector('.inputID').value.trim()) out += servs[i].querySelector('.inputID').value
+            else out += servs[i].querySelector('.inputName').value
+            out += `;${ servs[i].querySelector('.inputName').value }`
+            out += `;${ servs[i].querySelector('.inputAge').value }`
+            out += `;${ servs[i].querySelector('.inputOcc').value }`
+            out += `;${ servs[i].querySelector('.inputOther').value }`
+            out += `;${ servs[i].querySelector('.inputBorn').value }`
+            out += '"'
+            }
+         document.getElementById('servOut').textContent = `serv: [${ out }\n],`
+       }
+    else document.getElementById('servOut').textContent = ''
+
+
+
+
+
+    if (document.getElementById('marriedIn').value.trim()) document.getElementById('married').textContent = `married: "${ document.getElementById('marriedIn').value.trim() }",`
+    else document.getElementById('married').textContent = ''
+    
+    if (document.getElementById('censusOcc').value.trim()) document.getElementById('occ').textContent = `occ: "${ document.getElementById('censusOcc').value.trim() }",` 
+    else document.getElementById('occ').textContent = ''
+
+    
+
+    /*if (document.getElementById('gpsPlace').value.trim() || document.getElementById('gpsCoords').value.trim()) {
+        document.getElementById('gps').textContent = `gps: ["${ document.getElementById('gpsPlace').value.trim() }` 
+        if (document.getElementById('gpsCoords').value.trim()) document.getElementById('gps').textContent += ` https:\u002F/maps.google.com/maps?q=${ document.getElementById('gpsCoords').value.trim().replace(/ /g,'') }"]` 
+        document.getElementById('gps').textContent += `,`
+        }
+    else document.getElementById('gps').textContent = ''*/
+    
+
+     if (document.getElementById('gpsIn').value.trim()) {
+        lines = document.getElementById('gpsIn').value.split('\n')
+        output = ''
+        for (o=0;o<lines.length;o++) {
+            if (lines[o].trim() === '') continue
+            console.log('lines',lines[o])
+            output += `"${ lines[o] }"`
+            if (o<lines.length-1) output += ', '
+            }
+        document.getElementById('gps').textContent = `gps: [${ output }],`
+        }
+    else document.getElementById('gps').textContent = ''
+    
+   
+    if (document.getElementById('censusNotes').value.trim())  document.getElementById('note').textContent = `notes: \u0060${ document.getElementById('censusNotes').value.trim() }\u0060,`
+    //makeNotes(document.getElementById('censusNotes').value.trim(),'note') 
+    else document.getElementById('note').textContent = ''
+
+    if (document.getElementById('censusFNotes').value.trim()) makeNotes(document.getElementById('censusFNotes').value.trim(),'fnote') 
+    else document.getElementById('fnote').textContent = ''
+
+    if (document.getElementById('censusDisc').value.trim())  document.getElementById('discussion').textContent = `discussion: \u0060${ document.getElementById('censusDisc').value.trim() }\u0060,`
+
+    if (document.getElementById('cautionIn').value.trim())  document.getElementById('caution').textContent = `caution: \u0060${ document.getElementById('cautionIn').value.trim() }\u0060,`
+
+    if (document.getElementById('censusDisc').value.trim()) makeNotes(document.getElementById('censusDisc').value.trim(),'discussion') 
+    else document.getElementById('discussion').textContent = ''
+
+
+    }
+</script>
+
+
+<style>
+#draft p {
+	margin: 0;
+	}
+#references {
+	font-size: 80%;
+	float: right;
+	}
+#references p {
+	margin: 0;
+	}
+#references h3 {
+	margin-bottom: 0;
+	}
+.redo { font-size:120%; margin-left: 1em; cursor: pointer; }
+</style>
+</head>
+
+
+
+
+<body>
+<div id="out">
+  <div id="banner">
+    <div id="pagetitle">Census record entry<br>
+    </div>
+  </div>
+  <div id="subbanner">
+    <div><a href="birthentry.html">Birth</a> • <a href="dthentry.html">Death</a></div>
+  </div>
+  <div id="subsubbanner">
+    <div>
+      <!--textarea placeholder="Drop existing code here to partially complete the page."></textarea> <button onClick="dump()">Go</button-->
+    <strong>Id:</strong> 
+<input type="text" style="width:20rem;" id="censusId" placeholder="Add id of head or main person, then click on [Load].">
+<button id="load" title="Load relations & places" onclick="fillPlacesPulldown(); listRelations(document.getElementById('censusId').value);">Load</button>
+<!--<span class="redo" onClick="fillPlacesPulldown(); listRelations(document.getElementById('censusId').value);">🔁</span>-->
+<button id="clearAll" onClick="document.location=`censusentry.html?project=${ project }`" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>
+<!--<span class="redo"><a id="clearAll" href="">❌</a></span>-->
+    </div>
+  </div>
+  <div id="main">
+    
+      <div id="references">
+      </div>
+      
+      
+    <table id="census" style="margin: 0 0 2em 2em;">
+      <!--tr>
+        <td>Id:</td>
+        <td><input type="text" style="width:50%;" id="censusId" placeholder="Add id of target record, then click on 🔁."/>  <span class="redo" onClick="fillPlacesPulldown(); listRelations(document.getElementById('censusId').value);">🔁</span></td>
+      </tr-->
+      <tr>
+        <td>Date:</td>
+        <td><input type="text" id="otherCensus" placeholder="yyyy-mm-dd" style="width:6em;" onInput="document.getElementById('date').textContent = '\u0022'+this.value+'\u0022: {'">
+        
+        &nbsp;&nbsp;&nbsp;UK:
+
+            <form id="yearList" onChange="getDate(this.elements['censusYear'].value)" style="display: inline-block; font-size: 80%;">
+            <input type="radio" name="censusYear" value="1841" onClick="document.getElementById('censusSourceName').value = `1841 England Census`">
+            1841 &nbsp;
+            <input type="radio" name="censusYear" value="1851" onClick="document.getElementById('censusSourceName').value = `1851 England Census`">
+            1851 
+            &nbsp;
+            <input type="radio" name="censusYear" value="1861" onClick="document.getElementById('censusSourceName').value = `1861 England Census`">
+            1861 
+            &nbsp;
+            <input type="radio" name="censusYear" value="1871" onClick="document.getElementById('censusSourceName').value = `1871 England Census`">
+            1871 
+            &nbsp;
+            <input type="radio" name="censusYear" value="1881" onClick="document.getElementById('censusSourceName').value = `1881 England Census`">
+            1881 
+            &nbsp;
+            <input type="radio" name="censusYear" value="1891" onClick="document.getElementById('censusSourceName').value = `1891 England Census`">
+            1891
+            &nbsp;
+            <input type="radio" name="censusYear" value="1901" onClick="document.getElementById('censusSourceName').value = `1901 England Census`">
+            1901
+            &nbsp;
+            <input type="radio" name="censusYear" value="1911" onClick="document.getElementById('censusSourceName').value = `1911 England Census`">
+            1911
+            &nbsp;
+            <input type="radio" name="censusYear" value="1921" onClick="document.getElementById('censusSourceName').value = `1921 England Census`">
+            1921
+            &nbsp;
+            <input type="radio" name="censusYear" value="1939" onClick="document.getElementById('censusSourceName').value = `1939 Register`">
+            1939 &nbsp;
+          </form>
+          </td>
+      </tr>
+      <tr>
+        <td>Relation:</td>
+        <td><form id="relationToHead" onChange="doRelation(this.elements['censusRelation'].value)">
+            <input type="radio" name="censusRelation" value="head" 
+            	onClick="document.getElementById('headId').value = document.getElementById('censusId').value;"/>
+            head &nbsp;
+            <input type="radio" name="censusRelation" value="wife" 
+            	onClick="document.getElementById('wifeId').value = document.getElementById('censusId').value;"/>
+            wife  &nbsp;
+            <input type="radio" name="censusRelation" value="child" onClick="findParentIds()"/>
+            child &nbsp;
+            <input type="radio" name="censusRelation" value="other"/>
+            other  &nbsp;
+            <input type="radio" name="censusRelation" value="serv"/>
+            serv  &nbsp;
+            <input type="radio" name="censusRelation" value="visitor"/>
+            visitor
+          </form></td>
+      </tr>
+      <tr>
+        <td>Source:</td>
+        <td>
+        <input type="text" id="censusSourceName" onInput="draftResult()" placeholder="Source name.">
+        <input type="text" id="censusSourceURL" onInput="draftResult()" placeholder="Source URL."><br>
+        <input type="text" id="censusSourceDetails" onInput="draftResult()" placeholder="Copy here the detailed info for Reg. District, etc." style="width:40em;">
+        </td>
+      </tr>
+        <tr>
+        <td>CParish</td>
+        <td>
+          <input type="text" id="censusCParish" onInput="draftResult()"/>
+          <!--SRD
+          <input type="text" id="censusSRD" onInput="draftResult()"/>
+          RD
+          <input type="text" id="censusRD" onInput="draftResult()"/--></td>
+      </tr>
+     <tr>
+        <td>Scans:</td>
+        <td><input type="text" id="censusRecordURL" style="width:40em;" onInput="draftResult()" placeholder="A comma-separated list of filenames (no extension)"></td>
+      </tr>
+     <tr>
+        <td>&nbsp;</td>
+        <td><input type="file" multiple id="getFileName" style="width:40em;" onInput="draftResult()" placeholder="A comma-separated list of filenames (no extension)"></td>
+        <script>
+        document.getElementById('getFileName').addEventListener('change', function(event) {
+            const files = event.target.files
+            out = ''
+            for (let i = 0; i < files.length; i++) {
+                if (i>0) out += ', '
+                out += files[i].name
+                //console.log('File name:', files[i].name)
+                }
+            document.getElementById('censusRecordURL').value += out
+            })
+        </script>
+      </tr>
+     <tr>
+        <td>Place:</td>
+        <td><input type="text" id="censusPlace" list="gpsList" style="width:400px;" onInput="draftResult()"/> &nbsp; <input type="text" id="roomsIn" style="width:40px;" onInput="draftResult()"/> rooms</td>
+      </tr>
+     <tr>
+        <td style="vertical-align: top;">Head:</td>
+        <td><input type="text" id="headId" placeholder="Id or nothing" onInput="draftResult()"/>,
+          <input type="text" id="censusHeadName" placeholder="Name" onInput="draftResult()"/>
+          <input type="text" id="censusHeadAge" placeholder="Age" onInput="draftResult()" style="width:3rem;">
+          <input type="text" id="censusHeadOcc" placeholder="Occupation" onInput="draftResult()"/>
+          <input type="text" id="censusHeadOther" placeholder="Other" onInput="draftResult()"/>
+          <input type="text" id="censusHeadBorn" placeholder="Born at..." onInput="draftResult()"/>
+         </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top;">Wife:</td>
+        <td>
+          <input type="text" id="wifeId" placeholder="Id or nothing" oninput="draftResult()"/>,
+        <!--input type="text" id="censusWife" placeholder="Details provided for the wife" style="width: 400px;" onInput="draftResult()"/-->
+           <input type="text" id="censusWifeName" placeholder="Name" onInput="draftResult()"/>
+          <input type="text" id="censusWifeAge" placeholder="Age" onInput="draftResult()" style="width:3rem;">
+          <input type="text" id="censusWifeOcc" placeholder="Occupation" onInput="draftResult()"/>
+          <input type="text" id="censusWifeOther" placeholder="Other" onInput="draftResult()"/>
+          <input type="text" id="censusWifeBorn" placeholder="Born at..." onInput="draftResult()"/>
+       </td>
+      </tr>
+       <tr>
+        <td>Married:</td>
+        <td><input type="text" id="marriedIn" placeholder="Number of years married" style="width:400px;" onInput="draftResult()"/></td>
+      </tr>
+      <tr><td></td><td id="child">Children &nbsp; <button onClick="addField('child')">Add</button></td></tr>
+      <tr><td></td><td id="other">Other &nbsp; <button onClick="addField('other')">Add</button></td></tr>
+      <tr><td></td><td id="serv">Servants &nbsp; <button onClick="addField('serv')">Add</button></td></tr>
+      <tr><td></td><td id="visitor">Boarders, lodgers, visitors &nbsp; <button onClick="addField('visitor')">Add</button></td></tr>
+      <tr>
+        <td>Occupation:</td>
+        <td><input type="text" id="censusOcc" placeholder="of targeted individual (may be infant, etc.)" style="width:400px;" onInput="draftResult()"/></td>
+      </tr>
+ 
+
+
+      <!--tr>
+        <td>GPS:</td>
+        <td><select id="gpsList" onChange="
+            document.getElementById('gpsPlace').value=this.value.split(':')[0]
+            document.getElementById('gpsCoords').value=this.value.split(':')[1]
+            "></select></td>
+        </tr-->
+
+      <tr>
+        <td>More GPS:</td>
+        <!--td><select id="gpsList" onChange="
+            newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+this.value
+            draftResult()
+            "></select>
+            </td-->
+        <!--td>
+            <input id="findBlock" type="text" list="gpsList" placeholder="  Find a block name." title="Find blocks by typing." onchange="
+                newline = ''
+                if (document.getElementById('gpsIn').value === '') {}
+                else newline = '\n'
+                document.getElementById('gpsIn').value += newline+this.value
+                draftResult()
+                this.value = ''">
+            <datalist id="gpsList"></datalist>
+            </td-->
+        <td>
+        <button title="Add a template for a new place" onClick="newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+`xxxx https://www.google.com/maps?q=xxx`
+            draftResult()">New</button> 
+        <input id="findBlock" type="text" list="gpsList" placeholder="Search for known places" style="width:26.5em" onchange="
+            newline = ''
+            if (document.getElementById('gpsIn').value === '') {}
+            else newline = '\n'
+            document.getElementById('gpsIn').value += newline+this.value
+            draftResult()
+            this.value = ''">
+        <datalist id="gpsList"></datalist>
+        </td>
+      </tr>
+
+    <tr>
+        <td>&nbsp;</td>
+        <td colspan="3"><textarea id="gpsIn" onInput="draftResult()" placeholder="Use the selection control above or type directly to add locations here, one per line. The end result should look like this: Blakemore Gate https://www.google.com/maps?q=52.6040598, -2.9199274"></textarea></td>
+      </tr>
+
+
+      <!--tr>
+        <td>&nbsp;</td>
+        <td>
+            <input type="text" id="gpsPlace" placeholder="Name of location" onInput="draftResult()" onChange="draftResult()">
+            <input type="text" id="gpsCoords" placeholder="Comma-separated coordinates" onInput="draftResult()" onChange="draftResult()">
+            </td>
+      </tr-->
+
+
+      <tr style="visibility:hidden;">
+        <td>Record title:</td>
+        <td><input type="text" id="censusTitle" style="width:400px;" onInput="document.getElementById('title').textContent = this.value;"/></td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top;">Notes:<br><button onClick="draftNotes()">Draft</button></td>
+
+
+        <td><textarea id="censusNotes" onInput="draftResult(this.value)" style="padding: 1rem; font-size: 100%; height: 15rem;"
+            placeholder="Click on the DRAFT button to get started. This should briefly summarise the situation. It will appear in the person summary page. Use {xxxx:kx} for people's names."></textarea><br>
+        <span style="margin: 4rem 0 0 2rem; font-style:italic; color: teal;">Use this to indicate ages of people not in the db: <input value='&lt;sup class="ageTag"&gt;xxx&lt;/sup&gt;' onClick="this.select()" style="width:15rem; border:0;"></span>
+        </td>
+      </tr>
+      <tr>
+        <td>FNotes:</td>
+        <td><textarea id="censusFNotes" onInput="makeNotes(this.value,'fnote')" placeholder="Each paragraph here will be listed below the entry as footnotes.  Like for the notes field, use {xxxx:kx} for people's names."></textarea></td>
+      </tr>
+      <tr>
+        <td>Discussion:</td>
+        <td><textarea id="censusDisc" onInput="draftResult(this.value)" placeholder="This is for commentary on the entry, such as to justify choices made. Discussion text is not displayed on the general UI, but a speech bubble icon is added. Click on the icon or reveal the sources to see the text."></textarea></td>
+      </tr>
+      <tr>
+        <td>Caution:</td>
+        <td><textarea id="cautionIn" onInput="draftResult(this.value)"
+            placeholder="Use to draw attention to guesswork or items needing further corroboration, etc. Text is displayed by clicking on a warning icon in the person summary page."></textarea></td>
+      </tr>
+   </table>
+    
+    
+
+    <p class="" style="margin: 4rem 0 0 2rem; font-style:italic; color: teal; font-size: 80%; text-align: center;">When all the data is entered, copy the text below to the census.js file.</p>
+
+
+     <div title="Copy data to clipboard" style="margin-block-start: 2rem; text-align: center; font-size: 2rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige; cursor: pointer; width:80%; margin:auto;" 
+     onclick="draftResult();
+     console.log(prepCopy());
+     navigator.clipboard.writeText(prepCopy());
+     document.getElementById('copyNotice').style.display = 'block';
+     setTimeout(() => { document.getElementById('copyNotice').style.display = 'none' }, '500')
+     ">Copy census.js data
+    <img src="../../lib/i/copytiny.svg" alt="" style="height:1em; width:1em; vertical-align: middle;">
+    </div>
+   
+   
+   <div id="draft" style="margin:2em; color: brown;" contenteditable="true">
+      <div id="title"></div>
+      <!--div id="year"></div-->
+      <div id="place"></div>
+      <div id="gps"></div>
+      <div id="record"></div>
+      <div id="source"></div>
+      <div id="cparish"></div>
+      <div id="sourceDetails"></div>
+      
+      <div id="head"></div>
+      <div id="wife"></div>
+      <div id="married"></div>
+      <div id="children" style="white-space: pre"></div>
+      <div id="childOut"></div>
+      <div id="otherOut" style="white-space: pre"></div>
+      <div id="servOut" style="white-space: pre"></div>
+      <div id="visitorOut" style="white-space: pre"></div>
+      <div id="rooms"></div>
+      <div id="marriage"></div>
+      <div>},</div>
+
+      <div id="break"><br></div>
+      </div>
+      
+
+
+    <p class="" style="margin: 4rem 0 0 2rem; font-style:italic; color: teal; font-size: 80%; text-align: center;">Then copy the text below to the db.js file, under 'events'.</p>
+
+    <div title="Copy data to clipboard" style="margin-block-start: 2rem; text-align: center; font-size: 2rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige; cursor: pointer; width:80%; margin:auto;" 
+    onclick="draftResult();
+        console.log(prepCopyNote()); 
+        navigator.clipboard.writeText(prepCopyNote());
+        document.getElementById('copyNotice').style.display = 'block';
+        setTimeout(() => { document.getElementById('copyNotice').style.display = 'none' }, '500')"
+        >Copy event code
+    <img src="../../lib/i/copytiny.svg" alt="" style="height:1em; width:1em; vertical-align: middle;">
+    </div>
+   
+    <div id="draftNote" style="margin:2em; color: brown;" contenteditable="true">
+      <div id="date"></div>
+      <div id="type">type: "census",</div>
+      <div id="censusptr"></div>
+      <div id="relation"></div>
+      <div id="occ"></div>
+
+      <div id="note" style="white-space: pre"></div>
+      <div id="fnote"></div>
+      <div id="discussion" style="white-space: pre"></div>
+      <div id="caution" style="white-space: pre"></div>
+      <div id="end">},<br><br></div>
+      </div>
+      
+
+<script>
+function prepCopyX () {
+    draft = document.getElementById('draft')
+    copied = document.getElementById('draftCopy')
+    copied.value = ''
+    divs = draft.querySelectorAll('div')
+    for (i=0;i<divs.length;i++) {
+        if (divs[i].textContent.trim() !== '') copied.value += divs[i].textContent+'\n'
+        }
+    copied.focus()
+    copied.select()
+    document.execCommand('copy')
+    return false
+    }
+
+
+function prepCopy () {
+    var draft, copied, divs
+    
+    draft = document.getElementById('draft')
+    copied = ''
+    divs = draft.querySelectorAll('div')
+    for (i=0;i<divs.length;i++) {
+        if (divs[i].textContent.trim() !== '') copied += divs[i].textContent+'\n'
+        }
+    return copied
+    }
+
+
+function prepCopyNote () {
+    var draft, copied, divs
+    
+    draft = document.getElementById('draftNote')
+    copied = ''
+    divs = draft.querySelectorAll('div')
+    for (i=0;i<divs.length;i++) {
+        if (divs[i].textContent.trim() !== '') copied += divs[i].textContent+'\n'
+        }
+    return copied
+    }
+
+
+</script>
+<!--<div style="text-align: center;"><button  style="font-size: 2rem;" onClick="prepCopy()">Copy</button> <textarea style="block-size:2rem;inline-size:1rem; vertical-align: bottom;" id="draftCopy"></textarea></div>-->
+
+    <!--<p style="text-align: center;"><button style="font-size: 1.5rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Force redraft</button></p>
+
+    <p class="" style="margin: 0rem 0 0 0rem; font-style:italic; color: teal; font-size: 80%; text-align: center;">Click on this to force the input form to fully draft the output data.</p>-->
+
+    <pre id="places">
+    </pre>
+  </div>
+</div>
+
+<dialog id="copyNotice">Copied !</dialog>
+
+<script>
+document.getElementById('clearAll').href = document.location
+
+
+if (theperson) {
+    document.getElementById('censusId').value = theperson
+    setTimeout(() => listRelations(theperson), 1000)
+    setTimeout(() => fillPlacesPulldown(), 1000)
+    }
+</script>
+</body>
+</html>
