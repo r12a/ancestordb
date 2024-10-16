@@ -1,0 +1,6 @@
+db[thisPerson].timeline = `
+
+
+link: Description of John's decease https://books.google.co.uk/books?id=TRhJluStCYUC&pg=RA1-PT163&lpg=RA1-PT163&dq=keppel+street+london+dickens&source=bl&ots=_7eQr6TVbL&sig=Fbam_ZRoNdLD9hYwFNyg_I-kikI&hl=en&sa=X&ved=0ahUKEwir2IqsmNvTAhUMAcAKHfLXBo8Q6AEIRDAG#v=onepage&q=keppel%20street%20london%20dickens&f=false
+
+`

@@ -1,0 +1,13 @@
+db[thisPerson].timeline = `
+
+
+
+§ 1851 father dies dickens_john_1785
+quote:  Davey was John Dickens’s doctor; he had performed a painful operation on his patient’s bladder—without chloroformon 25 March in the Keppel Street house, and this was where John Dickens died, surrounded by family members, on the very night of the census (The Letters of Charles Dickens, vol. 6, 1988)
+source: http://www.ucl.ac.uk/bloomsbury-project/articles/individuals/dickens_charles.htm
+
+
+
+
+
+`
