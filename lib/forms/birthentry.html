@@ -657,7 +657,7 @@ The "Source #1" and other numbered headings allow you to capture the information
 The fields under "Data for building the page"  contain text snippets that will be used to build the person's summary page. (The data should be extracted from the sources, and is structured in a way that it can be successfully inserted into the person's summary page.)</p>
 
 <summary style="margin-block:1rem; font-style: italic;">Converter</summary>
-   <p style="margin: 0 4rem; font-style:italic; color: teal;"><textarea id="copyIn" placeholder="This is a temporary field. Drop OLD data into the textarea and click GO. This function finds stuff to put in the page building data list." style="width: 36rem; height: 4rem;"></textarea> <button onClick="doConversion()">GO</button></p>
+   <p style="margin: 0 4rem; font-style:italic; color: teal;"><textarea id="copyIn" placeholder="This is a temporary field. Drop OLD data into the textarea and click GO. This function finds stuff to put in the page building data list." style="width: 36rem; height: 4rem;"></textarea> <button onClick="doConversion()">GO</button> <button onClick="removeBrackets(document.getElementById('copyIn'))">Remove [ ]</button></p>
 
 
 
@@ -749,8 +749,9 @@ The fields under "Data for building the page"  contain text snippets that will b
 <script>
 function removeBrackets (node) {
     // removes "[ and ]", from copied older records
-    out = node.value.replace(/\]",/g,'').replace(/"\[/g,'')
+    out = node.value.replace(/\]/g,'').replace(/\[/g,'')
     node.value = out  
+    node.select()
     }
 </script>
 
