@@ -102,7 +102,10 @@ figcaption { font-style: italic; text-align: center; }
     clear: both;
 	text-align: start;
     }
-.keypoints .occ { text-transform:capitalize; }
+/*.keypoints .occ { text-transform:capitalize; }*/
+.keypoints .occ:first-letter {
+    text-transform: uppercase;
+	}
 .keypoints .place {font-style:italic; }
 .floatedIcons {
     font-size: 1rem;
