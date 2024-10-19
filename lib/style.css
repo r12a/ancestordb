@@ -384,7 +384,14 @@ article {
 
 
 
-
+#allSiblings ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    }
+#allSiblings img {
+    margin-inline-start: -1.3em;
+    }
 
 
 
