@@ -1024,36 +1024,8 @@ document.getElementById('getFileName').addEventListener('change', function(event
             >
             </td>
       </tr>
-<tr>
-<td>Abode:</td>
-<td><input type="text" id="ofIn"  list="gpsList"
-    placeholder="Place where they lived." class="wideInputBox"
-    onFocus="checkDB('deathPlaceIn', 'dplace', 'dplaceCheck')"
-    onInput="draftResult()">
-    <span class="instructions" id="dplaceCheck" style="color:red;"></span>
-    </td>
-</tr>
-<tr>
-<td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
-<td colspan="3">
-    <input type="text" id="atHomeIn"
-    placeholder="Ids of resident spouse and parents." class="wideInputBox"
-    onInput="draftResult();"></td>
-</tr>
-<tr>
-<td>Place of death:</td>
-<td><input type="text" id="deathPlaceIn"   list="gpsList"
-    placeholder="Place where they died (if different)." class="wideInputBox"
-    onInput="draftResult();">
-    </td>
-</tr>
-      <tr>
-        <td>Burial place:</td>
-        <td><input type="text" id="burPlaceIn"   list="gpsList"
-            placeholder="Cemetery, town, county, etc." class="wideInputBox"
-            onInput="draftResult()"> 
-            <!--<span class="copy" title="Add to metadata." onClick="document.getElementById('burPlace').textContent = '&quot;burplace: '+document.getElementById('burPlaceIn').value+'&quot;,'; document.getElementById('deathPlaceIn').value = document.getElementById('burPlaceIn').value;">✚</span>--></td>
-      </tr>
+
+
      <tr>
         <td>Date of death:</td>
         <td colspan="3"><input type="text" id="deathDateIn"
@@ -1094,6 +1066,31 @@ function makeTimestamp () {
 </script>
     <button class="copy" title="Add timestamp." onClick="makeTimestamp()">Make time stamp</button></td>
     </tr>
+<tr>
+<td>Abode:</td>
+<td><input type="text" id="ofIn"  list="gpsList"
+    placeholder="Place where they lived." class="wideInputBox"
+    onFocus="checkDB('deathPlaceIn', 'dplace', 'dplaceCheck')"
+    onInput="draftResult()">
+    <span class="instructions" id="dplaceCheck" style="color:red;"></span>
+    </td>
+</tr>
+<tr>
+<td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
+<td colspan="3">
+    <input type="text" id="atHomeIn"
+    placeholder="Ids of resident spouse and parents." class="wideInputBox"
+    onInput="draftResult();"></td>
+</tr>
+<tr>
+<td>Place of death:</td>
+<td><input type="text" id="deathPlaceIn"   list="gpsList"
+    placeholder="Place where they died (if different)." class="wideInputBox"
+    onInput="draftResult();">
+    </td>
+</tr>
+
+
       <tr>
         <td>Burial date:</td>
         <td><input type="text" id="burDateIn"  
@@ -1115,6 +1112,13 @@ function makeTimestamp () {
             document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
             ">Make time stamp</button>
             </td>
+      </tr>
+    <tr>
+        <td>Burial place:</td>
+        <td><input type="text" id="burPlaceIn"   list="gpsList"
+            placeholder="Cemetery, town, county, etc." class="wideInputBox"
+            onInput="draftResult()"> 
+            <!--<span class="copy" title="Add to metadata." onClick="document.getElementById('burPlace').textContent = '&quot;burplace: '+document.getElementById('burPlaceIn').value+'&quot;,'; document.getElementById('deathPlaceIn').value = document.getElementById('burPlaceIn').value;">✚</span>--></td>
       </tr>
 <tr>
 <td>Age:</td>

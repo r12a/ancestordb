@@ -916,30 +916,7 @@ Need to fix this properly at some point. -->
             onInput="draftResult()">
             </td>
       </tr>
-       <tr>
-        <td>Family residence:</td>
-        <td colspan="3">
-            <input type="text" id="birthPlaceIn" list="gpsList"
-            placeholder="Place where they lived." class="wideInputBox"
-            onInput="draftResult();"
-            onFocus="checkDB('birthPlaceIn', 'bplace', 'bplaceCheck')">
-            <span class="instructions" id="bplaceCheck" style="color:red;"></span></td>
-     </tr>
-       <tr>
-        <td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
-        <td colspan="3">
-            <input type="text" id="atHomeIn"
-            placeholder="Ids of resident parents & spouses." class="wideInputBox"
-            onInput="draftResult();"></td>
-     </tr>
-<tr>
-        <td>Baptism place:</td>
-        <td><input type="text" id="bapPlaceIn"  list="gpsList"
-            placeholder="Church, town, county." class="wideInputBox"
-            onInput="draftResult()">
-            </td>
-</tr>
-    <tr>
+     <tr>
         <td>Birth date:</td>
         <td colspan="3"><input type="text" id="birthDateIn"
             placeholder="DD MMM or MMM-MMM, etc."
@@ -980,6 +957,23 @@ function makeTimestamp () {
     <button class="copy" title="Add timestamp." onClick="makeTimestamp()">Make time stamp</button>
             </td>
       </tr>
+      <tr>
+        <td>Family residence:</td>
+        <td colspan="3">
+            <input type="text" id="birthPlaceIn" list="gpsList"
+            placeholder="Place where they lived." class="wideInputBox"
+            onInput="draftResult();"
+            onFocus="checkDB('birthPlaceIn', 'bplace', 'bplaceCheck')">
+            <span class="instructions" id="bplaceCheck" style="color:red;"></span></td>
+     </tr>
+       <tr>
+        <td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
+        <td colspan="3">
+            <input type="text" id="atHomeIn"
+            placeholder="Ids of resident parents & spouses." class="wideInputBox"
+            onInput="draftResult();"></td>
+     </tr>
+     
  <tr>
 <td>Baptism date:</td>
 <td><input type="text" id="bapDateIn"
@@ -1001,6 +995,13 @@ function makeTimestamp () {
     document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
     ">Make time stamp</button>
     </td>
+</tr>
+<tr>
+        <td>Baptism place:</td>
+        <td><input type="text" id="bapPlaceIn"  list="gpsList"
+            placeholder="Church, town, county." class="wideInputBox"
+            onInput="draftResult()">
+            </td>
 </tr>
      <tr>
         <td>Father occ:</td>
