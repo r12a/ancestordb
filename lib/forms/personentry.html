@@ -731,7 +731,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 <table style="margin-inline-start: 2rem; color: teal;">
       <tr>
         <td colspan="1" class="heading">Overview:</td>
-        <td colspan="3" style="vertical-align: bottom; font-size: 80%;"><input id="prov" type="checkbox" onClick="prov = document.getElementById('warningIn'); if (prov.value == '') prov.value = 'Only partially researched.\nNot yet  researched.\nMore work is needed to verify this person and/or the information given.'; else prov.value = ''"> provisional</td>
+        <td colspan="3" style="vertical-align: bottom; font-size: 80%;"><input id="prov" type="checkbox" onClick="prov = document.getElementById('warningIn'); if (prov.value == '') prov.value = 'Only partially researched.\nNot yet  researched.\nBirth & death dates and children need to be corroborated with evidence. They come from a Find A Grave entry.'; else prov.value = ''"> provisional</td>
         </tr>
  
      <tr>
@@ -770,6 +770,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
     <label style="margin-inline-start:1rem;">Year: <input type="text" id="summaryBirthYear"  
     placeholder="YYYY" class="dateField"
     onInput="draftResult()"></label>
+    <button style="margin-inline:2rem;" onclick="document.getElementById('idIn').value = document.getElementById('summaryFamilyName').value.toLowerCase()+'_'+document.getElementById('summaryGivenNames').value.toLowerCase().replace(/ /g,'_')+'_'+document.getElementById('summaryBirthYear').value">Make ID</button>
     </td>
 </tr>
 <tr>
