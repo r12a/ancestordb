@@ -770,7 +770,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
     <label style="margin-inline-start:1rem;">Year: <input type="text" id="summaryBirthYear"  
     placeholder="YYYY" class="dateField"
     onInput="draftResult()"></label>
-    <button style="margin-inline:2rem;" onclick="document.getElementById('idIn').value = document.getElementById('summaryFamilyName').value.toLowerCase()+'_'+document.getElementById('summaryGivenNames').value.toLowerCase().replace(/ /g,'_')+'_'+document.getElementById('summaryBirthYear').value">Make ID</button>
+    <button style="margin-inline:2rem;" onclick="document.getElementById('idIn').value = document.getElementById('summaryFamilyName').value.toLowerCase()+'_'+document.getElementById('summaryGivenNames').value.toLowerCase().replace(/ /g,'_')+'_'+document.getElementById('summaryBirthYear').value.replace(/~/,'')">Make ID</button>
     </td>
 </tr>
 <tr>
