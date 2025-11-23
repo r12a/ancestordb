@@ -66,6 +66,115 @@ function secondFilter (str) {
 		}
 	document.getElementById('total').textContent = total
 	}
+
+
+
+
+
+
+function findAnnotatedPath(startId, targetId, db) {
+    if (!db[startId] || !db[targetId]) return null
+
+    const visited = new Set()
+    const queue = [[{ id: startId, via: null }]]
+
+    while (queue.length > 0) {
+        const path = queue.shift()
+        const current = path[path.length - 1]
+        const currentId = current.id
+
+        if (visited.has(currentId)) continue
+        visited.add(currentId)
+
+        if (currentId === targetId) return path
+
+        const neighbors = getLinkedWithLabels(currentId, db)
+        for (const { id: neighborId, via } of neighbors) {
+            if (!visited.has(neighborId)) {
+                queue.push([...path, { id: neighborId, via }])
+                }
+            }
+       }
+
+    return null
+    }
+
+
+function getLinkedWithLabels(id, db) {
+    const person = db[id]
+    if (!person) return []
+
+    const links = []
+
+    // Parents
+    if (db[person.father]) links.push({ id: person.father, via: "father" })
+    if (db[person.mother]) links.push({ id: person.mother, via: "mother" })
+
+    // Children and spouses via fg
+    if (Array.isArray(person.fg)) {
+        for (const group of person.fg) {
+            const [_, spouse, ...children] = group
+            if (db[spouse]) links.push({ id: spouse, via: "spouse" })
+            for (const child of children) {
+                if (db[child]) links.push({ id: child, via: "child" })
+                }
+            }
+        }
+
+    // Reverse links: people who list this person as parent or spouse
+    for (const [otherId, otherPerson] of Object.entries(db)) {
+        if (otherPerson.father === id) links.push({ id: otherId, via: "child (via father)" })
+        if (otherPerson.mother === id) links.push({ id: otherId, via: "child (via mother)" })
+
+        if (Array.isArray(otherPerson.fg)) {
+            for (const group of otherPerson.fg) {
+                const [_, spouse, ...children] = group;
+                if (spouse === id) links.push({ id: otherId, via: "spouse (reverse)" })
+                if (children.includes(id)) links.push({ id: otherId, via: "parent (reverse)" })
+                }
+            }
+        }
+    return links
+    }
+
+
+function formatPathToHTML (path) { console.log(path)
+    if (!path) return "<p>No path found.</p>"
+    return path.map((step, index) => {
+        const label = step.via ? `→ ${ step.via }: ` : ""
+        return `<li>${ label }<strong><a target="_blank" href="tree.html?person=${ step.id }&project=2024">${ step.id }</a></strong></li>`
+        }).join("")
+    }
+
+
+function formatPathToHTMLX(path) { console.log(path)
+    if (!path) return "<p>No path found.</p>"
+    return path.map((step, index) => {
+        const label = step.via ? `→ ${ step.via }: ` : ""
+        return `<li>${ label }<strong>${ step.id }</strong></li>`
+        }).join("")
+    }
+//file:///Users/ishida/Sites/ancestordb/tree.html?person=birch_william_heakin_1894&project=2024
+
+
+
+function getPathSelections (direction) {
+    // finds 2 people in index list with checkboxes on, then produces a path between them
+    // direction can be 'reverse', meaning go from the second person to the first person
+    pathEnds = document.querySelectorAll('.personRow input')
+    let ends = []
+    for (const checkbox of pathEnds) {
+        if (checkbox.checked) ends.push(checkbox.title)
+        }
+    if (ends.length < 2) {
+        alert('You need to select the ends of the pathway by clicking on two checkboxes.')
+        return
+        }
+    
+    if (direction === 'reverse') document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(ends[1], ends[0], db)) }</ul>`
+    else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(ends[0], ends[1], db)) }</ul>`
+    }
+
 </script>
 </head>
 
@@ -73,9 +182,30 @@ function secondFilter (str) {
 
 
 <body onLoad="init()">
+<dialog id="pathfinder" style="border-radius:.5rem;">
+<h2>Find relationship pathways</h2>
+
+<p>To show how two individuals are linked, click on the checkboxes of two people in the index, then click on one of the buttons below.</p>
+
+<p>
+<button onClick="getPathSelections()">GO</button>
+<button onClick="getPathSelections('reverse')">REVERSE</button>
+</p>
+
+<div id="pathwayOut"></div>
+
+<button onclick="document.getElementById('pathfinder').close(); document.getElementById('pathwayOut').innerHTML=''">Close</button>
+</dialog>
+
+
+
+
 <div id="floatingLinks" style="margin-block: 3rem;">
 <a title="Go to the Search page." id="searchLink" href="">&#x1F50D;</a>
+
 <a href="#top" title="Go to root" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">&#x1F538;</a>
+
+<span title="Find a relationship path between two individuals." id="relationshipPath" onClick="document.getElementById('pathfinder').showModal(); " style="cursor: pointer;">&#x1F9ED;</span>
 </div>
 <script>document.getElementById('searchLink').href = `search.html?project=${ project }`</script>
 
