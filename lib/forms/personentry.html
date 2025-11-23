@@ -716,7 +716,9 @@ function getMonthOLD (dateValue) {
 
 
 
-<p style="margin: 0 4rem; font-style: italic; font-size: 85%;">The  fields in the expanding headings allow for capture of the available source information, and on the person summary page that information can be revealed using a toggle switch. The fields under "Data for building the page"  contain text snippets that will be used to build the person's summary page. The data is derived from the sources, but written so that it flows well when inserted into the person's summary page.</p>
+<p style="margin: 0 4rem; font-style: italic; font-size: 85%;">This page allows you to edit information about a person, or create information about a new person. After editing the information here you will need to copy that information to the file db.js (in your project directory).<br>
+As a minimum, fill in any data you have for the fields of the Overview section that have asterisks, but you can also edit data about births, marriages, etc. by clicking on the edit icon in the Links section.  When you have created or edited that information you can either copy the result to the text fields alongside the appropriate link on this page, or add the information directly to the db.js file.<br>
+Your starting point, for all cases, is to specify an ID for the person. If that person is already in the database, click [Load] to autofill the fields with existing information.</p>
 
 <!--
 g:"Margaret Annie", k:"Maggie", f:"Jones", m:['Lakelin'], bdate:"15 Dec", b:"1903", ddate:"10 May", d:"1986",
@@ -735,7 +737,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
         </tr>
  
      <tr>
-        <td>Names:</td>
+        <td>Names:*</td>
         <td colspan="1"><input type="text" id="summaryGivenNames"  
             class=""
             placeholder="Given"  
@@ -762,7 +764,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 .shortField { width: 6rem; }
 </style>
 <tr>
-<td>Birth date:</td>
+<td>Birth date:*</td>
 <td colspan="3"><input type="text" id="summaryBirthDate"
     placeholder="DD-MMM" class="dateField"
     onInput="draftResult()">
@@ -774,7 +776,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
     </td>
 </tr>
 <tr>
-<td>Birth place:</td>
+<td>Birth place:*</td>
 <td><input type="text" id="summaryBirthPlace"
     placeholder="" class="wideInputBox"
     onInput="draftResult()">
@@ -782,7 +784,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 </tr>
 
 <tr>
-<td>Death date:</td>
+<td>Death date:*</td>
 <td><input type="text" id="summaryDeathDate" 
     placeholder="DD-MMM" class="dateField"
     onInput="draftResult()">
@@ -797,7 +799,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 </tr>
 
 <tr>
-<td>Death place:</td>
+<td>Death place:*</td>
 <td><input type="text" id="summaryDeathPlace"  
     placeholder="" class="wideInputBox"
     onInput="draftResult()">
@@ -810,7 +812,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
     <label>Thumbnail?<input type="checkbox" id="summaryThumb" 
     onChange="draftResult()
     "></label>
-    <label>Male?<input type="checkbox" id="summaryGender" 
+    <label>Male?*<input type="checkbox" id="summaryGender" 
     onChange="draftResult()
     "></label>
     <label>Details page?<input type="checkbox" checked id="summaryDetailsPage" 
@@ -824,7 +826,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 </tr>
 
 <tr>
-<td>Father ID:</td>
+<td>Father ID:*</td>
 <td><input type="text" id="summaryFather"  
     placeholder="ID for father, or full name if no ID" class="wideInputBox"
     onInput="draftResult()">
@@ -832,7 +834,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 </tr>
 
 <tr>
-<td>Mother ID:</td>
+<td>Mother ID:*</td>
 <td><input type="text" id="summaryMother"  
     placeholder="ID for mother, or full name if no ID" class="wideInputBox"
     onInput="draftResult()">
@@ -857,7 +859,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 
 
 <tr>
-<td>Family group(s):</td>
+<td>Family group(s):*</td>
 <td colspan="3"><textarea id="summaryFG"
     placeholder="One family per line. Use IDs wherever available, but if not available use name. Make a comma-separated list, where the 1st item is the year of marriage, the 2nd is the id (or name) of the spouse, and then a list of ids (or names) for children in age order (oldest to youngest)."
     onInput="draftResult()"
