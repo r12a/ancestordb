@@ -60,6 +60,74 @@ function openWindow (locn) {
 	newwindow.focus()
 	}
 
+/*function findShortestPath(startId, targetId, db) {
+  if (!db[startId] || !db[targetId]) return null;
+
+  const visited = new Set();
+  const queue = [[startId]];
+
+  while (queue.length > 0) {
+    const path = queue.shift();
+    const currentId = path[path.length - 1];
+
+    if (visited.has(currentId)) continue;
+    visited.add(currentId);
+
+    if (currentId === targetId) return path;
+
+    const neighbors = getDirectLinks(currentId, db);
+    for (const neighbor of neighbors) {
+      if (!visited.has(neighbor)) {
+        queue.push([...path, neighbor]);
+      }
+    }
+  }
+
+  return null;
+}
+
+function getDirectLinks(id, db) {
+  const person = db[id];
+  if (!person) return [];
+
+  const links = [];
+
+  // Direct parents
+  if (db[person.father]) links.push(person.father);
+  if (db[person.mother]) links.push(person.mother);
+
+  // Direct children and spouse(s)
+  if (Array.isArray(person.fg)) {
+    for (const group of person.fg) {
+      const [_, spouse, ...children] = group;
+      if (db[spouse]) links.push(spouse);
+      for (const child of children) {
+        if (db[child]) links.push(child);
+      }
+    }
+  }
+
+  // Direct reverse links: people who list this person as parent or spouse
+  for (const [otherId, otherPerson] of Object.entries(db)) {
+    if (otherPerson.father === id || otherPerson.mother === id) {
+      links.push(otherId);
+    }
+    if (Array.isArray(otherPerson.fg)) {
+      for (const group of otherPerson.fg) {
+        const [_, spouse, ...children] = group;
+        if (spouse === id || children.includes(id)) {
+          links.push(otherId);
+        }
+      }
+    }
+  }
+
+  return [...new Set(links)];
+}
+*/
+
+
+
 </script>
 </head>
 
@@ -67,7 +135,6 @@ function openWindow (locn) {
 
 
 <body onLoad="start()">
-
 <div id="banner"><div id="pageicon">⏳</div><div id="pagetitle"><div id="bannerdates">Relationships</div></div></div>
 
 <div id="topMenu">
