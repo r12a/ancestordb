@@ -1,6 +1,9 @@
 # HOW TO CREATE DATA
 
 
+The application reads data from files in a subdirectory on your computer. These files are all plain text files that can be edited by hand. Alternatively, data can be created or edited using the page at ancestordb/lib/forms/personentry.html and then the result copied to the appropriate text file. 
+
+
 ## Set up a project
 
 Set up separate projects by creating separate top-level directories. Use whatever name you want for your project. The project name usually consists of a pair of family names for a couple representing the main branches of the project, separated by an underline, eg. `robinson_gray`.
