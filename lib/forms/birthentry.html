@@ -530,7 +530,36 @@ function getMonthOnly (MMM) {
     }
 
 function getMonth (dateValue) {
-console.log(dateValue)
+console.log('dateValue', dateValue)
+    parts = dateValue.replace('~','').split(' ')
+    
+    if (parts.length === 1) {
+        parts[0] = '15'
+        parts[1] = dateValue
+        }
+        
+    while (parts[0].length < 2) parts[0] = '0'+parts[0]
+    month = ''
+    switch (parts[1].toLowerCase()) {
+        case 'jan': month = '01'; break
+        case 'feb': month = '02'; break
+        case 'mar': month = '03'; break
+        case 'apr': month = '04'; break
+        case 'may': month = '05'; break
+        case 'jun': month = '06'; break
+        case 'jul': month = '07'; break
+        case 'aug': month = '08'; break
+        case 'sep': month = '09'; break
+        case 'oct': month = '10'; break
+        case 'nov': month = '11'; break
+        case 'dec': month = '12'; break
+        }
+
+    return month+'-'+parts[0]
+    }
+
+function getMonthX (dateValue) {
+console.log('dateValue', dateValue)
     parts = dateValue.replace('~','').split(' ')
     while (parts[0].length < 2) parts[0] = '0'+parts[0]
     month = ''
@@ -931,19 +960,86 @@ Need to fix this properly at some point. -->
             onFocus="checkDB('birthYearIn', 'b', 'bCheck')">
             <span class="instructions" id="bCheck" style="color:red;"></span>
 <script>
+
+
+/**
+ * Compute halfway date between the start of the first month
+ * and the end of the last month in a given range.
+ *
+ * @param {string} range - Two month abbreviations separated by a hyphen (e.g. "Jul-Sep").
+ * @returns {string} - Result in the form "MM-DD", both zero-padded to 2 digits.
+ *
+ * Assumptions:
+ * - Input uses 3-letter English month abbreviations (Jan, Feb, ... Dec).
+ * - No leap years (February always has 28 days).
+ * - Defensive: validates input and normalizes capitalization.
+ */
+function halfwayDate(range) {
+  const months = {
+    Jan: { num: 1, days: 31 },
+    Feb: { num: 2, days: 28 },
+    Mar: { num: 3, days: 31 },
+    Apr: { num: 4, days: 30 },
+    May: { num: 5, days: 31 },
+    Jun: { num: 6, days: 30 },
+    Jul: { num: 7, days: 31 },
+    Aug: { num: 8, days: 31 },
+    Sep: { num: 9, days: 30 },
+    Oct: { num: 10, days: 31 },
+    Nov: { num: 11, days: 30 },
+    Dec: { num: 12, days: 31 }
+  }
+
+  // Utility: zero-pad to 2 digits
+  const pad2 = n => String(n).padStart(2, "0")
+
+  if (typeof range !== "string" || !range.includes("-")) {
+    throw new Error("Input must be a string in the format 'Mon-Mon'")
+  }
+  const [startAbbr, endAbbr] = range.split("-").map(m => m.trim().slice(0,3))
+
+  if (!months[startAbbr] || !months[endAbbr]) {
+    throw new Error("Invalid month abbreviation(s)")
+  }
+
+  const monthOrder = Object.keys(months)
+  const startMonth = months[startAbbr].num
+  const endMonth = months[endAbbr].num
+
+  if (endMonth < startMonth) {
+    throw new Error("End month must not precede start month")
+  }
+
+  function daysUntilMonth(m) {
+    return monthOrder
+      .slice(0, m - 1)
+      .reduce((sum, abbr) => sum + months[abbr].days, 0)
+  }
+
+  const startDayOfYear = daysUntilMonth(startMonth) + 1
+  const endDayOfYear = daysUntilMonth(endMonth) + months[endAbbr].days
+  const midDayOfYear = Math.floor((startDayOfYear + endDayOfYear) / 2)
+
+  let remaining = midDayOfYear
+  for (const abbr of monthOrder) {
+    const { num, days } = months[abbr]
+    if (remaining <= days) {
+      return `${pad2(num)}-${pad2(remaining)}`
+    }
+    remaining -= days
+  }
+
+  throw new Error("Calculation error")
+}
+
+
 function makeTimestamp () {
     daymonth = document.getElementById('birthDateIn').value.trim()
-    year = document.getElementById('birthYearIn').value.trim()   
+    year = document.getElementById('birthYearIn').value.trim()
+
     if (daymonth.match('-')) {
-        switch (daymonth) {
-            case 'Jan-Mar': out = "02-15"; break
-            case 'Apr-Jun': out = "05-15"; break
-            case 'Jul-Sep': out = "08-15"; break
-            case 'Oct-Dec': out = "11-15"; break
-            default: out = daymonth
-            }
-        document.getElementById('timestampIn').value = year+'-'+out
-        } 
+        document.getElementById('timestampIn').value = year+'-'+halfwayDate(daymonth)
+        }
     else if (daymonth.match('~')) {
         daymonth = daymonth.replace(/~/,'')+' 15'
         document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
@@ -953,6 +1049,33 @@ function makeTimestamp () {
         document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
         }
     }
+
+
+function makeTimestampX () {
+    daymonth = document.getElementById('birthDateIn').value.trim()
+    year = document.getElementById('birthYearIn').value.trim()
+    console.log('daymonth',daymonth,'year',year)
+    if (daymonth.match('-')) {
+        switch (daymonth) {
+            case 'Jan-Mar': out = "02-15"; break
+            case 'Apr-Jun': out = "05-15"; break
+            case 'Jul-Sep': out = "08-15"; break
+            case 'Oct-Dec': out = "11-15"; break
+            default: out = daymonth
+            }
+        document.getElementById('timestampIn').value = year+'-'+out
+        }
+    else if (daymonth.match('~')) {
+        daymonth = daymonth.replace(/~/,'')+' 15'
+        document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
+        }
+    else {
+        components = daymonth.split(' ')
+        document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
+        }
+    }
+
+
 </script>
     <button class="copy" title="Add timestamp." onClick="makeTimestamp()">Make time stamp</button>
             </td>
