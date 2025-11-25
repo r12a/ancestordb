@@ -1,46 +1,89 @@
 # HOW TO CREATE DATA
 
 
-The application reads data from files in a subdirectory on your computer. These files are all plain text files that can be edited by hand. Alternatively, data can be created or edited using the page at ancestordb/lib/forms/personentry.html and then the result copied to the appropriate text file. 
+The application reads data from files in a subdirectory on your computer. 
+
+The main data files are ancestordb/{project_name}/db.js, which contains data for each person separately, and ancestordb/{project_name}/db.js, which contains centralised census information. These files are referred to as 'databases'.
+
+These files are all plain text files that can be edited by hand. However, the format needs to be carefully followed – a missing comma or parenthesis can cause the software to fail.  As an alternative, data can be created in a web-based form, which will automatically produce data in the correct form so that you can copy it to the database. The forms can be opened by clicking on the 'edit' icon (a pen pointing into a 3-sided box). 
+
+If data already exists in the database, the form should be automatically filled in so that you can adapt or add to it.
+
+The basic format for a person's data is:
+
+`
+persons_id:{ 
+g:"", k:"", f:"",  bdate:"", b:"", ddate:"", d:"", 
+bplace:"", dplace:"", thumb:false, male:false, p:true,
+father:"", mother:"", occ:"",
+
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+`
+
+Data that you copy from sources is added to the lines that read `//data`.  In the case of marriages and events there may be multiple blocks of data (i suggest you separate them by a single blank line).  The block at the top contains the basic information related to that person, and must be filled in with what information you have (for example, birth and death years affect the display of the data if known but not filled in). If information is not known for any of these fields, they should be left intact as show above.
+
+Timestamps are used for most items of data. These are of the form `YYYY-MM-DD` and can usually be generated using the entry forms. These are important because they are used to determine the order in which information is displayed on a page. If an exact date is not known (eg. a date of birth is something like `Jan-Mar`) a timestamp should be chosen to create the desired ordering. (In the case of that example, the forms will generate a timestamp for a date that lies halfway between the beginning of January and the end of March, but you can tweak that manually if you want.)
+
 
 
 ## Set up a project
 
-Set up separate projects by creating separate top-level directories. Use whatever name you want for your project. The project name usually consists of a pair of family names for a couple representing the main branches of the project, separated by an underline, eg. `robinson_gray`.
+Set up separate projects by creating separate top-level directories. Use whatever name you want for your project. Use underlines rather than spaces, eg. `robinson_gray`.
 
 Note that for privacy, projects will not normally identify any individual who was born less than 100 years from today's date. (Projects that provide information on more recent people can be created, but are usually not shared. Such project names should begin with `private_`.
 
-Files/directories to add to the project file:
+
+Here is an example of the directory structure:
+```
+ancestordb
+-	myproject
+	-	notes
+	-	photos
+	-	researchnotes
+	-	resources
+	-	thumbs
+	-	census.js
+	-	db.js
+	-	events.js
+-	myproject_records
+```
+
+Files/directories related to the project file:
 
 1. notes [directory]
-2. records [directory]  Will contain images for records such as birth, marriage, & death certificates or parish records, etc.
-3. resoures [directory] Will contain miscellaneous resources.
-4. thumbs [directory] Will contain small thumbnail portraits of each person.
-5. db.js [plain text file]  Will contain the data for all records.
-6. census.js [plain text file] Will contain data for census returns.
+2. resources [directory] Will contain miscellaneous resources.
+3. thumbs [directory] Will contain small thumbnail portraits of each person.
+4. db.js [plain text file]  Will contain the data for all records.
+5. census.js [plain text file] Will contain data for census returns.
+6. photos [directory] can hold photos of people and places. I recommend that the first level inside that directory is a set of other folders reflecting the relevant family names.
+7. researchnotes [directory] Notes related to work on a particular person, with filenames `<person_id>.txt`, eg. `hunt_ellen_1843.txt`. See below for details.
+8. events.js [plain text file] Contains real-world events that can be displayed alongside people's data.  A set of events is provided with a template, but can be tailored as desired.
 
-Notes related to work on a particular person are also stored in the top level of the project directory, with filenames `<person_id>.txt`, eg. `hunt_ellen_1843.txt`. See below for details.
-
-
+You should also create a directory alongside your project directory with the same name but ending in `_records`.  This will be used to store local copies of scans of parish registers, certificates, etc.
 
 
 ## Add essential data to the db.js file
 
-Add details for a new person to the db.js file. This file is found in your project directory.  The essential information is entered by hand (although it typically helps to copy-paste an empty template to get started.)
+Add details for a new person to the db.js file. This file is found in your project directory.
 
-An example entry is:
-````
-keam_grace_1827:{
-g:"Grace", k:"Gracie", f:"Keam", m:['Peters','Davies'], bdate:"~19 Nov", b:"1827", ddate:"Oct-Dec", d:"1894",
-bplace:"St Austell, Cornwall", dplace:"St Austell, Cornwall", thumb:false, male: false, p:true,
-father:"keam_peter_1791", mother:"crossman_jane_jennifer_1791", occ:"",
-fg:[["1853", "peters_william_1828", "peters_charles_1856", "peters_william_henry_1857", "peters_thomas_1859", "peters_edwin_1863"]],
-},
-````
+Here is a template for a new person with hints as to what to add to each field.
 
-Here is a template for a new person.
-
-````
+```
 person_id:{
 g:"given_names", k:"known_as", f:"family_name", m:['married_name','married_name'], bdate:"date", b:"year", ddate:"date", d:"year",
 bplace:"place", dplace:"place", thumb:false, male: false, p:true,
@@ -66,7 +109,21 @@ events: {
 // census data, notes, images, etc go here
 }, // ends events
 }, //ends person
-````
+```
+
+
+An example entry with real data is:
+```
+keam_grace_1827:{
+g:"Grace", k:"Gracie", f:"Keam", m:['Peters','Davies'], bdate:"~19 Nov", b:"1827", ddate:"Oct-Dec", d:"1894",
+bplace:"St Austell, Cornwall", dplace:"St Austell, Cornwall", thumb:false, male: false, p:true,
+father:"keam_peter_1791", mother:"crossman_jane_jennifer_1791", occ:"",
+fg:[["1853", "peters_william_1828", "peters_charles_1856", "peters_william_henry_1857", "peters_thomas_1859", "peters_edwin_1863"]],
+
+...
+},
+```
+
 
 **The id key** (in this case `keam_grace_1827`) should be be full name of the person and the year of their birth. If two or more people with the same name are born in the same year, add a, b, etc to the year. These names need to be unique. If the exact year is not known, use something like 18xx, with a view to changing this later if the actual year is known (by search & replace).  Note that this is purely a unique identifier, and often a date chosen on the basis of preliminary evidence proves to be out by a couple of years; in such cases it isn't strictly necessary to change the identifier when more accurate information becomes available.
 
@@ -118,7 +175,7 @@ The db.js file should contain all information you have for birth, marriage and d
 
 Examples:
 
-````
+```
 birth: {
 timestamp: "1875-07-08",
 date: "8 Jul",
@@ -169,10 +226,10 @@ SOURCE: Lincolnshire Baptisms https://www.findmypast.com/transcript?id=GBPRS%2FL
 [Fathersfirstname(s): -]
 [Collectionsfrom: England, Great Britain]
 `},
-````
+```
 
 
-````
+```
 marriages: {
 "brompton_mary_17xx": {
 timestamp: "1740-12-17",
@@ -208,10 +265,10 @@ SOURCE: Lincolnshire Marriages https://www.findmypast.com/transcript?id=GBPRS%2F
 text: John Catcliff and Sarah Atkinson married May 2nd 1753
 `},
 },
-````
+```
 
 
-````
+```
 death: {
 timestamp: "1903-09-12",
 of: "4 Robinson's Yard, Upgate, Louth",
@@ -259,7 +316,7 @@ SOURCE: Lincolnshire Burials https://www.findmypast.com/transcript?id=GBPRS%2FLI
 [Buried:Sept 15th]
 [Age:28 years]
 `},
-````
+```
 
 
 
@@ -271,18 +328,18 @@ SOURCE: Lincolnshire Burials https://www.findmypast.com/transcript?id=GBPRS%2FLI
 The following can be added to all events.
 
 **Notes**. Note information is written as:
-````
+```
 notes: `.....`,
-````
+```
 The content of a note can be multi-line. Each line can optionally begin with intro: or quote: (or note:, but that's the default).  Intro lines are italicised, and should be used only to introduce the note.  Quote lines receive quote marks and italicisation.
 
 **Footnotes**. Listed below the main entry as a bulleted list in slightly smaller type.  Content is held in an array, with one paragraph per note, eg.
 `fnotes: [`first note`, `second note`, `etc`],`
 
 **Discussions**: Discussion text is not displayed on the general UI, but an icon is added that makes it appear as an alert. Discussion text also appears when sources are shown.  This is for commentary on the entry, and is stored as:
-````
+```
 discussion: `.....`
-````
+```
 The content can be multi-line.
 
 
@@ -291,10 +348,10 @@ The content can be multi-line.
 ### Capture data for other events
 
 In addition, other items can be added using:
-````
+```
 events: {
 	}
-````
+```
 Each event needs to have a timestamp, with the format `YYYY-MM-DD`.
 	
 Census information is listed as an event with `type: census`. The census data is stored in the census.js file – one record per census entry – but some tailored information about an individual is also stored in this db.js file. The information is automatically split in the output of the form where you transcribe the census information.
@@ -305,7 +362,7 @@ Sometimes you will want to point to note information in the notes.js file. In su
 
 
 Here is an example of events data for one individual:
-````
+```
 events: {
 "1832-06-10": {
 title: "Goes to America",
@@ -467,7 +524,7 @@ occ: "farmer",
 notes: `{robinson_ishmael_1813:kx}, was a farmer. The children were {robinson_harriet_1845:k}, {robinson_george_washington_1847:k}, and attending school that year {robinson_john_nelson_1852:k} and {robinson_benjamin_franklin_1857:k}.`,
 },
 }
-````
+```
 
 
 
@@ -478,13 +535,13 @@ These are also created as subrecords within the events record. They therefore al
 
 Photographs and pictures are stored in a subdirectory and pulled into the narrative using the `figure` type and  `img` and `caption` fields as in the following example.  This will insert a centred picture with the caption centred below.
 
-````
+```
 "1891-04-06": {
 type: "figure",
 img: "photos/lakelin/ps_76_greendale_road_1.jpg",
 caption: "76 Greendale Road (second door from the left), which was 12 Greendale Road that that time."
 },
-````
+```
 
 
 	
@@ -495,18 +552,18 @@ caption: "76 Greendale Road (second door from the left), which was 12 Greendale 
 
 The file census.js begins and ends as follows:
 
-````
+```
 var censi = {
 
 <data_records_go_here>
 
 }
-````
+```
 Each data record represents the shared information for a single census record, and items should be arranged in chronological, then alphabetic order.  Data records can be written by hand, but are normally produced by entering data into the Census form and copy-pasting the output in that page.  (Note that that page also outputs personal data for a given individual, which is stored in the db.js file.)
 	
 Here is an example of a data record:
 
-````
+```
 "1911_brant_samuel_simpson_1857": {
 place: "8 Studley Terrace, Ripon Street, Hull, Yorks",
 images: ["Census record url:records/1911_brant_samuel_simpson_charlotte_c.jpg"],
@@ -523,22 +580,22 @@ children: [
 ],
 rooms: "4",
 },
-````
+```
 
 
 
 
 ## Capture research notes and unsubstantiated information in text files
 
-Notes related to work on a particular person are also stored in the top level of the project directory, with filenames `<person_id>.txt`, eg. `hunt_ellen_1843.txt`. These notes typically contain unsubstantiated leads, questions, or other information that is not yet ready to capture in the main data.
+Notes related to work on a particular person are also stored in the folder `researchnotes` within the project directory, with filenames `<person_id>.txt`, eg. `hunt_ellen_1843.txt`. These notes typically contain unsubstantiated leads, questions, or other information that is not yet ready to capture in the main data.
 
 These text files must begin and end as follows:
 	
-````
+```
 db[thisPerson].timeline = `
 <note_text_goes_here>
 `
-````
+```
 
 There is no required format for the notes themselves.
 	
