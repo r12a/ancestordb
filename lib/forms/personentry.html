@@ -1012,25 +1012,29 @@ function prepCopyX () {
       </tr>
 -->
     <tr>
-        <td style="font-size:2em;">Birth</td>
+        <td style="font-size:2em; cursor: pointer;" onClick="openWindow('birthentry.html?project='+project+'&person='+document.getElementById('idIn').value)">Birth</td>
         <td><img src="../i/edit.svg" style="height:4rem; cursor: pointer;" onClick="openWindow('birthentry.html?project='+project+'&person='+document.getElementById('idIn').value)" alt="Edit" title="Edit the birth data."></td>
         <td><textarea id="birthIn" onInput="draftResult()" class="wideInputBox"></textarea></td>
       </tr>
 
     <tr>
-        <td style="font-size:2em;">Death</td>
+        <td style="font-size:2em; cursor: pointer;" onClick="openWindow('dthentry.html?project='+project+'&person='+document.getElementById('idIn').value)">Death</td>
         <td><img src="../i/edit.svg" style="height:4rem; cursor: pointer;" onClick="openWindow('dthentry.html?project='+project+'&person='+document.getElementById('idIn').value)" alt="Edit" title="Edit the death data."></td>
         <td><textarea id="deathIn" class="wideInputBox" onInput="draftResult()"></textarea></td>
       </tr>
 
     <tr>
-        <td style="font-size:2em;">Marriage</td>
+        <td style="font-size:2em; cursor: pointer;" onClick="openWindow('marriageentry.html?project='+project+'&person='+document.getElementById('idIn').value)">Marriage</td>
         <td><img src="../i/edit.svg" style="height:4rem; cursor: pointer;" onClick="openWindow('marriageentry.html?project='+project+'&person='+document.getElementById('idIn').value)" alt="Edit" title="Edit the marriage data."></td>
         <td><textarea id="marriageIn" onInput="draftResult()" class="wideInputBox"></textarea></td>
       </tr>
 
     <tr>
-        <td style="font-size:2em;">Events</td>
+        <td style="font-size:2em; cursor: pointer;" onClick="
+                if (document.getElementById('eventTimestamp').value.trim() !== '')
+                    openWindow('evententry.html?project='+project+'&person='+document.getElementById('idIn').value+'&timestamp='+document.getElementById('eventTimestamp').value.trim())
+                else alert('Add a time stamp value.')
+        ">Events</td>
         <td><input id="eventTimestamp" placeholder="Time stamp" style="font-size:1.1em; cursor:pointer;"><br><img src="../i/edit.svg" style="height:4rem; cursor: pointer;" onClick="
                 if (document.getElementById('eventTimestamp').value.trim() !== '')
                     openWindow('evententry.html?project='+project+'&person='+document.getElementById('idIn').value+'&timestamp='+document.getElementById('eventTimestamp').value.trim())
