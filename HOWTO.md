@@ -598,5 +598,29 @@ db[thisPerson].timeline = `
 ```
 
 There is no required format for the notes themselves.
+
+
+
+
+## Using the index to find people
+
+If you want to find someone, open the file `ancestordb/index.html`. It will list all the people in the database. By typing the name of the person you are looking for, family name first, you can filter the results to more quickly find a person.
+
+You can add check marks to people that allow you to view groups of people, or you can produce a list of people who were born less than 100 years ago, or you can convert checked names to a list and vice versa.  All of these functions are accessed by clicking on the links at the bottom of the page.
+
+Once you find a person you can also click on the orange diamond at the top left to mark them as the root.  Then the names of all direct relations of that person get orange-coloured text.  This can be very helpful in a large database for navigating around close vs more distant relations.
+
+You can also click on the magnifying glass icon to search the database for occupations, places, or all events in a particular year.
+
+
+
+
+
+## Show links between one person and another
+
+You can find out how any 2 people are connected from the index page.  Remove any existing check marks before people's names (you can do this quickly by clicking on `REMOVE CHECKS` at the bottom of the window). Then find the two people you want to connect and click on the check boxes to the left of their names (you can use the filtering lookup to locate them).
+
+Then click on the icon that looks like a compass near the top right. Then click on either `GO` or `REVERSE`.  
+
 	
 
