@@ -11,7 +11,7 @@ If data already exists in the database, the form should be automatically filled 
 
 The basic format for a person's data is:
 
-`
+```
 persons_id:{ 
 g:"", k:"", f:"",  bdate:"", b:"", ddate:"", d:"", 
 bplace:"", dplace:"", thumb:false, male:false, p:true,
@@ -33,7 +33,7 @@ events: {
 // data
 },//e
 },//p
-`
+```
 
 Data that you copy from sources is added to the lines that read `//data`.  In the case of marriages and events there may be multiple blocks of data (i suggest you separate them by a single blank line).  The block at the top contains the basic information related to that person, and must be filled in with what information you have (for example, birth and death years affect the display of the data if known but not filled in). If information is not known for any of these fields, they should be left intact as show above.
 
