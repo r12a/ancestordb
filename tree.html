@@ -138,7 +138,12 @@ function getDirectLinks(id, db) {
 <div id="banner"><div id="pageicon">⏳</div><div id="pagetitle"><div id="bannerdates">Relationships</div></div></div>
 
 <div id="topMenu">
-	<a href="#top" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">Go to root</a>
+	<!--<a href="#top" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">Go to root</a>-->
+	<a href="#top" onClick="
+        projectRoot= project+'root'
+        localStorage[projectRoot] = thisPerson
+        location.reload()
+        ">Set as root</a>
 	<a id="detailSwitch" href="#top" onClick="if (localStorage.treeDetailed == 'yes') {localStorage.treeDetailed='no'; this.textContent='More detail';} else {localStorage.treeDetailed='yes'; this.textContent='Less detail';} console.log(localStorage.treeDetailed); location.reload(); return false;">More detail</a>
 	<!--a id="indexLink" href="index.html">Index</a-->
     <button id="editLink" style="float: right; font-style: italic; margin-inline-end: 5rem; font-size: 90%; margin-block-start: .2rem;" onClick="openWindow(`lib/forms/personentry.html?project=${ project }&person=${ thisPerson }`)">Edit</button>
@@ -146,12 +151,14 @@ function getDirectLinks(id, db) {
     
 <div id="floatingLinks">
 <a id="indexLink" title="Go to the Index." href="">📇</a>
-<span id="setRoot" title="Set this person as the root." 
+<!--<span id="setRoot" title="Set this person as the root." 
     onclick="
         projectRoot= project+'root'
         localStorage[projectRoot] = thisPerson
         location.reload()
-        ">🔸</span>
+        ">🔸</span>-->
+<span id="setRoot" title="Jump to the root person." 
+    onclick="window.location=`tree.html?person=${ mark }&project=${ window.project }`">🔸</span>
 </div>
 
 <div id="top"></div>
@@ -320,7 +327,13 @@ function getPersonDetails (id, type, loc) {
         out += '<a href="ancestors.html?person='+id+'&project='+window.project+'" style="font-size:120%; opacity:60%;" title="Show family tree">🌳</a> '
 		out += '<a href="precedents.html?person='+id+'&project='+window.project+'" style="font-size:120%; opacity:80%;" title="Show ancestors">⏫</a> '
 		if (! db[id].cstatus) out += '<a href="descendants.html?person='+id+'&project='+window.project+'" style="font-size:120%; opacity: 80%;" title="Show descendants">⏬</a> '
-	    out += `<a title="Copy id to clipboard" style="opacity:80%;" href="javascript:void(0)"><img 
+    
+        if (db[id].a) out += `<a title="Show in Ancestry.com family tree." style="opacity:80%;" href="javascript:void(0)" onclick="ancestry = '${ db[id].a }'.split(','); openWindow(\'https://www.ancestry.co.uk/family-tree/tree/'+ancestry[0]+'/family?cfpid='+ancestry[1])"><img 
+                    src="lib/i/chart.png" 
+                    style="height:1.7em; width:2em; vertical-align:top;" 
+                    ></a>`
+
+        out += `<a title="Copy id to clipboard" style="opacity:80%;" href="javascript:void(0)"><img 
                 src="lib/i/copytiny.svg" 
                 style="height:1em; width:1em; margin-inline:.25em;" onclick="navigator.clipboard.writeText('${ id }'); document.getElementById('copyNotice').style.display = 'block'; setTimeout(() => { document.getElementById('copyNotice').style.display = 'none' }, '500')"></a> `
         

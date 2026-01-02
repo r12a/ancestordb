@@ -128,7 +128,7 @@ function checkForEvents (person) {
         // get any known event timestamps
         document.getElementById('getEvent').style.display = 'block'
         if (db[person] && db[person].events) {
-            tsList = 'Known timetamps:<br>'
+            tsList = 'Timetamps for existing events:<br>'
             for (tStamp in db[person].events) tsList += `<span style="cursor:pointer;" onclick="document.getElementById('tsPanelInput').value='${ tStamp }'">${ tStamp }</span><br>`
             }
         
@@ -287,7 +287,7 @@ function autoPropagate (person) {
         
         draftResult()
 	   }
-    else alert("Can't find that event record.")
+    else alert("Can't find that event record. Creating a form for a new event.")
     }
 
 
@@ -759,7 +759,7 @@ function getMonthOLD (dateValue) {
 <p style="font-weight: 500; font-size: 90%;">Choose or add an event timestamp</p>
 <p style="font-size: 75%; line-height: 1.4;">
 <span id="getEventList"></span><br>
-Provide a timestamp.
+Choose an existing timestamp to edit that event. Or provide a new timestamp for a new event. Use the format YYYY-MMM-DD.
 </p>
 <p style="margin-block-start:0;"><input type="text" id="tsPanelInput" style="border:1.5px solid #9e5c47; border-radius:.5rem; height:2rem; width:98%;"></p>
 <p style="text-align: end;">

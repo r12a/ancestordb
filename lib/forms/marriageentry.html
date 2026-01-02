@@ -822,7 +822,7 @@ Witnesses:&nbsp;
     <td>Source:</td>
     <td>
     <input type="text" id="indexSourceIn"  class="sourceBox"
-        onInput="draftResult()"
+        onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
         placeholder="Source name.">
     <input type="text" id="indexSourceURLIn"  class="sourceBox"
             onInput="draftResult()" 
@@ -867,9 +867,9 @@ Witnesses:&nbsp;
 <tr>
 <td>Source:</td>
 <td><input type="text" id="bapSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
-    <input type="text" id="bapSourceURLIn" class="sourceBox"
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
+   <input type="text" id="bapSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
     <button onClick="openWindow(document.getElementById('bapSourceURLIn').value)">GO</button>
@@ -919,8 +919,8 @@ function removeBrackets (node) {
 <tr>
 <td>Source:</td>
 <td><input type="text" id="secondSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
     <input type="text" id="secondSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
@@ -961,8 +961,8 @@ function removeBrackets (node) {
 <tr>
 <td>Source:</td>
 <td><input type="text" id="thirdSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
     <input type="text" id="thirdSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
@@ -998,7 +998,8 @@ function removeBrackets (node) {
 <summary class="heading">Record scans</summary>
 <table>
 <tr>
-<td>Data:</td>
+<td><button onclick="node=document.getElementById('recordsIn'); node.value='Parish record '+node.value">PR</button><br>
+<button onclick="node=document.getElementById('recordsIn'); node.value='Marriage record '+node.value">MR</button></td>
 <td><textarea id="recordsIn" class="mediumPasteBox"
     placeholder="Add the link text you want, followed by the filename+ext. One link per line."
     onInput="draftResult()"></textarea>

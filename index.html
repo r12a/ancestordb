@@ -158,7 +158,32 @@ function formatPathToHTMLX(path) { console.log(path)
 
 
 
+function findPathway ( direction, person1, person2 ) {
+    console.log(direction, person1, person2)
+    if (direction === 'reverse') document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person2, person1, db)) }</ul>`
+    else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person1, person2, db)) }</ul>`
+    }
+
 function getPathSelections (direction) {
+    // finds 2 people in index list with checkboxes on, then produces a path between them
+    // direction can be 'reverse', meaning go from the second person to the first person
+    pathEnds = document.querySelectorAll('.personRow input')
+    let ends = []
+    for (const checkbox of pathEnds) {
+        if (checkbox.checked) ends.push(checkbox.title)
+        }
+    if (ends.length < 2) {
+        alert('You need to select the ends of the pathway by clicking on two checkboxes, or adding two names in the boxes that are about to appear.')
+        return
+        }
+    
+    document.getElementById('pathPair1').value = ends[0]
+    document.getElementById('pathPair2').value = ends[1]
+    }
+
+
+
+function getPathSelectionsX (direction) {
     // finds 2 people in index list with checkboxes on, then produces a path between them
     // direction can be 'reverse', meaning go from the second person to the first person
     pathEnds = document.querySelectorAll('.personRow input')
@@ -182,15 +207,22 @@ function getPathSelections (direction) {
 
 
 <body onLoad="init()">
-<dialog id="pathfinder" style="border-radius:.5rem;">
+<dialog id="pathfinder" style="border-radius:.5rem; max-width: 70%;">
 <h2>Find relationship pathways</h2>
 
-<p>To show how two individuals are linked, click on the checkboxes of two people in the index, then click on one of the buttons below.</p>
+<p>To show how two individuals are linked, click on the checkboxes of two people in the index or enter their ids in the boxes, then click on one of the directional buttons. <button onClick="document.getElementById('pathPair1').value = mark">Add root person</button></p>
 
-<p>
-<button onClick="getPathSelections()">GO</button>
-<button onClick="getPathSelections('reverse')">REVERSE</button>
-</p>
+<table style="margin:auto;"><tr>
+<td><input type="text" id="pathPair1" style="padding:1rem; border:1px solid #ccc; border-radius:.5rem; width:12rem;"></td>
+<td style="padding-inline:1rem;"><button onClick="findPathway( 'forward', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">→</button><br>
+<button onClick="findPathway( 'reverse', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">←</button></td>
+<td><input type="text" id="pathPair2" style="padding:1rem; border:1px solid #ccc; border-radius:.5rem; width:12rem;"></td>
+</tr></table>
+
+<!--<p>
+<button onClick="findPathway( 'forward', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">A-B</button>
+<button onClick="findPathway( 'reverse', document.getElementById('pathPair2').value, document.getElementById('pathPair1').value )">B-A</button>
+</p>-->
 
 <div id="pathwayOut"></div>
 
@@ -205,7 +237,7 @@ function getPathSelections (direction) {
 
 <a href="#top" title="Go to root" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">&#x1F538;</a>
 
-<span title="Find a relationship path between two individuals." id="relationshipPath" onClick="document.getElementById('pathfinder').showModal(); " style="cursor: pointer;">&#x1F9ED;</span>
+<span title="Find a relationship path between two individuals." id="relationshipPath" onClick="document.getElementById('pathfinder').showModal(); getPathSelections();" style="cursor: pointer;">&#x1F9ED;</span>
 </div>
 <script>document.getElementById('searchLink').href = `search.html?project=${ project }`</script>
 

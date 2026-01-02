@@ -91,6 +91,7 @@ pre img { vertical-align: bottom; margin: 5px 5px 5px 0; }
 .figure { background-color: #f8f7f3; border: 0; }
 .figure details { display: none; }
 figure { text-align: center; margin:0; margin-inline-start: -32%; }
+.descriptionText figure { margin: 0; }
 figure img { max-height: 400px; max-width: 100%; border: 3px solid gray; }
 figcaption { font-style: italic; text-align: center; }
 .treeLink { border-bottom: 2px dotted #ccc; }
@@ -278,7 +279,14 @@ article {
     font-family: serif;
     font-style: italic;
     line-height: 1.2;
+    font-size: .9rem;
     }
+.obitIntro {
+    font-family: serif;
+    font-style: italic;
+    line-height: 1.2;
+    }
+
 
 #summaryWin {
     display: none;

@@ -69,6 +69,132 @@ function draftNotes () {
     children = document.getElementById('child').querySelectorAll('div')
     
     if (children && children.length>0) {
+        // get the family name, if possible, so as to remove it
+        if (db[headId].f) familyName = db[headId].f
+        else familyName = ''
+        if (children.length === 1) out += `\nThe child was `
+        else out += `\nThe children were `
+        for (var i=0;i<children.length;i++) {
+            if (i>0) out += ','
+            if (i === children.length-1 && children.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (children[i].querySelector('.inputID').value.trim()) personName = ` {${ children[i].querySelector('.inputID').value }:k}`
+            else {
+                personName = ` ${ children[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ children[i].querySelector('.inputAge').value }</sup>`
+                personName = personName.replace(' '+familyName,'')
+                }
+            
+            personOcc = children[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+    
+    others = document.getElementById('other').querySelectorAll('div')
+    
+    if (others && others.length>0) {
+        if (others.length === 1) out += `\nAlso at the house was `
+        else out += `\nAlso at the house were `
+        for (var i=0;i<others.length;i++) {
+            if (i>0) out += ','
+            if (i === others.length-1 && others.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (others[i].querySelector('.inputID').value.trim()) personName = ` {${ others[i].querySelector('.inputID').value }:kfm}`
+            else personName = `${ others[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ others[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = others[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+    
+    visitors = document.getElementById('visitor').querySelectorAll('div')
+    
+    if (visitors && visitors.length>0) {
+        if (visitors.length === 1) out += `\nThere was also a boarder visitor, `
+        else out += `\nBoarders Visitors included `
+        for (var i=0;i<visitors.length;i++) {
+            if (i>0) out += ', '
+            if (i === visitors.length-1 && visitors.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (visitors[i].querySelector('.inputID').value.trim()) personName = ` {${ visitors[i].querySelector('.inputID').value }:kfm}`
+            else personName = `${ visitors[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ visitors[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = visitors[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+    
+    servants = document.getElementById('serv').querySelectorAll('div')
+    
+    if (servants && servants.length>0) {
+        if (servants.length === 1) out += `\nThe servant at the house was `
+        else out += `\nThe servants at the house were `
+        for (var i=0;i<servants.length;i++) {
+            if (i>0) out += ', '
+            if (i === servants.length-1 && servants.length > 1) out += ' and '
+            
+            // use the name if there is no id
+            if (servants[i].querySelector('.inputID').value.trim()) personName = ` {${ servants[i].querySelector('.inputID').value }:kfm}`
+            else personName = `${ servants[i].querySelector('.inputName').value.trim() }<sup class="ageTag">${ servants[i].querySelector('.inputAge').value }</sup>`
+            
+            personOcc = servants[i].querySelector('.inputOcc').value.trim()
+            
+            out += personName
+            if (personOcc) out += `, ${ personOcc }`
+            }
+        out += '.'
+        }
+
+    node.value = out
+    }
+
+
+
+
+
+function draftNotesXX () {
+    // writes stuff to the notes panel
+    var out, node, headId, wifeId, children, others, servants, personName, personAge
+    
+    out = ''
+    node = document.getElementById('censusNotes')
+    headId = document.getElementById('headId').value
+    wifeId = document.getElementById('wifeId').value
+    
+    if (headId) out += `{${ headId }:kx0}`
+    else out +=  `${ document.getElementById('censusHeadName').value }<sup class="ageTag">${ document.getElementById('censusHeadAge').value }</sup>`
+    if (document.getElementById('censusOcc').value) out += ` was a ${ document.getElementById('censusOcc').value }`
+    else if (document.getElementById('censusHeadOcc').value) out += ` was a ${ document.getElementById('censusHeadOcc').value }`
+    out += '. '
+    
+    if (document.getElementById('censusWifeName').value 
+        && document.getElementById('censusWifeOcc').value) {
+        if (wifeId) out += `His wife {${ wifeId }:kx0}`
+        else out +=  `His wife ${ document.getElementById('censusWifeName').value }, ${ document.getElementById('censusWifeAge').value },`
+        if (document.getElementById('censusWifeOcc').value) out += ` was a ${ document.getElementById('censusWifeOcc').value }`
+        out += '.'
+        }
+    
+   else if (document.getElementById('censusWifeName').value 
+        && document.getElementById('wifeId').value == '') {
+        out +=  `His wife ${ document.getElementById('censusWifeName').value } was ${ document.getElementById('censusWifeAge').value }`
+        out += '.'
+        }
+    
+    children = document.getElementById('child').querySelectorAll('div')
+    
+    if (children && children.length>0) {
         if (children.length === 1) out += `\nThe child was `
         else out += `\nThe children were `
         for (var i=0;i<children.length;i++) {
@@ -465,7 +591,7 @@ function draftResult () {
     
   
       
-    if (document.getElementById('censusCParish').value.trim()) {
+    if (document.getElementById('censusCParish') && document.getElementById('censusCParish').value.trim()) {
         out = ''
         out += `cparish: "`
         if (document.getElementById('censusCParish').value.trim()) out +=  document.getElementById('censusCParish').value.trim()+'",'
@@ -797,18 +923,18 @@ function draftResult () {
         <td>
         <input type="text" id="censusSourceName" onInput="draftResult()" placeholder="Source name.">
         <input type="text" id="censusSourceURL" onInput="draftResult()" placeholder="Source URL."><br>
-        <input type="text" id="censusSourceDetails" onInput="draftResult()" placeholder="Copy here the detailed info for Reg. District, etc." style="width:40em;">
+        <input type="text" id="censusSourceDetails" onInput="draftResult()" placeholder="Copy here the detailed info for Civil Parish, Reg. District, etc." style="width:40em;">
         </td>
       </tr>
-        <tr>
+        <!--<tr>
         <td>CParish</td>
         <td>
           <input type="text" id="censusCParish" onInput="draftResult()"/>
           <!--SRD
           <input type="text" id="censusSRD" onInput="draftResult()"/>
           RD
-          <input type="text" id="censusRD" onInput="draftResult()"/--></td>
-      </tr>
+          <input type="text" id="censusRD" onInput="draftResult()"/></td>
+      </tr>-->
      <tr>
         <td>Scans:</td>
         <td><input type="text" id="censusRecordURL" style="width:40em;" onInput="draftResult()" placeholder="A comma-separated list of filenames (no extension)"></td>

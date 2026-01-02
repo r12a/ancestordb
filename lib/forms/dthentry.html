@@ -728,8 +728,8 @@ The fields under "Data for building the page"  contain text snippets that will b
 <tr>
 <td>Source:</td>
 <td><input type="text" id="indexSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
     <input type="text" id="indexSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
@@ -773,8 +773,8 @@ The fields under "Data for building the page"  contain text snippets that will b
 <tr>
 <td>Source:</td>
 <td><input type="text" id="secondSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
     <input type="text" id="secondSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
@@ -826,8 +826,8 @@ The fields under "Data for building the page"  contain text snippets that will b
 <tr>
 <td>Source:</td>
 <td><input type="text" id="burSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
     <input type="text" id="burSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
@@ -879,8 +879,8 @@ The fields under "Data for building the page"  contain text snippets that will b
 <tr>
 <td>Source:</td>
 <td><input type="text" id="fourthSourceIn" class="sourceBox"
-    placeholder="Source name"
-    onInput="draftResult()">
+    onInput="this.value=this.value.replace(/^in the /,''); draftResult()"
+    placeholder="Source name.">
 <input type="text" id="fourthSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
@@ -967,7 +967,8 @@ function removeBrackets (node) {
 <summary class="heading">Record scans</summary>
 <table>
 <tr>
-<td>Data:</td>
+<td><button onclick="node=document.getElementById('recordsIn'); node.value='Parish record '+node.value">PR</button><br>
+<button onclick="node=document.getElementById('recordsIn'); node.value='Gravestone '+node.value">GR</button></td>
 <td><textarea id="recordsIn" class="mediumPasteBox"
     placeholder="Add the link text you want, followed by the filename+ext. One link per line."
     onInput="draftResult()"></textarea>
