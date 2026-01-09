@@ -923,7 +923,7 @@ function draftResult () {
         <td>
         <input type="text" id="censusSourceName" onInput="draftResult()" placeholder="Source name.">
         <input type="text" id="censusSourceURL" onInput="draftResult()" placeholder="Source URL."><br>
-        <input type="text" id="censusSourceDetails" onInput="draftResult()" placeholder="Copy here the detailed info for Civil Parish, Reg. District, etc." style="width:40em;">
+        <input type="text" id="censusSourceDetails" onInput="this.value = this.value.replace(/Neighbors\sView others on page/,''); draftResult()" placeholder="Copy here the detailed info for Civil Parish, Reg. District, etc." style="width:40em;">
         </td>
       </tr>
         <!--<tr>
