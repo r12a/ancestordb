@@ -75,6 +75,11 @@ details a {
     padding: 0;
     }
 
+.tag {font-weight:normal; font-family:serif; background:tan; color:white; min-width:1.2rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+.atag {font-weight:normal; font-family:serif; background:coral; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+.itag {font-weight:normal; font-family:serif; background:#d1c9b0; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+
+
 /* styles for summary marker - a bit kludgey until fully supported */
 
 summary.lineHead, summary.lineEnd, summary.lineTBD { display: block;}
@@ -118,6 +123,14 @@ function findFamily (id) {
 		out += `<summary class="lineHead"`
         if (id === window.thisPerson) out += ` style="color:chocolate; font-size: 1.4rem;"`
         out += `><span class="n"><input type="checkbox" checked title="${ id }" onclick="if (this.checked===false) clearChecks(this.parentNode.parentNode.parentNode)"> ${ person.g } ${ person.f }<\span>`
+
+    
+    // delete these trackers after reworking the data
+    if (person.intro) out += ' <span class="itag">i</span>'
+    if (person.a) out += ' <span class="atag">a</span>'
+    
+        if (person.tagged) out += ' <span class="tag">\u2713</span>'
+    
         if (person.cstatus) out += ' <strong>&bull;</strong>'
         //out += ' <a href="tree.html?project='+window.project+'&person='+id+'" title="Go to Relationships page.">⏳</a>'
         out += ' <span class="spacer">&nbsp;</span>'
@@ -133,7 +146,7 @@ function findFamily (id) {
         out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`
 
         // add a flag for persons born less than 100 years ago 
-        if (person.b > window.currentYear-100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">🚩</a>`
+        if (person.b > window.currentYear-100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Born less than 100 years ago." style="margin-inline:.1rem; opacity:80%;">🚩</a>`
 
         out += ' <span class="dates">'+person.b+'–'+person.d+'</span>'
         out += ' <span class="bplace">'+person.bplace+'</span>'
@@ -146,6 +159,14 @@ function findFamily (id) {
 			// spouse name
 			if (db[person.fg[g][1]]) {
 				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ person.fg[g][1] }"> ${ db[person.fg[g][1]].g } ${ db[person.fg[g][1]].f }`
+
+    
+    // delete these trackers after reworking the data
+    if (person.intro) out += ' <span class="itag">i</span>'
+    if (person.a) out += ' <span class="atag">a</span>'
+    
+                if (person.tagged) out += ' <span class="tag">\u2713</span>'
+    
                 //out += `<a href="tree.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Go to Relationships page.">⏳</a></span>`
                 out += ' <span class="spacer">&nbsp;</span>'
                 out += ` <a href="javascript:void(0)" 
@@ -182,6 +203,14 @@ function findFamily (id) {
         if (person.cstatus) out += ' class="lineEnd"'
         else out += ' class="lineTBD"'
         out += '><span class="n"><input type="checkbox" checked title="'+ id +'"> '+person.g+' '+person.f+'<\span> '
+
+    
+    // delete these trackers after reworking the data
+    if (person.intro) out += ' <span class="itag">i</span>'
+    if (person.a) out += ' <span class="atag">a</span>'
+    
+        if (person.tagged) out += ' <span class="tag">\u2713</span>'
+    
 //		out += '<summary><span class="n">'+person.g+' '+person.f+'<\span> '
 //        if (person.cstatus) out += '<strong>&bull;</strong>'
 //        else out += '...'
@@ -369,6 +398,14 @@ function applyFlags () {
 
 
 function start () {
+
+    // read in which people have general tags
+    const saved = JSON.parse(localStorage[project+'tags'] || "[]")
+    saved.forEach(id => {
+        if (db[id]) db[id].tagged = true
+        })
+
+
 	if (thisPerson && db[thisPerson]) { 
 		//var tableHead = '<tr><th style="font-size:70%">Born /<br/>Married</th><th>Given name</th><th>Family name</th><th>Birth place</th><th style="font-size:70%">Jump to<br/>marr/birth</th><th>Died</th><th>Death place</th><th>Occupation</th><th>Links</th></tr>'
 		document.getElementById('pagetitle').innerHTML = db[thisPerson].g+' '+db[thisPerson].f+'<br><span id="bannerdates">Descendants</span>'
@@ -376,7 +413,8 @@ function start () {
         var first = document.querySelector('details')
         first.open = true
         first.style.marginLeft = '0'
-        closeAll()
+        //closeAll()
+        openAll()
         
         /*
 		families.sort()

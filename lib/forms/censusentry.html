@@ -45,32 +45,41 @@ function draftNotes () {
     node = document.getElementById('censusNotes')
     headId = document.getElementById('headId').value
     wifeId = document.getElementById('wifeId').value
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u'])
     
     if (headId) out += `{${ headId }:kx0}`
     else out +=  `${ document.getElementById('censusHeadName').value }<sup class="ageTag">${ document.getElementById('censusHeadAge').value }</sup>`
-    if (document.getElementById('censusOcc').value) out += ` was a ${ document.getElementById('censusOcc').value }`
-    else if (document.getElementById('censusHeadOcc').value) out += ` was a ${ document.getElementById('censusHeadOcc').value }`
+    if (document.getElementById('censusOcc').value && 
+        vowels.has(document.getElementById('censusOcc').value.trim()[0])) 
+        out += ` was an ${ document.getElementById('censusOcc').value.trim() }`
+    else if (document.getElementById('censusOcc').value) out += ` was a ${ document.getElementById('censusOcc').value.trim() }`
+    else if (document.getElementById('censusHeadOcc').value) out += ` was a ${ document.getElementById('censusHeadOcc').value.trim() }`
     out += '. '
     
     if (document.getElementById('censusWifeName').value 
         && document.getElementById('censusWifeOcc').value) {
         if (wifeId) out += `His wife {${ wifeId }:kx0}`
         else out +=  `His wife ${ document.getElementById('censusWifeName').value }, ${ document.getElementById('censusWifeAge').value },`
-        if (document.getElementById('censusWifeOcc').value) out += ` was a ${ document.getElementById('censusWifeOcc').value }`
+        if (document.getElementById('censusWifeOcc').value &&
+            vowels.has(document.getElementById('censusOcc').value.trim()[0])) 
+            out += ` was an ${ document.getElementById('censusWifeOcc').value.trim() }`
+        else if (document.getElementById('censusWifeOcc').value) out += ` was a ${ document.getElementById('censusWifeOcc').value.trim() }`
         out += '.'
         }
-    
+   
    else if (document.getElementById('censusWifeName').value 
         && document.getElementById('wifeId').value == '') {
         out +=  `His wife ${ document.getElementById('censusWifeName').value } was ${ document.getElementById('censusWifeAge').value }`
         out += '.'
         }
+     
+    console.log(out)
     
     children = document.getElementById('child').querySelectorAll('div')
     
     if (children && children.length>0) {
         // get the family name, if possible, so as to remove it
-        if (db[headId].f) familyName = db[headId].f
+        if (db[headId] && db[headId].f) familyName = db[headId].f
         else familyName = ''
         if (children.length === 1) out += `\nThe child was `
         else out += `\nThe children were `
@@ -846,7 +855,9 @@ function draftResult () {
 <input type="text" style="width:20rem;" id="censusId" placeholder="Add id of head or main person, then click on [Load].">
 <button id="load" title="Load relations & places" onclick="fillPlacesPulldown(); listRelations(document.getElementById('censusId').value);">Load</button>
 <!--<span class="redo" onClick="fillPlacesPulldown(); listRelations(document.getElementById('censusId').value);">🔁</span>-->
-<button id="clearAll" onClick="document.location=`censusentry.html?project=${ project }`" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>
+<!--<button id="clearAll" onClick="document.location=`censusentry.html?project=${ project }`" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>-->
+<span style="margin-inline-start:3rem; display:inline-block; vertical-align: middle;">❌</span>&nbsp; <button id="clearAll" onClick="document.location=`censusentry.html?project=${ project }`">Clear the form</button>
+
 <!--<span class="redo"><a id="clearAll" href="">❌</a></span>-->
     </div>
   </div>
@@ -957,7 +968,7 @@ function draftResult () {
       </tr>
      <tr>
         <td>Place:</td>
-        <td><input type="text" id="censusPlace" list="gpsList" style="width:400px;" onInput="draftResult()"/> &nbsp; <input type="text" id="roomsIn" style="width:40px;" onInput="draftResult()"/> rooms</td>
+        <td><input type="text" id="censusPlace" list="gpsList" style="width:99%;" onInput="draftResult()"/></td>
       </tr>
      <tr>
         <td style="vertical-align: top;">Head:</td>
@@ -983,7 +994,7 @@ function draftResult () {
       </tr>
        <tr>
         <td>Married:</td>
-        <td><input type="text" id="marriedIn" placeholder="Number of years married" style="width:400px;" onInput="draftResult()"/></td>
+        <td><input type="text" id="marriedIn" placeholder="Number of years married" style="width:400px;" onInput="draftResult()"/> &nbsp; <input type="text" id="roomsIn" style="width:40px;" onInput="draftResult()"/> rooms</td>
       </tr>
       <tr><td></td><td id="child">Children &nbsp; <button onClick="addField('child')">Add</button></td></tr>
       <tr><td></td><td id="other">Other &nbsp; <button onClick="addField('other')">Add</button></td></tr>

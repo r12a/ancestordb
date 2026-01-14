@@ -45,6 +45,45 @@ if (theperson) {
     }
 </script>
 <script>
+parishTemplate = `Baptism place:\u00A0
+Baptism date:\u00A0
+When born:\u00A0
+Name:\u00A0
+Parents:\u00A0
+Surname:\u00A0
+Mother née:\u00A0
+Abode:\u00A0
+Father occ:\u00A0
+`
+certTemplate = `When:\u00A0
+Where:\u00A0
+Name:\u00A0
+Father:\u00A0
+Mother:\u00A0
+Father occ:\u00A0
+Informant:\u00A0
+Reg date:\u00A0
+Other:\u00A0
+`
+genTemplate = `Name:\u00A0
+Father:\u00A0
+Father occ:\u00A0
+Mother:\u00A0
+Residence:\u00A0
+Place born:\u00A0
+Baptism place:\u00A0
+Birth date:\u00A0
+Baptism date:\u00A0
+Father occ:\u00A0
+Mother née:\u00A0
+Informant:\u00A0
+Denomination:\u00A0
+Reg details:\u00A0
+`
+censusTemplate = `Birth Place:\u00A0
+Estimated Birth Year:\u00A0
+`
+
 
 function openWindow (locn) {
     const windowFeatures = "left=50,top=50";
@@ -68,6 +107,56 @@ function makeNotes (content, target) {
 	}
 
 
+
+function pushData (textarea) {
+    // populates the page-building data fields from a text area containing standard prompts
+    
+    const lines = textarea.value.split('\n')
+    
+    for (i=0; i<lines.length; i++) {
+        if (lines[i].toLowerCase().startsWith('baptism place:')) document.getElementById('bapPlaceIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('baptism date:')) {
+            dateParts = lines[i].split(':')[1].trim().split(' ')
+            document.getElementById('bapDateIn').value += dateParts[0].trim()+' '+dateParts[1].trim()
+            document.getElementById('bapYearIn').value += dateParts[2].trim()
+            }
+
+        if (lines[i].toLowerCase().startsWith('when born:')) {
+            dateParts = lines[i].split(':')[1].split(' ')
+            document.getElementById('birthDateIn').value += dateParts[0].trim()+' '+dateParts[1].trim()
+            document.getElementById('birthYearIn').value += dateParts[2].trim()
+            }
+
+        if (lines[i].toLowerCase().startsWith('birth place:')) document.getElementById('birthPlaceIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('estimated birth year:')) document.getElementById('birthYearIn').value += '~'+lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('quarter of the year:')) {
+            dateParts = lines[i].split(':')[1].split('-')
+            if (dateParts.length === 3) document.getElementById('birthDateIn').value += dateParts[0].trim()+'-'+dateParts[2].trim()
+            else document.getElementById('birthDateIn').value += dateParts.join('-')
+            }
+
+        if (lines[i].toLowerCase().startsWith('registration date:')) document.getElementById('birthYearIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('registration place:')) {
+            //document.getElementById('birthPlaceIn').value += lines[i].split(':')[1].trim()
+            regplaces = lines[i].split(':')[1].trim().split(',')
+            regplace = regplaces[0]+' RD'
+            for (j=1;j<regplaces.length;j++) regplace += ',' + regplaces[j]
+            regplace = regplace.replace(/, England/,'')
+            document.getElementById('birthPlaceIn').value += regplace
+            }
+
+        if (lines[i].toLowerCase().startsWith('abode:')) document.getElementById('birthPlaceIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('mother née:')) document.getElementById('mmnIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('father occ:')) document.getElementById('foccIn').value += lines[i].split(':')[1].trim()
+
+        }
+    }
 
 
 
@@ -626,7 +715,8 @@ function fillAtHome () {
 
 <input type="text" id="idIn" style="width:200px;" placeholder="Add ID, then click on [Load].">
 <button id="load" title="Load data for this person" onclick="document.location=`birthentry.html?project=${ project }&person=${ document.getElementById('idIn').value }`">Load</button>
-<button id="clearAll" onClick="document.location=`birthentry.html?project=${ project }`" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>
+<!--<button id="clearAll" onClick="document.location=`birthentry.html?project=${ project }`" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>-->
+<span style="margin-inline-start:3rem; display:inline-block; vertical-align: middle;">❌</span>&nbsp; <button id="clearAll" onClick="document.location=`birthentry.html?project=${ project }`">Clear the form</button>
 
     
 </div>
@@ -636,7 +726,7 @@ function fillAtHome () {
 <div id="references">
 </div>
 
-<div id="certificateTemplate" style="min-width: 14rem;">
+<!--<div id="certificateTemplate" style="min-width: 14rem;">
 
 <p style="font-style: italic;">Use these templates to<br>
 speed up data entry.</p>
@@ -678,7 +768,7 @@ Parents:&nbsp;
 Surname:&nbsp;
 Abode:&nbsp;
 Father occ:&nbsp;</textarea>
-</div>
+</div>-->
 
 
 <p style="margin: 0 4rem; font-style: italic; font-size: 85%;">If you have scans of certificates or parish records, etc. point to them in the section "Record scans".<br>
@@ -704,18 +794,29 @@ The fields under "Data for building the page"  contain text snippets that will b
     <input type="text" id="indexSourceURLIn"  class="sourceBox"
             onInput="draftResult()" 
             placeholder="Source URL.">
-    <button onClick="openWindow(document.getElementById('indexSourceURLIn').value)">GO</button>
+            </td>
+    <td><button onClick="openWindow(document.getElementById('indexSourceURLIn').value)">GO</button>
 
     </td>
     </tr>
     
     <tr>
-    <td>Key-value<br>pairs:<br><button 
-        onClick="document.getElementById('indexPastedIn').value = tabs2colons(document.getElementById('indexPastedIn').value)">Add colons</button><br><button 
+    <td>Key-value<br>pairs:<br>
+        <button 
+        onClick="document.getElementById('indexPastedIn').value = tabs2colons(document.getElementById('indexPastedIn').value)">Add colons</button><br>
+        <button 
         onClick="document.getElementById('indexPastedIn').value = removeEmpty(document.getElementById('indexPastedIn').value)">Remove empty</button></td>
     <td><textarea id="indexPastedIn"  class="tallPasteBox"
         placeholder="Copy-paste lists here from transcript pages. (Each line should be [type: value]. Only lines with a colon are captured.)"
         onInput="draftResult()"></textarea></td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('indexPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('indexPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('indexPastedIn').value=genTemplate">General</button><br>
+        <button onClick="document.getElementById('indexPastedIn').value=censusTemplate; document.getElementById('indexSourceIn').value = 'Census returns';">Census</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('indexPastedIn'))">📩</button>
+    </td>
     </tr>
     
     <tr>
@@ -749,19 +850,26 @@ The fields under "Data for building the page"  contain text snippets that will b
     placeholder="Source name.">
     <input type="text" id="bapSourceURLIn" class="sourceBox"
     placeholder="Source URL"
-    onInput="draftResult()">
-    <button onClick="openWindow(document.getElementById('bapSourceURLIn').value)">GO</button>
+    onInput="draftResult()"></td>
+    <td><button onClick="openWindow(document.getElementById('bapSourceURLIn').value)">GO</button>
     </td>
 </tr>
 <tr>
 <td>Key-value<br>pairs:<br><button 
         onClick="document.getElementById('bapPastedIn').value = tabs2colons(document.getElementById('bapPastedIn').value)">Add colons</button><br><button 
-        onClick="document.getElementById('bapPastedIn').value = removeEmpty(document.getElementById('bapPastedIn').value)">Remove empty</button></td>
+        onClick="document.getElementById('bapPastedIn').value = removeEmpty(document.getElementById('bapPastedIn').value)">Remove empty</button>
+        </td>
 <td><textarea id="bapPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
-    <span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('bapPastedIn'))    ">✚</span>
+    <!--<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('bapPastedIn'))    ">✚</span>-->
     </td>
+<td><span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('bapPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('bapPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('bapPastedIn').value=genTemplate">General</button><br>
+        <button onClick="document.getElementById('bapPastedIn').value=censusTemplate; document.getElementById('bapSourceIn').value = 'Census returns';">Census</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('bapPastedIn'))">📩</button></td>
 </tr>
 <tr>
 <td>Text:</td>
@@ -800,7 +908,8 @@ function removeBrackets (node) {
     placeholder="Source name.">
     <input type="text" id="secondSourceURLIn" class="sourceBox"
     placeholder="Source URL"
-    onInput="draftResult()">
+    onInput="draftResult()"></td>
+    <td>
     <button onClick="openWindow(document.getElementById('secondSourceURLIn').value)">GO</button>
     </td>
 </tr>
@@ -817,10 +926,19 @@ function removeBrackets (node) {
 <tr>
 <td>Key-value<br>pairs:<br><button 
         onClick="document.getElementById('secondPastedIn').value = tabs2colons(document.getElementById('secondPastedIn').value)">Add colons</button><br><button 
-        onClick="document.getElementById('secondPastedIn').value = removeEmpty(document.getElementById('secondPastedIn').value)">Remove empty</button></td>
+        onClick="document.getElementById('secondPastedIn').value = removeEmpty(document.getElementById('secondPastedIn').value)">Remove empty</button>
+        </td>
 <td><textarea id="secondPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
+    </td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('secondPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('secondPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('secondPastedIn').value=genTemplate">General</button><br>
+        <button onClick="document.getElementById('secondPastedIn').value=censusTemplate; document.getElementById('secondSourceIn').value = 'Census returns';">Census</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('secondPastedIn'))">📩</button>
     </td>
 </tr>
 <tr>
@@ -851,7 +969,8 @@ function removeBrackets (node) {
     placeholder="Source name.">
     <input type="text" id="thirdSourceURLIn" class="sourceBox"
     placeholder="Source URL"
-    onInput="draftResult()">
+    onInput="draftResult()"></td>
+    <td>
     <button onClick="openWindow(document.getElementById('thirdSourceURLIn').value)">GO</button>
     </td>
 </tr>
@@ -868,10 +987,19 @@ function removeBrackets (node) {
 <tr>
 <td>Key-value<br>pairs:<br>pairs:<br><button 
         onClick="document.getElementById('thirdPastedIn').value = tabs2colons(document.getElementById('thirdPastedIn').value)">Add colons</button><br><button 
-        onClick="document.getElementById('thirdPastedIn').value = removeEmpty(document.getElementById('thirdPastedIn').value)">Remove empty</button></td>
+        onClick="document.getElementById('thirdPastedIn').value = removeEmpty(document.getElementById('thirdPastedIn').value)">Remove empty</button>
+        </td>
 <td><textarea id="thirdPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
+    </td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('thirdPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('thirdPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('thirdPastedIn').value=genTemplate">General</button><br>
+        <button onClick="document.getElementById('thirdPastedIn').value=censusTemplate; document.getElementById('thirdSourceIn').value = 'Census returns';">Census</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('thirdPastedIn'))">📩</button>
     </td>
 </tr>
 <tr>
@@ -889,8 +1017,8 @@ function removeBrackets (node) {
 <summary class="heading">Record scans</summary>
 <table>
 <tr>
-<td><button onclick="node=document.getElementById('recordsIn'); node.value='Parish record '+node.value">PR</button><br>
-<button onclick="node=document.getElementById('recordsIn'); node.value='Baptism record '+node.value">BR</button></td>
+<td><button onclick="node=document.getElementById('recordsIn'); node.value='Parish record '+node.value; node.focus()">PR</button><br>
+<button onclick="node=document.getElementById('recordsIn'); node.value='Baptism record '+node.value; node.focus()">BR</button></td>
 <td><textarea id="recordsIn" class="mediumPasteBox"
     placeholder="Add the link text you want, followed by the filename+ext. One link per line."
     onInput="draftResult()"></textarea>
@@ -1035,8 +1163,32 @@ function halfwayDate(range) {
 
 
 function makeTimestamp () {
-    daymonth = document.getElementById('birthDateIn').value.trim()
-    year = document.getElementById('birthYearIn').value.trim()
+    let daymonth = document.getElementById('birthDateIn').value.trim().replace(/\*/,'')
+    let year = document.getElementById('birthYearIn').value.trim().replace(/\*/,'')
+    let result = ''
+
+    if (daymonth.match('-')) {
+        result = year+'-'+halfwayDate(daymonth)
+        }
+    else if (daymonth.match('~')) {
+        daymonth = daymonth.replace(/~/,'')+' 15'
+        result = year+'-'+getMonth(daymonth)
+        }
+    else if (daymonth.trim() === '') {
+        result = year+'-06-15'
+        }
+    else {
+        components = daymonth.split(' ')
+        result = year+'-'+getMonth(daymonth)
+        }
+    document.getElementById('timestampIn').value = result.replace(/~/,'')
+    }
+
+
+
+function makeTimestampXX () {
+    daymonth = document.getElementById('birthDateIn').value.trim().replace(/\*/,'')
+    year = document.getElementById('birthYearIn').value.trim().replace(/\*/,'')
 
     if (daymonth.match('-')) {
         document.getElementById('timestampIn').value = year+'-'+halfwayDate(daymonth)
@@ -1044,6 +1196,9 @@ function makeTimestamp () {
     else if (daymonth.match('~')) {
         daymonth = daymonth.replace(/~/,'')+' 15'
         document.getElementById('timestampIn').value = year+'-'+getMonth(daymonth)
+        }
+    else if (daymonth.trim() === '') {
+        document.getElementById('timestampIn').value = year+'-06-15'
         }
     else {
         components = daymonth.split(' ')
@@ -1083,12 +1238,18 @@ function makeTimestampX () {
       </tr>
       <tr>
         <td>Family residence:</td>
-        <td colspan="3">
+        <td colspan="1">
             <input type="text" id="birthPlaceIn" list="gpsList"
             placeholder="Place where they lived." class="wideInputBox"
             onInput="draftResult();"
             onFocus="checkDB('birthPlaceIn', 'bplace', 'bplaceCheck')">
-            <span class="instructions" id="bplaceCheck" style="color:red;"></span></td>
+            </td>
+        <td>
+        <button onClick="document.getElementById('birthPlaceIn').value += 'https://www.google.com/maps?q='; document.getElementById('bapPlaceIn').focus()">http</button>
+        </td>
+        <td>
+        <span class="instructions" id="bplaceCheck" style="color:red;"></span>
+        </td>
      </tr>
        <tr>
         <td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
@@ -1126,6 +1287,9 @@ function makeTimestampX () {
             placeholder="Church, town, county." class="wideInputBox"
             onInput="draftResult()">
             </td>
+        <td>
+        <button onClick="document.getElementById('bapPlaceIn').value += 'https://www.google.com/maps?q='; document.getElementById('bapPlaceIn').focus()">http</button>
+        </td>
 </tr>
      <tr>
         <td>Father occ:</td>
@@ -1181,7 +1345,7 @@ function makeTimestampX () {
             else newline = '\n'
             document.getElementById('gpsIn').value += newline+`xxxx https://www.google.com/maps?q=xxx`
             draftResult()">New</button>
-        <input id="findBlock" type="text" list="gpsList" placeholder="Search for known places" style="width:29em" onchange="
+        <input id="findBlock" type="text" list="gpsList" placeholder="Search for known places" style="width:180%" onchange="
             newline = ''
             if (document.getElementById('gpsIn').value === '') {}
             else newline = '\n'
@@ -1202,7 +1366,7 @@ function makeTimestampX () {
 
     <tr>
         <td>&nbsp;</td>
-        <td colspan="3"><textarea id="gpsIn" onInput="draftResult()" placeholder="Use the selection control above or type directly to add locations here, one per line. The end result should look like this: Blakemore Gate https://www.google.com/maps?q=52.6040598, -2.9199274"></textarea></td>
+        <td colspan="3"><textarea id="gpsIn" onInput="draftResult()" placeholder="Use the selection control above or type directly to add locations here, one per line. The end result should look like this: Blakemore Gate https://www.google.com/maps?q=52.6040598, -2.9199274" style="width:180%;"></textarea></td>
       </tr>
 
     <tr>

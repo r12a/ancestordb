@@ -46,6 +46,42 @@ if (theperson) {
     }
 
 
+parishTemplate = `Burial place:\u00A0
+Burial date:\u00A0
+Death date:\u00A0
+Birth date:\u00A0
+Name:\u00A0
+Parents:\u00A0
+Death age:\u00A0
+Abode:\u00A0
+Occupation:\u00A0
+`
+certTemplate = `Death date:\u00A0
+Death place:\u00A0
+Name:\u00A0
+Death age:\u00A0
+Mother:\u00A0
+Occupation:\u00A0
+Informant:\u00A0
+Reg date:\u00A0
+Other:\u00A0
+`
+// TBD
+genTemplate = `Name:\u00A0
+Father:\u00A0
+Father occ:\u00A0
+Mother:\u00A0
+Residence:\u00A0
+Place born:\u00A0
+Baptism place:\u00A0
+Birth date:\u00A0
+Baptism date:\u00A0
+Father occ:\u00A0
+Mother née:\u00A0
+Informant:\u00A0
+Denomination:\u00A0
+Reg details:\u00A0
+`
 
 
 
@@ -76,6 +112,62 @@ function fillAtHome () {
     if (db[theperson].fg) {
         for (i=0;i<db[theperson].fg.length;i++) document.getElementById('atHomeIn').value += db[theperson].fg[i][1]+' '
         } 
+    }
+
+
+
+
+
+function pushData (textarea) {
+    // populates the page-building data fields from a text area containing standard prompts
+    
+    const lines = textarea.value.split('\n')
+    
+    for (i=0; i<lines.length; i++) {
+        if (lines[i].toLowerCase().startsWith('burial place:')) document.getElementById('burPlaceIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('burial date:')) {
+            dateParts = lines[i].split(':')[1].trim().split(' ')
+            document.getElementById('burDateIn').value += dateParts[0].trim()+' '+dateParts[1].trim()
+            document.getElementById('burYearIn').value += dateParts[2].trim()
+            }
+
+        if (lines[i].toLowerCase().startsWith('death date:')) {
+            dateParts = lines[i].split(':')[1].split(' ')
+            document.getElementById('deathDateIn').value += dateParts[0].trim()+' '+dateParts[1].trim()
+            document.getElementById('deathYearIn').value += dateParts[2].trim()
+            }
+
+        /*if (lines[i].toLowerCase().startsWith('birth date:')) document.getElementById('birthPlaceIn').value += lines[i].split(':')[1].trim()*/
+
+        /*if (lines[i].toLowerCase().startsWith('estimated birth year:')) document.getElementById('birthYearIn').value += '~'+lines[i].split(':')[1].trim()*/
+
+        if (lines[i].toLowerCase().startsWith('quarter of the year:') ||
+            lines[i].toLowerCase().startsWith('registration quarter:')) {
+            dateParts = lines[i].split(':')[1].split('-')
+            if (dateParts.length === 3) document.getElementById('deathDateIn').value += dateParts[0].trim()+'-'+dateParts[2].trim()
+            else document.getElementById('deathDateIn').value += dateParts.join('-')
+            }
+
+        if (lines[i].toLowerCase().startsWith('registration date:')) document.getElementById('deathYearIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('death registration place:')) {
+            regplaces = lines[i].split(':')[1].trim().split(',')
+            regplace = regplaces[0]+' RD'
+            for (j=1;j<regplaces.length;j++) regplace += ',' + regplaces[j]
+            regplace = regplace.replace(/, England/,'')
+            regplace = regplace.replace(/, United Kingdom/,'')
+            document.getElementById('deathPlaceIn').value += regplace
+            }
+
+        if (lines[i].toLowerCase().startsWith('abode:')) document.getElementById('ofIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('death age:') ||
+            lines[i].toLowerCase().startsWith('age:')) document.getElementById('ageIn').value += lines[i].split(':')[1].trim()
+
+        if (lines[i].toLowerCase().startsWith('occupation:')) document.getElementById('occIn').value += lines[i].split(':')[1].trim()
+
+        }
     }
 
 
@@ -733,6 +825,8 @@ The fields under "Data for building the page"  contain text snippets that will b
     <input type="text" id="indexSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
+    </td>
+    <td>
     <button onClick="openWindow(document.getElementById('indexSourceURLIn').value)">GO</button>
     </td>
 </tr>
@@ -743,6 +837,13 @@ The fields under "Data for building the page"  contain text snippets that will b
 <td><textarea id="indexPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
+    </td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('indexPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('indexPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('indexPastedIn').value=genTemplate">General</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('indexPastedIn'))">📩</button>
     </td>
 </tr>
 <tr>
@@ -778,6 +879,8 @@ The fields under "Data for building the page"  contain text snippets that will b
     <input type="text" id="secondSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
+    </td>
+    <td>
     <button onClick="openWindow(document.getElementById('secondSourceURLIn').value)">GO</button>
     </td>
 </tr>
@@ -799,7 +902,14 @@ The fields under "Data for building the page"  contain text snippets that will b
 <td><textarea id="secondPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
-    <span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('secondPastedIn'))    ">✚</span>
+    <!--<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('secondPastedIn'))    ">✚</span>-->
+    </td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('secondPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('secondPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('secondPastedIn').value=genTemplate">General</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('secondPastedIn'))">📩</button>
     </td>
 </tr>
 <tr>
@@ -831,6 +941,8 @@ The fields under "Data for building the page"  contain text snippets that will b
     <input type="text" id="burSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
+    </td>
+    <td>
     <button onClick="openWindow(document.getElementById('burSourceURLIn').value)">GO</button>
     </td>
 </tr>
@@ -852,7 +964,14 @@ The fields under "Data for building the page"  contain text snippets that will b
 <td><textarea id="burPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
-    <span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('burPastedIn'))    ">✚</span>
+    <!--<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('burPastedIn'))    ">✚</span>-->
+    </td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('burPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('burPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('burPastedIn').value=genTemplate">General</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('burPastedIn'))">📩</button>
     </td>
 </tr>
 <tr>
@@ -884,6 +1003,8 @@ The fields under "Data for building the page"  contain text snippets that will b
 <input type="text" id="fourthSourceURLIn" class="sourceBox"
     placeholder="Source URL"
     onInput="draftResult()">
+    </td>
+    <td>
 <button onClick="openWindow(document.getElementById('fourthSourceURLIn').value)">GO</button>
 </td>
 </tr>
@@ -905,8 +1026,15 @@ The fields under "Data for building the page"  contain text snippets that will b
 <td><textarea id="fourthPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
-<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('fourthPastedIn'))    ">✚</span>
+<!--<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('fourthPastedIn'))    ">✚</span>-->
 </td>
+    <td>
+        <span style="font-size:small">Templates:</span><br>
+        <button onClick="document.getElementById('fourthPastedIn').value=parishTemplate">Parish</button><br>
+        <button onClick="document.getElementById('fourthPastedIn').value=certTemplate">Certificate</button><br>
+        <button onClick="document.getElementById('fourthPastedIn').value=genTemplate">General</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('fourthPastedIn'))">📩</button>
+    </td>
 </tr>
 <tr>
 <td>Text:</td>

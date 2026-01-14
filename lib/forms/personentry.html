@@ -708,7 +708,7 @@ function getMonthOLD (dateValue) {
     <button id="load" title="Load from database">Load</button>
     
     <!--<span class="redo" id="clearAll" style="margin-inline-start:3rem; font-weight: bold; color: red;">X</span>-->
-    <button id="new" style="margin-inline-start:3rem;">❌&nbsp; Clear the form</button>
+    <span style="margin-inline-start:3rem; display:inline-block; vertical-align: middle;">❌</span>&nbsp; <button id="new">Clear the form</button>
     <script> // set the events
     document.getElementById('load').onclick = function () { document.location=`personentry.html?project=${ project }&person=${ document.getElementById('idIn').value }` }
     document.getElementById('new').onclick = function () { document.location=`personentry.html?project=${ project }` }
@@ -732,7 +732,7 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 -->
 
 <style>
-#provisional button, #warnings button, #ancestryTree button { font-size: 90%; border-radius: .25em; border: 1px solid gray; background: antiquewhite; }
+/*#provisional button, #warnings button, #ancestryTree button { font-size: 90%; border-radius: .25em; border: 1px solid gray; background: antiquewhite; }*/
 #ancestryTree button { font-size: 80%; }
 </style>
 

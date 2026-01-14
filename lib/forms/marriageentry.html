@@ -114,6 +114,55 @@ function makeNotes (content, target) {
 
 
 
+function makeRecord (textarea) {
+    // pulls data out of the lower part of the page to create a summary that looks like
+    // those usually created from parish records or certificates
+    
+    
+    out = ''
+    out += `Marriage Date: ${ document.getElementById('dateIn').value + ' ' + document.getElementById('yearIn').value}\n`
+    
+    let theplace = ''
+    if (document.getElementById('marrPlaceIn').value.includes('http')) theplace = document.getElementById('marrPlaceIn').value.split('http')[0]
+    else theplace = document.getElementById('marrPlaceIn').value 
+    out += `Marriage Place: ${ theplace }\n`
+    
+    out += `Groom: ${ document.getElementById('groomIn').value }\n`
+    
+    out += `Groom details: ${ 
+        document.getElementById('gageIn').value + ', ' +
+        document.getElementById('gstatusIn').value + ', ' +
+        document.getElementById('goccIn').value + ', ' +
+        document.getElementById('gparishIn').value + ', ' +
+        document.getElementById('gfatherIn').value + ', ' +
+        document.getElementById('gfoccIn').value
+        }\n`
+    
+    out += `Bride: ${ document.getElementById('brideIn').value }\n`
+    
+    out += `Bride details: ${ 
+        document.getElementById('bageIn').value + ', ' +
+        document.getElementById('bstatusIn').value + ', ' +
+        document.getElementById('boccIn').value + ', ' +
+        document.getElementById('bparishIn').value + ', ' +
+        document.getElementById('bfatherIn').value + ', ' +
+        document.getElementById('bfoccIn').value
+        }\n`
+    
+    
+    out += `By: ${ document.getElementById('byIn').value }\n`
+    
+    
+    out += `Signatures: ${ document.getElementById('signaturesIn').value }\n`
+    
+    
+    out += `Witnesses: ${ document.getElementById('witnessesIn').value }\n`
+    
+    return out
+    }
+
+
+
 
 
 
@@ -826,8 +875,8 @@ Witnesses:&nbsp;
         placeholder="Source name.">
     <input type="text" id="indexSourceURLIn"  class="sourceBox"
             onInput="draftResult()" 
-            placeholder="Source URL.">
-    <button onClick="openWindow(document.getElementById('indexSourceURLIn').value)">GO</button>
+            placeholder="Source URL."></td>
+    <td><button onClick="openWindow(document.getElementById('indexSourceURLIn').value)">GO</button>
 
     </td>
     </tr>
@@ -839,7 +888,15 @@ Witnesses:&nbsp;
     <td><textarea id="indexPastedIn"  class="tallPasteBox"
         placeholder="Copy-paste lists here from transcript pages. (Each line should be [type: value]. Only lines with a colon are captured.)"
         onInput="draftResult()"></textarea></td>
-    </tr>
+     <td>
+        <span style="font-size:small">Templates:</span><br>
+        <span style="font-size:small">For par recs &amp; certs,</span><br>
+        <span style="font-size:small">fill in below &amp; hit Pull:</span><br>
+        <button onClick="document.getElementById('indexPastedIn').value=genTemplate">General</button><br>
+        <button onClick="document.getElementById('indexPastedIn').value=makeRecord(document.getElementById('indexPastedIn'))">Pull up</button><br>
+        <button class="propagateButton" onclick="pushData(document.getElementById('indexPastedIn'))">📩</button>
+    </td>
+   </tr>
     
     <tr>
     <td rowspan="2">Text:</td>
@@ -1305,6 +1362,11 @@ onInput="draftResult()">
 
 <td>Bride father occ:</td>
 <td><input type="text" id="bfoccIn" class="wideInputBox" onInput="draftResult()"></td>
+</tr>
+
+<tr>
+<td>Signatures:</td>
+<td><input type="text" id="signaturesIn" class="wideInputBox" onInput="draftResult()"></td>
 </tr>
 
 <tr>
