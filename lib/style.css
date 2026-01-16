@@ -488,9 +488,29 @@ button {
 
 .life_summary {
     min-height: 9rem;
+    font-size: 1.1rem;
+    }
+#location_summary {
+    font-size: 1.1rem;
     }
 
 .propagateButton {
     font-size:1.5rem; display: inline-block; margin-block:1.5rem; background:antiquewhite;
     }
 
+
+#summaryToggle {
+    font-size: 120%;
+    color: #648200;
+    cursor: pointer;
+    margin-block:3rem;
+    width: 4rem;
+    }
+
+
+#lifeSummaryTable { }
+#lifeSummaryTable td {
+    vertical-align: top;
+    padding-inline: 1em;
+    text-transform: capitalize;
+    }

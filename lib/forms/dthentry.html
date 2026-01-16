@@ -5,7 +5,7 @@
 <title>Death form</title>
 <link href="../../lib/style.css" rel="stylesheet">
 <style>
-td { vertical-align: top; padding-left: 1em; }
+td { vertical-align: top; padding-left: 1em;  }
 details { margin-left: 2em; }
 </style>
 <script src="formentrylookup.js"></script>
@@ -613,12 +613,14 @@ function draftResult () {
         var imagesOut = ''
         for (i=0;i<imagesArray.length;i++) {
             if (imagesArray[i].trim() === '') continue
-            parts = imagesArray[i].split(' ')
+            // commented out since image pointers all include url:../2024 already
+            /*parts = imagesArray[i].split(' ')
             if (imagesArray[i].match('http')) {} //
             else parts[parts.length-1] = 'url:../'+project+'_records/'+parts[parts.length-1]
-            //if (! imagesArray[i].includes('url:records')) parts[parts.length-1] = 'url:records/'+parts[parts.length-1]
-            imagesOut += '"'+parts.join(' ').trim()+'"'
-            if (i<imagesArray.length-1) imagesOut += ', '
+            imagesOut += '"'+parts.join(' ').trim()+'"'*/
+            if (i>0) imagesOut += ', '
+            imagesOut += '"'+imagesArray[i].trim()+'"'
+            //if (i>0 && i<imagesArray.length-1) imagesOut += ', '
             }
         if (imagesArray.length > 0) document.getElementById('images').textContent = 'images: ['+imagesOut+'],'
         }
@@ -763,7 +765,7 @@ onChange="autoPropagate(this.value);"/> <span class="redo" onClick="autoPropagat
 
 <div id="certificateTemplate" style="min-width: 14rem;">
 
-<p style="font-style: italic;">Use these templates to<br>
+<!--<p style="font-style: italic;">Use these templates to<br>
 speed up data entry.</p>
 
 <h3>General</h3>
@@ -800,7 +802,7 @@ Name:&nbsp;
 Age:&nbsp;
 Occ:&nbsp;
 Abode:&nbsp;
-</textarea>
+</textarea>-->
 </div>
 
 
@@ -1092,11 +1094,11 @@ function removeBrackets (node) {
 
 
 <details open>
-<summary class="heading">Record scans</summary>
+<summary class="heading" style="padding-block-start:4rem;">Record scans</summary>
 <table>
 <tr>
-<td><button onclick="node=document.getElementById('recordsIn'); node.value='Parish record '+node.value">PR</button><br>
-<button onclick="node=document.getElementById('recordsIn'); node.value='Gravestone '+node.value">GR</button></td>
+<td><button onclick="node=document.getElementById('recordsIn'); node.value='Parish record '+node.value; node.focus()">PR</button><br>
+<button onclick="node=document.getElementById('recordsIn'); node.value='Gravestone '+node.value; node.focus()">GR</button></td>
 <td><textarea id="recordsIn" class="mediumPasteBox"
     placeholder="Add the link text you want, followed by the filename+ext. One link per line."
     onInput="draftResult()"></textarea>
@@ -1140,13 +1142,13 @@ document.getElementById('getFileName').addEventListener('change', function(event
 
 
 
-<table style="margin-inline-start: 2rem; margin-block-start: 4rem; color: teal;">
+<table style="margin-inline-start: 2rem; margin-block-start: 4rem; color: teal; width: 95%;">
 <tr>
 <td colspan="2" class="heading">Data for building the page</td></tr>
  
      <tr>
-        <td>Timestamp:</td>
-        <td colspan="3"><input type="text" id="timestampIn"
+        <td style="width: 8em;">Timestamp:</td>
+        <td><input type="text" id="timestampIn"
             placeholder="YYYY-MM-DD"
             onInput="draftResult()"
             onChange="draftResult()"
@@ -1157,7 +1159,7 @@ document.getElementById('getFileName').addEventListener('change', function(event
 
      <tr>
         <td>Date of death:</td>
-        <td colspan="3"><input type="text" id="deathDateIn"
+        <td><input type="text" id="deathDateIn"
             placeholder="DD MMM or MMM-MMM, etc."
             onFocus="checkDB('deathDateIn', 'ddate', 'ddateCheck')">
             <span class="instructions" id="ddateCheck" style="color:red;"></span>      
@@ -1165,7 +1167,7 @@ document.getElementById('getFileName').addEventListener('change', function(event
       </tr>
      <tr>
         <td>Year of death:</td>
-        <td colspan="3"><input type="text" id="deathYearIn"
+        <td><input type="text" id="deathYearIn"
             placeholder="YYYY"
             onFocus="checkDB('deathYearIn', 'd', 'dCheck')">
             <span class="instructions" id="dCheck" style="color:red;"></span>
@@ -1289,25 +1291,23 @@ function makeTimestampX () {
     </tr>
 <tr>
 <td>Abode:</td>
-<td><input type="text" id="ofIn"  list="gpsList"
+<td><input type="text" id="ofIn"  list="gpsList" style="width:90%;"
     placeholder="Place where they lived." class="wideInputBox"
     onFocus="checkDB('deathPlaceIn', 'dplace', 'dplaceCheck')"
     onInput="draftResult()">
+    
+    <button onClick="document.getElementById('ofIn').value += 'https://www.google.com/maps?q='; document.getElementById('ofIn').focus()">http</button>
+    <br>
     <span class="instructions" id="dplaceCheck" style="color:red;"></span>
     </td>
 </tr>
-<tr>
-<td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
-<td colspan="3">
-    <input type="text" id="atHomeIn"
-    placeholder="Ids of resident spouse and parents." class="wideInputBox"
-    onInput="draftResult();"></td>
-</tr>
+
 <tr>
 <td>Place of death:</td>
-<td><input type="text" id="deathPlaceIn"   list="gpsList"
+<td><input type="text" id="deathPlaceIn"   list="gpsList" style="width:90%;"
     placeholder="Place where they died (if different)." class="wideInputBox"
     onInput="draftResult();">
+    <button onClick="document.getElementById('deathPlaceIn').value += 'https://www.google.com/maps?q='; document.getElementById('deathPlaceIn').focus()">http</button>
     </td>
 </tr>
 
@@ -1336,11 +1336,21 @@ function makeTimestampX () {
       </tr>
     <tr>
         <td>Burial place:</td>
-        <td><input type="text" id="burPlaceIn"   list="gpsList"
+        <td><input type="text" id="burPlaceIn"   list="gpsList" style="width:90%;"
             placeholder="Cemetery, town, county, etc." class="wideInputBox"
             onInput="draftResult()"> 
+            <button onClick="document.getElementById('deathPlaceIn').value += 'https://www.google.com/maps?q='; document.getElementById('deathPlaceIn').focus()">http</button>
             <!--<span class="copy" title="Add to metadata." onClick="document.getElementById('burPlace').textContent = '&quot;burplace: '+document.getElementById('burPlaceIn').value+'&quot;,'; document.getElementById('deathPlaceIn').value = document.getElementById('burPlaceIn').value;">✚</span>--></td>
       </tr>
+
+<tr>
+<td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
+<td>
+    <input type="text" id="atHomeIn"
+    placeholder="Ids of resident spouse and parents." class="wideInputBox"
+    onInput="draftResult();"></td>
+</tr>
+
 <tr>
 <td>Age:</td>
 <td><input type="text" id="ageIn"  
@@ -1431,7 +1441,7 @@ function makeTimestampX () {
 
 <tr>
         <td>GPS:</td>
-        <td colspan="3"><textarea id="gpsIn" onInput="draftResult()" placeholder="Use the selection control above or type directly to add locations here, one per line. The end result should look like this: Blakemore Gate https://www.google.com/maps?q=52.6040598, -2.9199274"></textarea></td>
+        <td><button style="vertical-align: top;" onClick="document.getElementById('gpsIn').value = ''">DEL</button> <textarea id="gpsIn" onInput="draftResult()" placeholder="Use the selection control above or type directly to add locations here, one per line. The end result should look like this: Blakemore Gate https://www.google.com/maps?q=52.6040598, -2.9199274" style="width:90%;"></textarea></td>
       </tr>
 
 
