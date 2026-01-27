@@ -40,7 +40,41 @@ db.src = project+'/db.js'
 db.async = false
 document.head.appendChild(db)
 </script>
+
+
 <script>
+
+function resizeTextareaXX() {
+    const article = document.getElementById('mainpanel');
+    const textarea = document.getElementById('listOfCheckedNames');
+
+    if (!article || !textarea) return;
+
+    // Wait 2 seconds before measuring
+    setTimeout(() => {
+        const articleHeight = article.offsetHeight;
+        textarea.style.height = (articleHeight * 0.9) + "px";
+    }, 1000);
+}
+function resizeTextareaX () {
+    // sets the height of the list textarea
+    const article = document.getElementById('mainpanel')
+    const textarea = document.getElementById('listOfCheckedNames')
+
+    if (!article || !textarea) return
+
+    const articleHeight = article.offsetHeight
+    textarea.style.height = (articleHeight * 0.9) + "px"
+    }
+
+// Run on load and on resize
+/*window.addEventListener('load', resizeTextarea)
+window.addEventListener('resize', resizeTextarea)*/
+
+
+
+
+
 function filter (str) {
 	str = str.toLowerCase()
 	str = str.replace(/ /,'.*')
@@ -142,7 +176,7 @@ function formatPathToHTML (path) { console.log(path)
     if (!path) return "<p>No path found.</p>"
     return path.map((step, index) => {
         const label = step.via ? `→ ${ step.via }: ` : ""
-        return `<li>${ label }<strong><a target="_blank" href="tree.html?person=${ step.id }&project=2024">${ step.id }</a></strong></li>`
+        return `<li>${ label }<strong><a target="_blank" href="tree.html?project=${ project }&person=${ step.id }">${ step.id }</a></strong></li>`
         }).join("")
     }
 
@@ -200,6 +234,113 @@ function getPathSelectionsX (direction) {
     else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(ends[0], ends[1], db)) }</ul>`
     }
 
+
+
+function listTagged () {
+    // make a list of all the people in the DB with tagged=true
+    
+    out = ''
+    for (person in db) {if (db[person].tagged && db[person].tagged === true) out += person+'\n'}
+    
+    document.getElementById('listOfCheckedNames').value = out
+    
+    const count = out.split('\n')
+    document.getElementById('checkedTotal').textContent = count.length
+    }
+
+
+
+function tagsFromList () {
+    // set tagged=true for all the people in a list
+    
+    const people = document.getElementById('listOfCheckedNames').value.split('\n')
+
+    for (let i = 0; i < people.length; i++) {
+        const person = people[i].trim()
+        if (person && db[person]) db[person].tagged = true
+        if (db[person]) console.log(project, person, db[people[i]].tagged)
+        }
+
+    // Save to localStorage
+    const taggedList = Object.keys(db).filter(id => db[id].tagged === true)
+    localStorage[project + 'tags'] = JSON.stringify(taggedList)
+    
+    alert('Should now be tagged.')
+    }
+
+
+
+
+function sortList () {
+    theList = document.getElementById('listOfCheckedNames').value.split('\n')
+    sortedList = theList.sort()
+    document.getElementById('listOfCheckedNames').value = sortedList.join('\n')
+    }
+</script>
+
+
+
+
+<style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown_icon {
+    /*width: 24px;*/
+    height: 24px;
+    cursor: pointer;
+}
+
+.dropdown_menu {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    display: none;
+    z-index: 1000;
+    min-width: 200px;
+}
+.dropdown_item {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eee;
+    line-height: 1.6;
+    }
+
+.dropdown_item:last-child {
+    border-bottom: none;
+}
+
+.dropdown_item:hover {
+    background-color: #f0f0f0;
+}
+#copyNotice {
+    position: fixed;
+    top: 40%;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 1rem;
+    z-index: 10000;
+    }
+
+
+.personsID {
+    color:gray;
+    margin-inline-start: 2em;
+    font-size: 70%;
+    }
+</style>
+
+
+<script>
+
 </script>
 </head>
 
@@ -208,6 +349,8 @@ function getPathSelectionsX (direction) {
 
 <body onLoad="init()">
 <dialog id="pathfinder" style="border-radius:.5rem; max-width: 70%;">
+<dialog id="copyNotice">Copied !</dialog>
+
 <h2>Find relationship pathways</h2>
 
 <p>To show how two individuals are linked, click on the checkboxes of two people in the index or enter their ids in the boxes, then click on one of the directional buttons. <button onClick="document.getElementById('pathPair1').value = mark">Add root person</button></p>
@@ -233,6 +376,31 @@ function getPathSelectionsX (direction) {
 
 
 <div id="floatingLinks" style="margin-block: 3rem;">
+<div class="dropdown">
+    <img id="dropdownToggle" src="lib/i/moreOptions.png" alt="More options" class="dropdown_icon" style="height: 1.8rem;">
+    <div id="dropdownMenu" class="dropdown_menu">
+        <div style="line-height: 2rem; font-size:.8rem; font-weight: bold;">ADD CHECKS/TAGS</div>   
+        <div class="dropdown_item" onclick="checkVisibleRows()">Add checkmarks to all visible people</div>
+        <div class="dropdown_item" onClick="checkFromList()">Add checkmarks to everyone in the list</div>
+        <div class="dropdown_item" onClick="checkRoot()">Add a checkmark to the root person</div>
+        <div class="dropdown_item" onClick="tagsFromList()">Tag everyone in the list</div>
+        <div class="dropdown_item" onClick="uncheckAll()">Remove all checkmarks</div>
+        <div class="dropdown_item" onclick="swapChecks();">Invert checkmark selections</div>
+        
+        <div style="line-height: 2rem; font-size:.8rem; font-weight: bold; margin-block-start:3rem;">MAKE A LIST</div>   
+        <div class="dropdown_item" onClick="listChecked()">List everyone with check marks</div>
+        <div class="dropdown_item" onClick="listTagged()">List everyone who is tagged</div>
+        <div class="dropdown_item" onClick="uncheck100()">List people born &lt;100 years ago</div>
+        
+        <div style="line-height: 2rem; font-size:.8rem; font-weight: bold; margin-block-start:3rem;">LIST MANAGEMENT</div>   
+        <div class="dropdown_item" onClick="showFromList()">Show only the people in the list</div>
+        <div class="dropdown_item" onClick="sortList()">Sort the list items alphabetically</div>
+        <div class="dropdown_item" onClick="document.getElementById('listOfCheckedNames').value = ''">Clear the list</div>
+    </div>
+</div>
+
+
+
 <a title="Go to the Search page." id="searchLink" href="">&#x1F50D;</a>
 
 <a href="#top" title="Go to root" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">&#x1F538;</a>
@@ -246,12 +414,12 @@ function getPathSelectionsX (direction) {
 <div id="topMenu">
 	<a id="detailLink" href="#"></a>
 	<a id="fatherLink" href="#"></a>
-	<a id="swapChecks" href="#" onClick="swapChecks(); return false">Swap checkmarks</a>
-	<a id="checkVisibleRows" href="#" onClick="checkVisibleRows(); return false">Check visible</a>
-	<a id="removeChecks" href="#" onClick="uncheckAll(); return false">Remove checks</a>
+	<a id="checkVisibleRows" href="#" onClick="checkVisibleRows(); return false">&#x2713; visible</a>
+	<a id="removeChecks" href="#" onClick="uncheckAll(); return false">Remove &#x2713;</a>
+	<a id="swapChecks" href="#" onClick="swapChecks(); return false">Swap &#x2713;</a>
 	<a href="#top" onClick="uncheck100()">&lt;100 years</a>
-	<a id="listNames" href="#" onClick="checkFromList(); return false">List&gt;checks</a>
-	<a id="captureNames" href="#" onClick="listChecked(); return false">Checks&gt;list</a>
+	<a id="listNames" href="#" onClick="checkFromList(); return false">List&#x2192;&#x2713;</a>
+	<a id="captureNames" href="#" onClick="listChecked(); return false">&#x2713;&#x2192;list</a>
 	<!--a href="index.html" style="margin-right: 2em;">Index</a-->
 	</div>
 
@@ -270,11 +438,36 @@ function getPathSelectionsX (direction) {
   <div id="subsubbanner" style="text-transform: none;">
     <div>You can use space as a wildcard character when filtering.<br/>For example, '<code>lak ag</code>' will match '<samp>Lakelin (Higley), Elizabeth Agnes</samp>'.</div>
   </div>
-  <div id="subsubsubbanner">
-  <div><a href="#explanations" onClick="if (document.getElementById('listOfCheckedNames').style.display == 'block') document.getElementById('listOfCheckedNames').style.display = 'none'; else document.getElementById('listOfCheckedNames').style.display = 'block'">Lists <span id="totalX"></span></a></div>
-  <textarea id="listOfCheckedNames" style="display:none; width:70%;" placeholder="Add a list of ids here, one per line, and click on CHECK FROM LIST. Only those people will be checked below. Alternatively, clicking on LIST FROM CHECKED will add a list here." onInput="listed=this.value.split('\n');document.getElementById('checkedTotal').textContent=listed.length"></textarea> <span style="width: 20%;">List length: <span id="checkedTotal">0</span></span>
+  
+  
+  
+  <div id="layout" style="display: flex; flex-direction: row-reverse; align-items: flex-start;">
+  
+  
+  <!-- LIST MANAGEMENT -->
+  <div id="subsubsubbanner" style="width:20rem; display: block;">
+  
+  <div style="height: 2rem;">
+      <a href="#explanations">Lists [<span id="checkedTotal">0</span>]</a>
+      
+      <img src="lib/i/copytiny.svg" alt="Copy" style="height:.8em; width:1em; margin-inline:2rem; vertical-align: baseline; cursor: pointer;" 
+          onclick="navigator.clipboard.writeText(document.getElementById('listOfCheckedNames').value); document.getElementById('copyNotice').style.display = 'block'; setTimeout(() =&gt; { document.getElementById('copyNotice').style.display = 'none' }, '500')">
+      
+      <span onclick="document.getElementById('listOfCheckedNames').value=''"
+          style="color:gray; margin-inline-start:0; cursor:pointer;"
+          title="Clear the list">X</span>
+      </div>
+  
+  
+  <textarea id="listOfCheckedNames" style="width:90%; height:80vh; color: #555; padding: .5em;" placeholder="Add a list of ids here, one per line, and click on CHECK FROM LIST. Only those people will be checked below. Alternatively, clicking on LIST FROM CHECKED will add a list here." onInput="listed=this.value.split('\n');document.getElementById('checkedTotal').textContent=listed.length"></textarea>
+
   </div>
-  <article>
+  
+  
+  
+  
+  <!-- MAIN PANEL -->
+  <article id="mainpanel">
     <section id="listrecord">
       </section>
     <!--div id="places">
@@ -282,6 +475,7 @@ function getPathSelectionsX (direction) {
       <p>Where the date  Note that the dates following each name are only token dates, associated with the name as part of its ID. In some cases these dates are pure guesswork, such as in the case where a father is known from a marriage record but no other information. In some cases the date may accurately reflect the birth date of the person. In others, that birth date may be ajusted in the light of new evidence in the actual records, but the date here will remain the same.<a target="_blank" href="https://maps.google.com/maps?q=53.8352112,-2.832418"></a></p>
     </div-->
   </article>
+  </div>
 </div>
 
 <script>
@@ -313,7 +507,8 @@ function init () {
         
         out += '<input type="checkbox" class="checkbox" title="'+person+'"> &nbsp;'
         
-        out += '<a href="tree.html?person='+person+'&project='+project+'">'+db[person].f
+        //out += '<a href="tree.html?person='+person+'&project='+project+'">'+db[person].f
+        out += `<a href="tree.html?project=${ project }&person=${ person }">${ db[person].f }`
 		if (db[person].m) {
 			for (var i=0;i<db[person].m.length;i++) {
 				out += '⏵'+db[person].m[i]
@@ -330,7 +525,7 @@ function init () {
 			}
 		//if (db[person].p) out += '</a><a class="detaillink" href="person.html?project='+project+'&person='+person+'">[details]'
 		out += '</a>'
-		out += `<span style="color:gray;margin-inline-start: 2em; font-size: 70%;">${ person }</span>`
+		out += ` <span class="personsID">${ person }</span>`
 		out += '</p>'
  		//out += '</div>'
        
@@ -347,7 +542,74 @@ function init () {
         mark = localStorage[projectRoot]
         }
 
-	}
+
+    // read in which people are tagged
+    const saved = JSON.parse(localStorage[project+'tags'] || "[]")
+    saved.forEach(id => {
+        if (db[id]) db[id].tagged = true
+        })
+
+
+
+
+const toggle = document.getElementById('dropdownToggle');
+const menu = document.getElementById('dropdownMenu');
+const container = toggle.closest('.dropdown');
+
+toggle.addEventListener('click', () => {
+    const isOpen = menu.style.display === 'block';
+
+    if (isOpen) {
+        menu.style.display = 'none';
+        return;
+    }
+
+    // Show menu so we can measure it
+    menu.style.display = 'block';
+
+    const iconRect = toggle.getBoundingClientRect();
+    const menuRect = menu.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+
+    // Position below icon (relative to container)
+    let top = iconRect.bottom - containerRect.top;
+
+    // Align RIGHT edge of menu with RIGHT edge of icon (relative to container)
+    let left = (iconRect.right - menuRect.width) - containerRect.left;
+
+    // Clamp so it doesn't go off the left of the viewport
+    if (containerRect.left + left < 8) {
+        left = 8 - containerRect.left;
+    }
+
+    // If menu would go off bottom of viewport, show above icon
+    if (containerRect.top + top + menuRect.height > window.innerHeight) {
+        top = iconRect.top - menuRect.height - containerRect.top;
+    }
+
+    menu.style.left = `${left}px`;
+    menu.style.top = `${top}px`;
+});
+
+// Close when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.dropdown')) {
+        menu.style.display = 'none';
+    }
+});
+
+// Close menu when pressing Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        menu.style.display = 'none';
+    }
+});
+
+
+}
+
+
+
 /*
 var sortkeys = []
 var names = document.querySelectorAll('#list p')

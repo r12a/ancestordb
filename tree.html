@@ -262,7 +262,7 @@ function getAge (eDate, eYear, bDate, bYear) {
 
 
 
-function getPersonDetails (id, type, loc) {
+function getPersonDetailsX (id, type, loc) {
 	if (db[id]) {
 		var out = '<div class="'+type+'"'
 		if (loc) out += ' id="'+loc+'"'
@@ -320,7 +320,8 @@ function getPersonDetails (id, type, loc) {
 			out += '<div class="sp">'+temp+'</div>'
 			}
 		out += '<div class="showme">'
-		if (db[id].p) { out += '<a href="person.html?person='+id+'&project='+window.project+'" style="font-size:120%;" title="Show details">📄</a> ' }
+		//if (db[id].p) { out += '<a href="person.html?person='+id+'&project='+window.project+'" style="font-size:120%;" title="Show details">📄</a> ' }
+		if (db[id].p) { out += '<a href="person.html?project='+window.project+'&person='+id+'" style="font-size:120%;" title="Show details">📄</a> ' }
 
         else if (db[id].recent) { out += '<a href="person.html?person='+id+'&project='+db[id].recent+'" style="font-size:120%;" title="Show details in private database">📄</a> ' }
 
@@ -357,10 +358,146 @@ function getPersonDetails (id, type, loc) {
 		}
 	return out
 	}
+function getPersonDetails (id, type, loc) {
+	// Always initialise out so it exists in both branches
+	let out = ''
+	
+	// If the person exists in the database, build the detailed block
+	if (db[id]) {
+		// Start outer wrapper with type and optional id
+		out = `<div class="${ type }"`
+		if (loc) out += ` id="${ loc }"`
+		out += '>'
+		
+		// Add thumbnail if available, otherwise gendered fallback icon
+		if (db[id].thumb) out += `<img src="${ window.project }/thumbs/${ id }.jpg" alt=""/>`
+		else {
+			out += '<img src="lib/i/'
+			if (!db[id].male) out += 'wo'
+			out += 'man_pic.png" alt=""/>'
+            }
+		
+		// Begin data block for name, dates, occupation, etc.
+		out += '<div class="data">'
+		
+		// Name link: person.html if loc=='' else tree.html
+		if (loc === '') out += `<div class="name"><a href="person.html?project=${ window.project }&person=${ id }"`
+		else out += `<div class="name"><a href="tree.html?project=${ window.project }&person=${ id }"`
+		
+		// Highlight if this person is in the mark list
+		if (markList.has(id)) out += ' style="color: chocolate;"'
+		out += '>'
+		
+		// Add document icon for direct person view
+		if (loc === '') out += '<span style="font-size:160%;">📄</span> '
+		
+		// Add display name (known-as if present, otherwise given name)
+		if (db[id].k) out += `${ db[id].k } (${ db[id].g }) `
+		else out += `${ db[id].g } `
+		out += `${ db[id].f }`
+		
+		// Close name link
+		out += '</a>'
+		
+		// Add warning icon if there are cautionary notes
+		if (db[id].warning) out += `<img style="width: 1em; height: 1em; margin-inline-start:1rem;" src="lib/i/caution.png" alt="Caution" title="Cautionary notes." onclick="alert('${ db[id].warning }')">`
+		
+		// Close name block
+		out += '</div>'
+		
+		// Add birth–death years and optional calculated age span
+		out += `<div class="dates">${ db[id].b }–${ db[id].d }`
+		if (localStorage.treeDetailed == 'yes' && db[id].b && db[id].d) out += `<span class="detaileddates" style="margin-left:2em;">${ getAge(db[id].ddate, db[id].d, db[id].bdate, db[id].b) }</span>`
+		out += '</div>'
+		
+		// Add detailed birth and death information if detailed mode is enabled
+		if (localStorage.treeDetailed == 'yes') {
+			out += '<div class="detaileddates">b. '
+			if (db[id].bplace) out += `${ db[id].bplace }, `
+			out += `${ db[id].bdate }</div>`
+			
+			out += '<div class="detaileddates">d. '
+			if (db[id].dplace) out += `${ db[id].dplace }, `
+			out += `${ db[id].ddate }</div>`
+            }
+		
+		// Adoption information: show adopter if this is the main person view
+		if (db[id].adopted && loc == '') {
+			out += `<div class="adopted">Adopted by <a href="tree.html?project=${ window.project }&person=${ db[id].adopted }">${ db[db[id].adopted].g } ${ db[db[id].adopted].f }</a></div>`
+            }
+		// For children, just mark that they were adopted
+		else if (db[id].adopted && type == 'child') out += '<div class="adopted">Adopted</div>'
+		
+		// Add occupation if present
+		if (db[id].occ) out += `<div class="occ">${ db[id].occ }</div>`
+		
+		// For children, list spouses from family groups
+		if (db[id].fg && type === 'child') {
+			let temp = 'sp: '
+			for (let i = 0; i < db[id].fg.length; i++) {
+				let spouse = db[id].fg[i][1]
+				if (db[spouse]) temp += `${ db[spouse].g } ${ db[spouse].f }`
+				else temp += db[id].fg[i][1]
+				if (i < db[id].fg.length - 1) temp += ', '
+                }
+			out += `<div class="sp">${ temp }</div>`
+            }
+		
+		// Begin action icon block (links to views and external resources)
+		out += '<div class="showme">'
+		
+		// Show details in public project
+		if (db[id].p) out += `<a href="person.html?project=${ window.project }&person=${ id }" style="font-size:120%;" title="Show details">📄</a> `
+		// Show details in private / recent project
+		else if (db[id].recent) out += `<a href="person.html?person=${ id }&project=${ db[id].recent }" style="font-size:120%;" title="Show details in private database">📄</a> `
+		
+		// Link to ancestors tree
+		out += `<a href="ancestors.html?project=${ window.project }&person=${ id }" style="font-size:120%; opacity:60%;" title="Show family tree">🌳</a> `
+		// Link to precedents (ancestors list)
+		out += `<a href="precedents.html?project=${ window.project }&person=${ id }" style="font-size:120%; opacity:80%;" title="Show ancestors">⏫</a> `
+		// Link to descendants, unless cstatus blocks it
+		if (!db[id].cstatus) out += `<a href="descendants.html?project=${ window.project }&person=${ id }" style="font-size:120%; opacity:80%;" title="Show descendants">⏬</a> `
+		
+		// Link to Ancestry.com tree if ancestry id is present
+		if (db[id].a) out += `<a title="Show in Ancestry.com family tree." style="opacity:80%;" href="javascript:void(0)" onclick="ancestry='${ db[id].a }'.split(','); openWindow('https://www.ancestry.co.uk/family-tree/tree/'+ancestry[0]+'/family?cfpid='+ancestry[1])"><img src="lib/i/chart.png" style="height:1.7em; width:2em; vertical-align:top;"></a>`
+		
+		// Copy ID to clipboard icon
+		out += `<a title="Copy id to clipboard" style="opacity:80%;" href="javascript:void(0)"><img src="lib/i/copytiny.svg" style="height:1em; width:1em; margin-inline:.25em;" onclick="navigator.clipboard.writeText('${ id }'); document.getElementById('copyNotice').style.display='block'; setTimeout(() => { document.getElementById('copyNotice').style.display='none' }, '500')"></a> `
+		
+		// Tagged indicator if this person has been tagged
+		if (db[id].tagged) out += `<span style="font-size:140%; color:gray; margin-block-start:.25rem;" title="This person has been tagged.">✓</span>`
+		
+		// Close action icon block
+		out += '</div>'
+		
+		// For children or spouses, show cstatus (e.g., "no issue") as a stop marker
+		if (db[id].cstatus && (type === 'child' || type === 'spouse')) out += `<div class="stop">${ db[id].cstatus }</div>`
+		
+		// For main person view, show cstatus as a no‑issue banner
+		if (type === 'person' && db[id].cstatus) out += `<p class="noissue">– ${ db[id].cstatus } –</p>`
+		
+		// Close data and outer wrappers
+		out += '</div></div>'
+	   }
+	// If the person is missing from the database, build a simple fallback block
+	else {
+		out = `<div class="${ type }"`
+		if (loc) out += ` id="${ loc }"`
+		out += '>'
+		out += '<img src="lib/i/'
+		if (loc && loc.match('mother')) out += 'wo'
+		out += 'man_pic.png" alt=""/>'
+		out += `${ id }</div></div>`
+        }
+	
+	// Return the completed HTML for this person
+	return out
+    }
 
 
 
-function getFamilyGroup (group, person) {
+
+function getFamilyGroupX (group, person) {
 	
 	out = '<div class="fgroup">'
 	out += '<div style="float:right; margin:1em;">'+group[0]+'</div>'
@@ -381,7 +518,38 @@ function getFamilyGroup (group, person) {
 	
 	return out
 	}
-
+function getFamilyGroup(group, person) {
+	// Start building the family group container
+	let out = '<div class="fgroup">'
+	
+	// Add the marriage/relationship label (e.g., "m. 1861")
+	out += '<div style="float:right; margin:1em;">' + group[0] + '</div>'
+	
+	// Add spouse details if found in db, otherwise show plain text
+	if (db[group[1]]) out += getPersonDetails(group[1], 'spouse')
+	else out += '<div class="spouse">' + group[1] + '</div>'
+	
+	// Begin children container
+	out += '<div class="children">'
+	
+	// Handle cstatus
+	if (group[2] === 'noissue') out += '<p class="noissue">– No children –</p>'
+	else {
+		// Loop through all children starting at index 2
+		for (let c = 2; c < group.length; c++) {
+			// If child exists in db, use full details
+			if (db[group[c]]) out += getPersonDetails(group[c], 'child')
+			// Otherwise show plain text child entry
+			else out += '<div class="child">' + group[c] + '</div>'
+		}
+	}
+	
+	// Close children and main container
+	out += '</div></div>'
+	
+	// Return the completed HTML block
+	return out
+	}
 
 
 function getName (phrase, id, part, uselink) {
@@ -454,7 +622,111 @@ function getName (phrase, id, part, uselink) {
 		}
 	else return ' '+id+' '
 	}
-
+function getName(phrase, id, part, uselink) {
+	// If the person is not in the database, just return the id
+	if (!db[id]) return id
+	
+	// Shortcut: 'x' in part means "no link" (inline name only)
+	if (part.match('x')) {
+		part = part.replace('x', '')
+		uselink = false
+		}
+	
+	// Get the person record
+	const person = db[id]
+	
+	// Legacy mappings for part values
+	if (part === 'given') part = 'g'
+	if (part === 'both') part = 'gf'
+	
+	// Initialise name components and link wrappers
+	let startTag = ''
+	let endTag = ''
+	let g = ''
+	let k = ''
+	let f = ''
+	let m = ''
+	
+	// Build link wrapper if requested and person exists
+	if (uselink && person) {
+		if (person.p) startTag = '<a href="person.html?project=' + project + '&person=' + id + '"'
+		else startTag = '<a href="tree.html?project=' + project + '&person=' + id + '" class="treeLink" '
+		startTag += '>'
+		endTag = '</a>'
+		}
+	
+	// Populate name components
+	if (person.k) k = person.k
+	else k = person.g
+	g = person.g
+	f = person.f
+	m = person.m
+	
+	// Simple formats: given only
+	if (part === 'g') return startTag + g + endTag
+	
+	// Given + family
+	if (part === 'gf') return startTag + g + ' ' + f + endTag
+	
+	// Known-as only
+	if (part === 'k') return startTag + k + endTag
+	
+	// Known-as + family
+	if (part === 'kf') return startTag + k + ' ' + f + endTag
+	
+	// Known-as (given in brackets if different)
+	if (part === 'kg') {
+		if (g === k) return startTag + g + endTag
+		else return startTag + k + ' (' + g + ') ' + endTag
+		}
+	
+	// Given (known-as in brackets if different) + family
+	if (part === 'gkf') {
+		if (g === k) return startTag + g + ' ' + f + endTag
+		else return startTag + g + ' (' + k + ') ' + f + endTag
+		}
+	
+	// Holder for combined surnames (birth + married)
+	let allSurnames = ''
+	
+	// Given/known + full surname chain (birth + all married names)
+	if (part === 'gfm' || part === 'kfm') {
+		if (person.f) allSurnames = person.f
+		else allSurnames = '(?)'
+		if (person.m) {
+			for (let i = 0; i < person.m.length; i++) allSurnames += '&#x23F5;&#x2009;' + person.m[i]
+			}
+		if (part === 'gfm') return startTag + g + ' ' + allSurnames + endTag
+		if (part === 'kfm') return startTag + k + ' ' + allSurnames + endTag
+		}
+	
+	// Given/known + first married surname only
+	if (part === 'gf+' || part === 'kf+') {
+		if (person.m && person.m.length > 0) allSurnames = person.m[0]
+		else allSurnames = ''
+		if (part === 'gf+') return startTag + g + ' ' + allSurnames + endTag
+		if (part === 'kf+') return startTag + k + ' ' + allSurnames + endTag
+		}
+	
+	// Given + second married surname (if present)
+	if (part === 'gf++') {
+		if (person.m && person.m.length > 1) allSurnames = person.m[1]
+		else allSurnames = ''
+		if (part === 'gf++') return startTag + g + ' ' + allSurnames + endTag
+		if (part === 'kf++') return startTag + k + ' ' + allSurnames + endTag
+		}
+	
+	// Given + third married surname (if present)
+	if (part === 'gf+++') {
+		if (person.m && person.m.length > 2) allSurnames = person.m[2]
+		else allSurnames = ''
+		if (part === 'gf+++') return startTag + g + ' ' + allSurnames + endTag
+		if (part === 'kf+++') return startTag + k + ' ' + allSurnames + endTag
+		}
+	
+	// Fallback: return id wrapped with spaces if format not recognised
+	return ' ' + id + ' '
+	}
 
 
 function getSiblings (group, individual) { 
@@ -499,7 +771,14 @@ function start () {
         flagList = localStorage[projectFlags].split('\n')
         for (i=0;i<flagList.length;i++) db[flagList[i]].tagged = true 
         }
-	
+
+            
+    // read in which people are tagged
+    const saved = JSON.parse(localStorage[project+'tags'] || "[]")
+    saved.forEach(id => {
+        if (db[id]) db[id].tagged = true
+        })
+
 	if (window.thisPerson) displayPerson(thisPerson, project)
 	document.getElementById('indexLink').href = 'index.html?project='+project
 

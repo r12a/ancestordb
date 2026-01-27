@@ -18,10 +18,47 @@
 .desc {
     color: chocolate;
     font-size: 90%;
-    margin-inline-start: 2rem;
+    /*margin-inline-start: 2rem;*/
+    text-align: end;
+    padding-inline-end: 1rem;
     }
-.personsName {
-    margin-inline-start: 2rem;
+.occDesc, .placeDesc {
+    color: chocolate;
+    font-size: 80%;
+    text-align: start;
+    text-transform: lowercase;
+    margin-inline-start: 1rem;
+    }
+.smallLocation {
+    font-size: 80%;
+    color: gray;
+    }
+td {
+    padding-inline: .5rem;
+    vertical-align: top;
+    }
+td.pName {
+    text-indent: -1em;
+    padding-inline-start: 1em;
+    }
+#inYear td.date {
+    font-variant: small-caps;
+    text-transform: lowercase;
+    }
+.occupation {
+    width: 20%;
+    }
+.occYear, .placeYear {
+    font-size: 80%;
+    color: gray;
+    width: 5%;
+    }
+.month {
+    font-variant: small-caps;
+    }
+.day {
+    font-size: 80%;
+    color: gray;
     }
 </style>
 <script>
@@ -162,71 +199,231 @@ function filterPlaces (str) {
 
 
 function filterOccupations (str) {
-    // searches for 'occ' fields in BMDC
-    
+	// Normalise search string for case‑insensitive matching
 	str = str.toLowerCase()
-	//str = str.replace(/ /,'.*')
+
 	var total = 0
-    window.lines = []
-    
-    for (name in dbOrdered) {
-        found = ''
-        if (db[name].birth && db[name].birth.focc && db[name].birth.focc.toLowerCase().includes(str)) found += 'birth'
-        
-        if (found.includes('birth') && db[name].father && db[db[name].father]) lines.push(db[name].birth.timestamp.split('-')[0]+'§'+db[name].father+'§'+'At childs birth'+'§'+db[name].birth.focc)
-        
-        
-        if (db[name].marriages) {
-            for (mRec in db[name].marriages) {
-                found = ''
-                if (db[name].marriages[mRec].gocc && db[name].marriages[mRec].gocc.toLowerCase().includes(str)) found +="g"
-                if (db[name].marriages[mRec].bocc && db[name].marriages[mRec].bocc.toLowerCase().includes(str)) found += "b"
-                if (db[name].marriages[mRec].gfocc && db[name].marriages[mRec].gfocc.toLowerCase().includes(str)) found += 'G'
-                if (db[name].marriages[mRec].bfocc && db[name].marriages[mRec].bfocc.toLowerCase().includes(str)) found += 'B'
-                
-                if (found.includes('g')) lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].gid+'§'+'At marriage'+'§'+db[name].marriages[mRec].gocc)
-                
-                if (found.includes('b')) lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].bid+'§'+'At marriage'+'§'+db[name].marriages[mRec].bocc)
-                
-                if (found.includes('G') && db[name].father) lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].father+'§'+'At child marriage'+'§'+db[name].marriages[mRec].gfocc)
-                
-                if (found.includes('B') && db[name].marriages[mRec].bfid) lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].bfid+'§'+'At child marriage'+'§'+db[name].marriages[mRec].bfocc)
-                }
-            }
+	window.lines = []		// Output array of matched occupation lines
 
+	// ------------------------------------------------------------
+	// LOOP THROUGH ALL PEOPLE IN ORDERED DATABASE
+	// ------------------------------------------------------------
+	for (name in dbOrdered) {
 
-        found = ''
-        if (db[name].death && db[name].death.occ && db[name].death.occ.toLowerCase().includes(str)) found += 'd'
+		// --------------------------------------------------------
+		// BIRTH OCCUPATION (father's occupation at child's birth)
+		// --------------------------------------------------------
+		found = ''
+		if (db[name].birth && db[name].birth.focc && db[name].birth.focc.toLowerCase().includes(str)) found += 'birth'
 
-        if (found.includes('d')) lines.push(db[name].death.timestamp.split('-')[0]+'§'+name+'§'+'At death'+'§'+db[name].death.occ)
+		// If match found, push: year § fatherID § description § occupation
+		if (found.includes('birth') && db[name].father && db[db[name].father])
+			lines.push(db[name].birth.timestamp.split('-')[0]+'§'+db[name].father+'§'+'At childs birth'+'§'+db[name].birth.focc)
 
+		// --------------------------------------------------------
+		// MARRIAGE OCCUPATIONS (groom, bride, fathers of each)
+		// --------------------------------------------------------
+		if (db[name].marriages) {
+			for (mRec in db[name].marriages) {
 
-        found = ''
-        if (db[name].events) {
-            for (eRec in db[name].events) {
-                if (db[name].events[eRec].occ && db[name].events[eRec].occ.toLowerCase().includes(str)) {
-                    if (db[name].events[eRec].type === 'census') lines.push(eRec.split('-')[0]+'§'+name+'§'+'In census'+'§'+db[name].events[eRec].occ)
-                    else lines.push(eRec.split('-')[0]+'§'+name+'§'+'In event'+'§'+db[name].events[eRec].occ)
-                    }
-                }
-            }
-        }
-    
-    
-    for (name in censi) {
-        if (censi[name].occ && censi[name].occ.toLowerCase().includes(str)) {
-            var head = censi[name].head
-            head = head.split(';')[0]
-            
-            var year = name.split('_')[0]
-            lines.push(year+'§'+head+'§'+'In census'+'§'+censi[name].occ)
-            }
-        }
-        
-        
+				found = ''	// Reset match flags for this marriage record
 
-	document.getElementById('total').textContent = window.lines.length
+				// Groom occupation
+				if (db[name].marriages[mRec].gocc && db[name].marriages[mRec].gocc.toLowerCase().includes(str)) found +="g"
+
+				// Bride occupation
+				if (db[name].marriages[mRec].bocc && db[name].marriages[mRec].bocc.toLowerCase().includes(str)) found += "b"
+
+				// Groom's father occupation
+				if (db[name].marriages[mRec].gfocc && db[name].marriages[mRec].gfocc.toLowerCase().includes(str)) found += 'G'
+
+				// Bride's father occupation
+				if (db[name].marriages[mRec].bfocc && db[name].marriages[mRec].bfocc.toLowerCase().includes(str)) found += 'B'
+
+				// Groom occupation match
+				if (found.includes('g'))
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].gid+'§'+'At marriage'+'§'+db[name].marriages[mRec].gocc)
+
+				// Bride occupation match
+				if (found.includes('b'))
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].bid+'§'+'At marriage'+'§'+db[name].marriages[mRec].bocc)
+
+				// Groom's father occupation match
+				if (found.includes('G') && db[name].father)
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].father+'§'+'At child marriage'+'§'+db[name].marriages[mRec].gfocc)
+
+				// Bride's father occupation match
+				if (found.includes('B') && db[name].marriages[mRec].bfid)
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].bfid+'§'+'At child marriage'+'§'+db[name].marriages[mRec].bfocc)
+			}
+		}
+
+		// --------------------------------------------------------
+		// DEATH OCCUPATION
+		// --------------------------------------------------------
+		found = ''
+		if (db[name].death && db[name].death.occ && db[name].death.occ.toLowerCase().includes(str)) found += 'd'
+
+		if (found.includes('d'))
+			lines.push(db[name].death.timestamp.split('-')[0]+'§'+name+'§'+'At death'+'§'+db[name].death.occ)
+
+		// --------------------------------------------------------
+		// EVENT OCCUPATIONS (census, employment, etc.)
+		// --------------------------------------------------------
+		found = ''
+		if (db[name].events) {
+			for (eRec in db[name].events) {
+
+				// If event has an occupation field matching the search
+				if (db[name].events[eRec].occ && db[name].events[eRec].occ.toLowerCase().includes(str)) {
+
+					// Census event
+					if (db[name].events[eRec].type === 'census')
+						lines.push(eRec.split('-')[0]+'§'+name+'§'+'In census'+'§'+db[name].events[eRec].occ)
+
+					// Other event
+					else
+						lines.push(eRec.split('-')[0]+'§'+name+'§'+'In event'+'§'+db[name].events[eRec].occ)
+				}
+			}
+		}
 	}
+
+	// ------------------------------------------------------------
+	// CENSUS HEAD OCCUPATIONS (external censi structure)
+	// ------------------------------------------------------------
+	for (name in censi) {
+		if (censi[name].occ && censi[name].occ.toLowerCase().includes(str)) {
+
+			var head = censi[name].head.split(';')[0]	// Extract head person ID
+			var year = name.split('_')[0]				// Extract census year
+
+			lines.push(year+'§'+head+'§'+'In census'+'§'+censi[name].occ)
+		}
+	}
+
+	// ------------------------------------------------------------
+	// UPDATE TOTAL MATCH COUNT IN UI
+	// ------------------------------------------------------------
+	document.getElementById('total').textContent = window.lines.length
+}
+
+
+
+
+
+
+
+
+function filterOccupations (str) {
+	// Normalise search string for case‑insensitive matching
+	str = str.toLowerCase()
+
+	var total = 0
+	window.lines = []		// Output array of matched occupation lines
+
+	// ------------------------------------------------------------
+	// LOOP THROUGH ALL PEOPLE IN ORDERED DATABASE
+	// ------------------------------------------------------------
+	for (name in dbOrdered) {
+
+		// --------------------------------------------------------
+		// BIRTH OCCUPATION (father's occupation at child's birth)
+		// --------------------------------------------------------
+		found = ''
+		if (db[name].birth && db[name].birth.focc && db[name].birth.focc.toLowerCase().includes(str)) found += 'birth'
+
+		// If match found, push: year § fatherID § description § occupation
+		if (found.includes('birth') && db[name].father && db[db[name].father])
+			lines.push(db[name].birth.timestamp.split('-')[0]+'§'+db[name].father+'§'+'At childs birth'+'§'+db[name].birth.focc)
+
+		// --------------------------------------------------------
+		// MARRIAGE OCCUPATIONS (groom, bride, fathers of each)
+		// --------------------------------------------------------
+		if (db[name].marriages) {
+			for (mRec in db[name].marriages) {
+
+				found = ''	// Reset match flags for this marriage record
+
+				// Groom occupation
+				if (db[name].marriages[mRec].gocc && db[name].marriages[mRec].gocc.toLowerCase().includes(str)) found +="g"
+
+				// Bride occupation
+				if (db[name].marriages[mRec].bocc && db[name].marriages[mRec].bocc.toLowerCase().includes(str)) found += "b"
+
+				// Groom's father occupation
+				if (db[name].marriages[mRec].gfocc && db[name].marriages[mRec].gfocc.toLowerCase().includes(str)) found += 'G'
+
+				// Bride's father occupation
+				if (db[name].marriages[mRec].bfocc && db[name].marriages[mRec].bfocc.toLowerCase().includes(str)) found += 'B'
+
+				// Groom occupation match
+				if (found.includes('g'))
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].gid+'§'+'At marriage'+'§'+db[name].marriages[mRec].gocc)
+
+				// Bride occupation match
+				if (found.includes('b'))
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].bid+'§'+'At marriage'+'§'+db[name].marriages[mRec].bocc)
+
+				// Groom's father occupation match
+				if (found.includes('G') && db[name].father)
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].father+'§'+'At child marriage'+'§'+db[name].marriages[mRec].gfocc)
+
+				// Bride's father occupation match
+				if (found.includes('B') && db[name].marriages[mRec].bfid)
+					lines.push(db[name].marriages[mRec].timestamp.split('-')[0]+'§'+db[name].marriages[mRec].bfid+'§'+'At child marriage'+'§'+db[name].marriages[mRec].bfocc)
+			}
+		}
+
+		// --------------------------------------------------------
+		// DEATH OCCUPATION
+		// --------------------------------------------------------
+		found = ''
+		if (db[name].death && db[name].death.occ && db[name].death.occ.toLowerCase().includes(str)) found += 'd'
+
+		if (found.includes('d'))
+			lines.push(db[name].death.timestamp.split('-')[0]+'§'+name+'§'+'At death'+'§'+db[name].death.occ.toLowerCase())
+
+		// --------------------------------------------------------
+		// EVENT OCCUPATIONS (census, employment, etc.)
+		// --------------------------------------------------------
+		found = ''
+		if (db[name].events) {
+			for (eRec in db[name].events) {
+
+				// If event has an occupation field matching the search
+				if (db[name].events[eRec].occ && db[name].events[eRec].occ.toLowerCase().includes(str)) {
+
+					// Census event
+					if (db[name].events[eRec].type === 'census')
+						lines.push(eRec.split('-')[0]+'§'+name+'§'+'In census'+'§'+db[name].events[eRec].occ)
+
+					// Other event
+					else
+						lines.push(eRec.split('-')[0]+'§'+name+'§'+'In event'+'§'+db[name].events[eRec].occ)
+				}
+			}
+		}
+	}
+
+	// ------------------------------------------------------------
+	// CENSUS HEAD OCCUPATIONS (external censi structure)
+	// ------------------------------------------------------------
+	for (name in censi) {
+		if (censi[name].occ && censi[name].occ.toLowerCase().includes(str)) {
+
+			var head = censi[name].head.split(';')[0]	// Extract head person ID
+			var year = name.split('_')[0]				// Extract census year
+
+			lines.push(year+'§'+head+'§'+'In census'+'§'+censi[name].occ)
+		}
+	}
+
+	// ------------------------------------------------------------
+	// UPDATE TOTAL MATCH COUNT IN UI
+	// ------------------------------------------------------------
+	document.getElementById('total').textContent = window.lines.length
+}
 
 
 
@@ -249,16 +446,16 @@ function filterDate (str) {
         found = ''
         place = db[name].birth && db[name].birth.place ? db[name].birth.place.split('http')[0] : 'Unknown place'
         //if (db[name].birth && db[name].birth.timestamp && db[name].birth.timestamp.includes(str)) lines.push(db[name].birth.timestamp+'§'+name+'§'+'born'+'§'+db[name].birth.place.split('http')[0])
-        if (db[name].birth && db[name].birth.timestamp && db[name].birth.timestamp.includes(str)) lines.push(db[name].birth.timestamp+'§'+name+'§'+'born'+'§'+place)
+        if (db[name].birth && db[name].birth.timestamp && db[name].birth.timestamp.includes(str)) lines.push(db[name].birth.timestamp+'§'+name+'§'+'birth'+'§'+place)
         
         
         if (db[name].marriages) {
             for (mRec in db[name].marriages) {
                 place = db[name].marriages[mRec].place ? db[name].marriages[mRec].place.split('http')[0] : 'Unknown place'
 
-                if (db[name].marriages[mRec].timestamp && db[name].marriages[mRec].timestamp.includes(str)) lines.push(db[name].marriages[mRec].timestamp+'§'+name+'§'+'married'+'§'+place)
+                if (db[name].marriages[mRec].timestamp && db[name].marriages[mRec].timestamp.includes(str)) lines.push(db[name].marriages[mRec].timestamp+'§'+name+'§'+'marr.'+'§'+place)
 
-                if (db[name].marriages[mRec].timestamp && db[name].marriages[mRec].timestamp.includes(str)) lines.push(db[name].marriages[mRec].timestamp+'§'+mRec+'§'+'married'+'§'+place)
+                if (db[name].marriages[mRec].timestamp && db[name].marriages[mRec].timestamp.includes(str)) lines.push(db[name].marriages[mRec].timestamp+'§'+mRec+'§'+'marr.'+'§'+place)
 
 /*
                 if (db[name].marriages[mRec].timestamp && db[name].marriages[mRec].timestamp.includes(str)) lines.push(db[name].marriages[mRec].timestamp+'§'+name+'§'+'married'+'§'+db[name].marriages[mRec].place.split('http')[0])
@@ -272,8 +469,8 @@ function filterDate (str) {
         if (db[name].death && db[name].death.timestamp && db[name].death.timestamp.includes(str)) {
             of = db[name].death && db[name].death.of ? db[name].death.of.split('http')[0] : 'Unknown place'
             place = db[name].death && db[name].death.place ? db[name].death.place.split('http')[0] : 'Unknown place'
-            if (db[name].death.of) lines.push(db[name].death.timestamp+'§'+name+'§'+'died'+'§'+of)
-            else if (db[name].death.place) lines.push(db[name].death.timestamp+'§'+name+'§'+'died'+'§'+place)
+            if (db[name].death.of) lines.push(db[name].death.timestamp+'§'+name+'§'+'death'+'§'+of)
+            else if (db[name].death.place) lines.push(db[name].death.timestamp+'§'+name+'§'+'death'+'§'+place)
             //if (db[name].death.of) lines.push(db[name].death.timestamp+'§'+name+'§'+'died'+'§'+db[name].death.of.split('http')[0])
             //else if (db[name].death.place) lines.push(db[name].death.timestamp+'§'+name+'§'+'died'+'§'+db[name].death.place.split('http')[0])
             }
@@ -323,8 +520,147 @@ function filterDate (str) {
 
 
 
-
 function drawLines () {
+	var out = '<table><tbody>'
+
+	// Sort alphabetically by field (case‑insensitive)
+	lines.sort(function(a, b) {
+		var fieldA = a.split('§')[3].toLowerCase()
+		var fieldB = b.split('§')[3].toLowerCase()
+		if (fieldA < fieldB) return -1
+		if (fieldA > fieldB) return 1
+		return 0
+		}
+	)
+
+	var prevField = null
+
+	for (l = 0; l < lines.length; l++) {
+		var line = lines[l].split('§')
+		var timestamp = line[0]
+		var person = line[1]
+		var description = line[2]
+		var field = line[3]
+
+		out += '<tr class="personRow">'
+
+		// If same field as previous row → show non‑breaking space
+		var fieldCell = (field.toLowerCase() === prevField) ? '&nbsp;' : field
+		out += '<td class="placename">' + fieldCell + '</td> '
+
+		out += `<td class="placeYear">${timestamp}</td>`
+
+		if (typeof db[person] === 'undefined')
+			out += `<td class="personsName">${ person } <span class="placeDesc">${ description }</span></td>`
+		else {
+			out += '<td><a class="personsName" target="_blank" href="tree.html?person=' +
+				   person + '&project=' + project + '">' + db[person].f
+
+			if (db[person].m)
+				for (var i = 0; i < db[person].m.length; i++)
+					out += '\u200B⏵' + db[person].m[i]
+
+			out += ', ' + db[person].g + '</a>'
+
+			if (timestamp)
+				out += '<sup class="ageTag">' +
+					   getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '') +
+					   '</sup> '
+            out += ' <span class="placeDesc">' + description + '</span></td> '
+			}
+
+		out += '</tr>'
+
+		prevField = field.toLowerCase()
+		}
+	
+	out += '</table>'
+	document.getElementById('listrecord').innerHTML = out
+	}
+
+
+
+
+
+
+
+function drawLinesX () {
+    var out = '<table id="placeList"><tbody>'
+    
+    lines.sort()
+    
+    for (l=0;l<lines.length;l++) {
+        var line = lines[l].split('§')
+        var timestamp = line[0]
+        var person = line[1]
+        var description = line[2]
+        var field = line[3]
+        
+        //console.log(timestamp, person, description, field)
+        
+        out += '<tr class="personRow">'
+
+        /*if (db[person]) {
+            // draw the icons
+            out += '<span style="margin-inline: 2em; float:right;">'
+            if (db[person].p) out += `<a href="person.html?person=${ person }&project=${ window.project }" style="" title="Show details">📄</a> `
+            out += `<a href="tree.html?person=${ person }&project=${ window.project }" style="opacity:90%;" title="Show relationships">⏳</a> `
+            out += `<a href="ancestors.html?person=${ person }&project=${ window.project }" style="opacity:60%;" title="Show family tree">🌳</a> `
+            out += `<a href="precedents.html?person=${ person }&project=${ window.project }" style="opacity:80%" title="Show ancestors">⏫</a> `
+            if (! db[person].cstatus) out += `<a href="descendants.html?person=${ person }&project=${ window.project }" style="opacity:80%" title="Show descendants">⏬</a>`
+            else out += `<span style="visibility:hidden;">⏬</span>`
+            out += '</span>'
+            }*/
+            
+
+        out += '<td class="placename">'+field+'</td> '
+
+        out += `<td class="placeYear">${timestamp}</td>`
+
+        if (typeof db[person] === 'undefined') out += `<td class="personsName">${ person }</td>`
+        else {
+            out += '<td><a class="personsName" target="_blank" href="tree.html?person='+person+'&project='+project+'">'+db[person].f
+            if (db[person].m) {
+                for (var i=0;i<db[person].m.length;i++) {
+                    out += '⏵'+db[person].m[i]
+                    }
+                }
+
+            out += ', '+db[person].g
+/*            if (db[person].b) {
+                out += ', '+db[person].b
+                if (db[person].d) out += '-'+db[person].d
+                }
+            else {
+                var temp = person.split('_')
+                out += ', ~'+temp[temp.length-1]
+                }
+*/            //if (db[person].p) out += '</a><a class="detaillink" href="person.html?project='+project+'&person='+person+'">[details]'
+            out += '</a>'
+
+
+            if (timestamp) out += '<sup class="ageTag">'+getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '')+'</sup>'
+            }
+
+        out += ' <span class="placeDesc">'+description+'</span></td>'
+
+        //out += `<span style="color:gray;margin-inline-start: 2em; font-size: 70%;">${ person }</span>`
+        out += '</tr>'
+        }
+    
+    out += '</tbody></table>'
+	document.getElementById('listrecord').innerHTML = out    
+	//document.getElementById('listrecord').innerHTML = '<div>'+document.getElementById('listrecord').innerHTML+out+'</div>'    
+    }
+
+
+
+
+
+
+
+
+function drawLinesX () {
     var out = ''
     
     lines.sort()
@@ -390,6 +726,390 @@ function drawLines () {
     }
 
 
+
+
+
+
+
+function drawOccLines () {
+    var out = '<table><tbody>'
+
+    // Sort alphabetically by occupation (case‑normalised)
+    lines.sort(function(a, b) {
+        var occA = a.split('§')[3].toLowerCase()
+        var occB = b.split('§')[3].toLowerCase()
+        if (occA < occB) return -1
+        if (occA > occB) return 1
+        return 0
+    })
+
+    var prevOcc = null
+
+    for (l = 0; l < lines.length; l++) {
+        var line = lines[l].split('§')
+        var timestamp = line[0]
+        var person = line[1]
+        var description = line[2]
+        var field = line[3]   // occupation
+
+        out += '<tr class="personRow">'
+
+        // If same occupation as previous row → show non‑breaking space
+        var occCell = (field.toLowerCase() === prevOcc) ? '&nbsp;' : field
+        out += '<td class="occupation">' + occCell + '</td> '
+
+        out += `<td class="occYear">${timestamp}</td>`
+
+        if (typeof db[person] === 'undefined') {
+            out += `<td class="personsName">${ person }</td>`
+        } else {
+            out += '<td><a class="personsName" target="_blank" href="tree.html?person=' +
+                   person + '&project=' + project + '">' + db[person].f
+
+            if (db[person].m) {
+                for (var i = 0; i < db[person].m.length; i++)
+                    out += '\u200B⏵' + db[person].m[i]
+            }
+
+            out += ', ' + db[person].g + '</a>'
+
+            if (timestamp)
+                out += '<sup class="ageTag">' +
+                       getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '') +
+                       '</sup> '
+        }
+
+        out += ' <span class="occDesc">' + description + '</span></td> '
+        out += '</tr>'
+
+        prevOcc = field.toLowerCase()   // update tracker (normalised)
+    }
+
+    out += '</table>'
+    document.getElementById('listrecord').innerHTML = out
+}
+
+
+
+
+
+
+
+function drawOccLinesX () {
+    var out = '<table><tbody>'
+
+    // Sort alphabetically by occupation (field = 4th column)
+    lines.sort(function(a, b) {
+        var occA = a.split('§')[3].toLowerCase()
+        var occB = b.split('§')[3].toLowerCase()
+        if (occA < occB) return -1
+        if (occA > occB) return 1
+        return 0
+    })
+
+    var prevOcc = null
+
+    for (l = 0; l < lines.length; l++) {
+        var line = lines[l].split('§')
+        var timestamp = line[0]
+        var person = line[1]
+        var description = line[2]
+        var field = line[3]   // occupation
+
+        out += '<tr class="personRow">'
+
+        // If same occupation as previous row → show non‑breaking space
+        var occCell = (field === prevOcc) ? '&nbsp;' : field
+        out += '<td class="occupation">' + occCell + '</td> '
+
+        out += `<td class="occYear">${timestamp}</td>`
+
+        if (typeof db[person] === 'undefined') {
+            out += `<td class="personsName">${ person }</td>`
+        } else {
+            out += '<td><a class="personsName" target="_blank" href="tree.html?person=' +
+                   person + '&project=' + project + '">' + db[person].f
+
+            if (db[person].m) {
+                for (var i = 0; i < db[person].m.length; i++)
+                    out += '\u200B⏵' + db[person].m[i]
+            }
+
+            out += ', ' + db[person].g + '</a>'
+
+            if (timestamp)
+                out += '<sup class="ageTag">' +
+                       getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '') +
+                       '</sup> '
+        }
+
+        out += ' <span class="occDesc">' + description + '</span></td> '
+        out += '</tr>'
+
+        prevOcc = field   // update tracker
+    }
+
+    out += '</table>'
+    document.getElementById('listrecord').innerHTML = out
+}
+
+
+
+
+
+
+
+
+function drawOccLinesX () {
+    var out = '<table><tbody>'
+    
+    lines.sort()
+    
+    for (l=0;l<lines.length;l++) {
+        var line = lines[l].split('§')
+        var timestamp = line[0]
+        var person = line[1]
+        var description = line[2]
+        var field = line[3]
+        
+        //console.log(timestamp, person, description, field)
+        
+        out += '<tr class="personRow">'
+
+        out += '<td class="occupation">'+field+'</td> '
+
+        out += `<td class="occYear">${timestamp}</td>`
+
+        if (typeof db[person] === 'undefined') out += `<td class="personsName">${ person }</td>`
+        else {
+            out += '<td><a class="personsName" target="_blank" href="tree.html?person='+person+'&project='+project+'">'+db[person].f
+            if (db[person].m) {
+                for (var i=0;i<db[person].m.length;i++) {
+                    out += '\u200B⏵'+db[person].m[i]
+                    }
+                }
+
+            out += ', '+db[person].g
+            out += '</a>'
+
+
+            if (timestamp) out += '<sup class="ageTag">'+getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '')+'</sup> '
+            }
+
+        out += ' <span class="occDesc">'+description+'</span></td> '
+
+        //out += `<span style="color:gray;margin-inline-start: 2em; font-size: 70%;">${ person }</span>`
+        out += '</tr>'
+        }
+    
+    out += '</table>'
+	document.getElementById('listrecord').innerHTML = out    
+	//document.getElementById('listrecord').innerHTML = '<div>'+document.getElementById('listrecord').innerHTML+out+'</div>'    
+    }
+
+
+
+
+function drawYearLinesX () {
+    var out = `<table id="inYear"><tbody>`
+        
+    lines.sort()
+    
+    for (l=0;l<lines.length;l++) {
+        var line = lines[l].split('§')
+        var timestamp = line[0]
+        var person = line[1]
+        var description = line[2]
+        var field = line[3]
+        
+        out += '<tr class="personRow">'
+
+        out += `<td>${ ts2Date(timestamp) }</td>`
+
+        out += `<td class="desc">${ description }</td>`
+
+        if (typeof db[person] === 'undefined') out += `<td class="personsName">${ person }</td>`
+        else {
+            out += '<td><a class="personsName" href="tree.html?person='+person+'&project='+project+'">'+db[person].f
+            if (db[person].m) {
+                for (var i=0;i<db[person].m.length;i++) {
+                    out += '⏵'+db[person].m[i]
+                    }
+                }
+
+            out += ', '+db[person].g
+            out += '</a>'
+
+
+            if (timestamp) out += '<sup class="ageTag">'+getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '')+'</sup>'
+            
+            out += `</td>`
+            }
+
+        out += ` <td class="smallLocation">${ field }</td>`
+        out += '</tr>'
+        }
+    
+	document.getElementById('listrecord').innerHTML = out    
+    }
+
+
+function drawYearLinesXX () {
+    var out = `<table id="inYear"><tbody>`
+
+    lines.sort()
+
+    var prevTimestamp = null
+    var prevDescription = null
+
+    for (l = 0; l < lines.length; l++) {
+        var line = lines[l].split('§')
+        var timestamp = line[0]
+        var person = line[1]
+        var description = line[2]
+        var field = line[3]
+
+        out += '<tr class="personRow">'
+
+        // DATE + DESCRIPTION suppression logic
+        var showDate = !(timestamp === prevTimestamp && description === prevDescription)
+        var showDesc = showDate   // same rule: only blank if BOTH match
+
+        out += `<td class="date">${ showDate ? ts2Date(timestamp) : '' }</td>`
+        out += `<td class="desc">${ showDesc ? description : '' }</td>`
+
+        // PERSON column
+        if (typeof db[person] === 'undefined') out += `<td class="personsName">${ person }</td>`
+        else {
+            out += '<td class="pName"><a class="personsName" target="_blank" href="tree.html?person=' + person + '&project=' + project + '">'
+            out += db[person].g + ' '
+            out += db[person].f
+            if (db[person].m) {
+                for (var i = 0; i < db[person].m.length; i++) {
+                    out += '⏵\u200B' + db[person].m[i]
+                    }
+                }
+            //out += ', ' + db[person].g
+            out += '</a>'
+
+            if (timestamp) {
+                out += '<sup class="ageTag">' + getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '') + '</sup>'
+                }
+
+            out += `</td>`
+            }
+
+        out += `<td class="smallLocation">${ field }</td>`
+        out += '</tr>'
+
+        // Update trackers
+        prevTimestamp = timestamp
+        prevDescription = description
+        }
+
+    document.getElementById('listrecord').innerHTML = out
+    }
+
+
+
+function drawYearLines () {
+	var out = `<table id="inYear"><tbody>`
+
+	lines.sort()
+
+	var prevTimestamp = null
+	var prevDescription = null
+	var prevMonth = null
+
+	for (l = 0; l < lines.length; l++) {
+		var line = lines[l].split('§')
+		var timestamp = line[0]
+		var person = line[1]
+		var description = line[2]
+		var field = line[3]
+
+		out += '<tr class="personRow">'
+
+		// DATE + DESCRIPTION suppression logic
+		var showDate = !(timestamp === prevTimestamp && description === prevDescription)
+		var showDesc = showDate
+
+		// Convert timestamp → "12 Mar"
+		var fullDate = showDate ? ts2Date(timestamp) : ''
+		var month = ''
+		var day = ''
+
+		if (fullDate) {
+			var parts = fullDate.split(' ')
+			day = parts[0]		// "12"
+			month = parts[1]	// "Mar"
+		  }
+
+		// Month suppression
+		var monthCell = (month && month === prevMonth) ? '&nbsp;' : month
+
+		out += `<td class="month">${ monthCell }</td>`
+		out += `<td class="day">${ day }</td>`
+		out += `<td class="desc">${ showDesc ? description : '' }</td>`
+
+		// PERSON column
+		if (typeof db[person] === 'undefined')
+			out += `<td class="personsName">${ person }</td>`
+		else {
+			out += '<td class="pName"><a class="personsName" target="_blank" href="tree.html?person=' +
+				   person + '&project=' + project + '">'
+			out += db[person].g + ' '
+			out += db[person].f
+
+			if (db[person].m)
+				for (var i = 0; i < db[person].m.length; i++)
+					out += '⏵\u200B' + db[person].m[i]
+
+			out += '</a>'
+
+			if (timestamp)
+				out += '<sup class="ageTag">' +
+					   getAgeTS('', timestamp, getTimestamp(db[person].bdate, db[person].b), '') +
+					   '</sup>'
+
+			out += `</td>`
+			}
+
+		out += `<td class="smallLocation">${ field }</td>`
+		out += '</tr>'
+
+		// Update trackers
+		prevTimestamp = timestamp
+		prevDescription = description
+		if (month) prevMonth = month
+		}
+
+	document.getElementById('listrecord').innerHTML = out
+	}
+
+
+function ts2Date (ts) {
+    // converts a timestamp to MMM-DD for the Events in a Year filter
+    
+    let [year, month, day] = ts.split('-')
+    
+    switch (month) {
+        case '01': month = 'Jan'; break
+        case '02': month = 'Feb'; break
+        case '03': month = 'Mar'; break
+        case '04': month = 'Apr'; break
+        case '05': month = 'May'; break
+        case '06': month = 'Jun'; break
+        case '07': month = 'Jul'; break
+        case '08': month = 'Aug'; break
+        case '09': month = 'Sep'; break
+        case '10': month = 'Oct'; break
+        case '11': month = 'Nov'; break
+        case '12': month = 'Dec'; break
+        }
+    
+    return `${ day } ${ month }`
+    }
 
 
 
@@ -479,37 +1199,64 @@ function getTimestamp (date, year) {
     </div>
   </div>
   <div id="subbanner">
-    <div>Filter <input id="filter" type="text" placeholder="Type a place, occupation, or year."
-        style="width: 15rem;" onChange="
-        document.getElementById('listrecord').innerHTML = ''
-        filterPlaces(document.getElementById('filter').value.trim().toLowerCase())
-        drawLines()
-    "> 
-     <a href="#explanations" style="margin-inline:3rem;">Total <span id="total"></span></a>
-   
+    <div style="display: flex; flex-direction: row;">
+        Filters &nbsp;
+        
+        <!-- PLACES -->
+        <span>
+        <input id="filter" type="text" placeholder="Type a place."
+            style="width: 10rem;" onChange="
+            document.getElementById('listrecord').innerHTML = ''
+            filterPlaces(document.getElementById('filter').value.trim().toLowerCase())
+            drawLines()
+            ">
+        <br>
+        <button onclick="
+            document.getElementById('listrecord').innerHTML = ''
+            filterPlaces(document.getElementById('filter').value.trim().toLowerCase())
+            drawLines()
+            ">Find a place</button> 
+        </span> &nbsp;
+
+        <!-- OCCUPATIONS -->
+        <span>
+        <input id="occFilter" type="text" placeholder="Type an occupation."
+            style="width: 10rem;" onChange="
+            document.getElementById('listrecord').innerHTML = ''
+            filterOccupations(document.getElementById('occFilter').value.trim().toLowerCase())
+            drawOccLines()
+            ">
+        <br>
+        <button onclick="
+            document.getElementById('listrecord').innerHTML = ''
+            filterOccupations(document.getElementById('occFilter').value.trim().toLowerCase())
+            drawOccLines()
+            ">Find an occupation</button> 
+        </span> &nbsp;
+
+        <!-- YEARS -->
+        <span>
+        <input id="yearFilter" type="text" placeholder="Type a year."
+            style="width: 8rem;" onChange="
+            document.getElementById('listrecord').innerHTML = ''
+            filterDate(document.getElementById('yearFilter').value.trim().toLowerCase())
+            drawYearLines()
+            ">
+        <br>
+        <button onclick="
+            document.getElementById('listrecord').innerHTML = ''
+            filterDate(document.getElementById('yearFilter').value.trim().toLowerCase())
+            drawYearLines()
+            ">Events in a year</button>
+        </span>
+
     
     <!--input id="filter2" type="text" onInput="secondFilter(this.value);" /-->
     </div>
   </div>
   <div id="subsubbanner">
     <div>
-    <button onclick="
-        document.getElementById('listrecord').innerHTML = ''
-        filterPlaces(document.getElementById('filter').value.trim().toLowerCase())
-        drawLines()
-    ">Find a place</button> 
-    
-    <button onclick="
-        document.getElementById('listrecord').innerHTML = ''
-        filterOccupations(document.getElementById('filter').value.trim().toLowerCase())
-        drawLines()
-    ">Find an occupation</button> 
-    
-    <button onclick="
-        document.getElementById('listrecord').innerHTML = ''
-        filterDate(document.getElementById('filter').value.trim().toLowerCase())
-        drawLines()
-    ">Events in a year</button>
+     <a href="#explanations" style="margin-inline:3rem;">Total <span id="total"></span></a>    
     </div>
   </div>
   <div id="subsubsubbanner" style="text-transform: none;">
