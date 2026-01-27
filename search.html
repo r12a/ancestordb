@@ -1310,15 +1310,15 @@ function init () {
         if (pairs[0] == 'occupation' && pairs[1]) {
             document.getElementById('listrecord').innerHTML = ''
             filterOccupations(decodeURI(pairs[1]).trim().toLowerCase())
-            drawLines()
-            document.getElementById('filter').value = decodeURI(pairs[1])
+            drawOccLines()
+            document.getElementById('occFilter').value = decodeURI(pairs[1])
             document.getElementById('total').textContent = window.lines.length
             }
         if (pairs[0] == 'date' && pairs[1]) {
             document.getElementById('listrecord').innerHTML = ''
             filterDate(decodeURI(pairs[1]).trim())
-            drawLines()
-            document.getElementById('filter').value = decodeURI(pairs[1])
+            drawYearLines()
+            document.getElementById('yearFilter').value = decodeURI(pairs[1])
             document.getElementById('total').textContent = window.lines.length
             }
         }
