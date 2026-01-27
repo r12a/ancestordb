@@ -94,11 +94,14 @@ function openWindow (locn) {
 	newwindow.focus()
 	}
 
+
+
 function openRecord (locn, ext) {
 	var newwindow = window.open('../../'+project+'_records/'+locn+ext, 'newwindow') 
 	output.focus()
 	newwindow.focus()
 	}
+
 
 
 function makeNotes (content, target) {
@@ -107,6 +110,8 @@ function makeNotes (content, target) {
 	for (var i=0;i<segments.length;i++) out += '<div>&quot;'+target+': '+segments[i]+'&quot;,</div>'
 	document.getElementById(target).innerHTML = out
 	}
+
+
 
 function fillAtHome () {
     if (db[theperson].fg) {
@@ -137,10 +142,6 @@ function pushData (textarea) {
             document.getElementById('deathDateIn').value += dateParts[0].trim()+' '+dateParts[1].trim()
             document.getElementById('deathYearIn').value += dateParts[2].trim()
             }
-
-        /*if (lines[i].toLowerCase().startsWith('birth date:')) document.getElementById('birthPlaceIn').value += lines[i].split(':')[1].trim()*/
-
-        /*if (lines[i].toLowerCase().startsWith('estimated birth year:')) document.getElementById('birthYearIn').value += '~'+lines[i].split(':')[1].trim()*/
 
         if (lines[i].toLowerCase().startsWith('quarter of the year:') ||
             lines[i].toLowerCase().startsWith('registration quarter:')) {
@@ -242,8 +243,6 @@ function autoPropagate (person) {
 
         if (dataItems.gps) {
             var fields = dataItems.gps[0].split('https:') 
-            //document.getElementById('gpsPlace').value += fields[0].trim()
-            //document.getElementById('gpsCoords').value = fields[1].replace('//maps.google.com/maps?q=','').trim()
             }
         
         
@@ -289,6 +288,9 @@ function autoPropagate (person) {
     document.getElementById('eventLink').href = `evententry.html?project=${ project }&person=${ theperson }`
 
 	}
+
+
+
 
 
 
@@ -352,6 +354,8 @@ function formatSource (sources, discussion) {
 
 
 
+
+
 function addQuotesTo (content) { 
     // quotes no longer needed. Just normalisation of lines.
 	var out = ''
@@ -364,6 +368,7 @@ function addQuotesTo (content) {
 		}
 	return out
 	}
+
 
 
 
@@ -407,15 +412,16 @@ function formatGPS (str) {
 .heading { font-weight:bold; padding-top: 1em; font-size: 110%; }
 </style>
 
+
+
+
+
+
 <script>
-
-
 
 function draftResult () {
     // called each time a field is changed; updates the output
     
-    //document.getElementById('id').textContent = `"id: ${ document.getElementById('idIn').value.trim() }",`
-
 
 // index
     if (document.getElementById('indexSourceIn').value.trim() || document.getElementById('indexSourceURLIn').value.trim())
@@ -575,19 +581,6 @@ function draftResult () {
         }
 
 
-    /*if (document.getElementById('gpsIn').value.trim()) {
-        lines = document.getElementById('gpsIn').value.split('\n')
-        output = ''
-        for (o=0;o<lines.length;o++) {
-            if (lines[o].trim() === '') continue
-            temp = lines[o].split(':')
-            output += '"'+temp[0]+' https://maps.google.com/maps?q='+temp[1].replace(/ /g,'')+'"'
-            if (o<lines.length-1) output += ', '
-            }
-        document.getElementById('gps').textContent = `gps: [${ output }],`
-        }
-    else document.getElementById('gps').textContent = ''*/
-    
 
     if (document.getElementById('gpsIn').value.trim()) {
         lines = document.getElementById('gpsIn').value.split('\n')
@@ -613,11 +606,6 @@ function draftResult () {
         var imagesOut = ''
         for (i=0;i<imagesArray.length;i++) {
             if (imagesArray[i].trim() === '') continue
-            // commented out since image pointers all include url:../2024 already
-            /*parts = imagesArray[i].split(' ')
-            if (imagesArray[i].match('http')) {} //
-            else parts[parts.length-1] = 'url:../'+project+'_records/'+parts[parts.length-1]
-            imagesOut += '"'+parts.join(' ').trim()+'"'*/
             if (i>0) imagesOut += ', '
             imagesOut += '"'+imagesArray[i].trim()+'"'
             //if (i>0 && i<imagesArray.length-1) imagesOut += ', '
@@ -741,13 +729,9 @@ function getMonthOLD (dateValue) {
   </div>
   <div id="subbanner">
     <div><a id="birthLink" href="birthentry.html" target="_blank">Birth</a> • <a id="marriageLink" href="marriageentry.html" target="_blank">Marriage</a> • <a id="censusLink" href="censusentry.html" target="_blank">Census</a> • <a id="eventLink" href="evententry.html" target="_blank">Event</a></div>
-    <!--<div><a href="birthentry.html">Birth</a> • <a href="marriageentry.html">Marriage</a> • <a href="censusentry.html">Census</a></div>-->
   </div>
   <div id="subsubbanner">
     <div>
-<!--<input type="text" id="idIn" style="width:200px;" placeholder="Add ID, then click on 🔁."
-onInput="document.getElementById('idIn').textContent = '&quot;id: '+this.value+'&quot;,';"
-onChange="autoPropagate(this.value);"/> <span class="redo" onClick="autoPropagate(document.getElementById('idIn').value);">🔁</span> <span class="redo"><a id="clearAll" href="">❌</a></span>-->
 
 <input type="text" id="idIn" style="width:200px;" placeholder="Add ID, then click on [Load].">
 <button id="load" title="Load data for this person" onclick="document.location=`dthentry.html?project=${ project }&person=${ document.getElementById('idIn').value }`">Load</button>
@@ -763,47 +747,7 @@ onChange="autoPropagate(this.value);"/> <span class="redo" onClick="autoPropagat
 </div>
 
 
-<div id="certificateTemplate" style="min-width: 14rem;">
-
-<!--<p style="font-style: italic;">Use these templates to<br>
-speed up data entry.</p>
-
-<h3>General</h3>
-<textarea onClick="this.select()">Name:&nbsp;
-Death date:&nbsp;
-Residence:&nbsp;
-Place died:&nbsp;
-Burial date:&nbsp;
-Burial place:&nbsp;
-Birth date:&nbsp;
-Age:&nbsp;
-Occupation:&nbsp;
-Cause:&nbsp;
-Informant:&nbsp;
-Denomination:&nbsp;
-Reg details:&nbsp;
-</textarea>
-
-<h3>Certificate</h3>
-<textarea onClick="this.select()">When:&nbsp;
-Where:&nbsp;
-Name:&nbsp;
-Age:&nbsp;
-Occupation:&nbsp;
-Cause:&nbsp;
-Informant:&nbsp;
-Reg date:&nbsp;
-</textarea>
-
-<h3>Parish record</h3>
-<textarea onClick="this.select()">Parish:&nbsp;
-When:&nbsp;
-Name:&nbsp;
-Age:&nbsp;
-Occ:&nbsp;
-Abode:&nbsp;
-</textarea>-->
-</div>
+<div id="certificateTemplate" style="min-width: 14rem;"></div>
 
 
 
@@ -812,8 +756,6 @@ The "Source #1" and other numbered headings allow you to capture the information
 The fields under "Data for building the page"  contain text snippets that will be used to build the person's summary page. (The data should be extracted from the sources, and is structured in a way that it can be successfully inserted into the person's summary page.)</p>
 
    
-<!--<summary style="margin-block:1rem; font-style: italic;">Converter</summary>
-   <p style="margin: 0 4rem; font-style:italic; color: teal;"><textarea id="copyIn" placeholder="This is a temporary field. Drop OLD data into the textarea and click GO. This function finds stuff to put in the page building data list." style="width: 36rem; height: 4rem;"></textarea> <button onClick="doConversion()">GO</button></p>-->
 
 
 <details id="index" open>
@@ -886,17 +828,6 @@ The fields under "Data for building the page"  contain text snippets that will b
     <button onClick="openWindow(document.getElementById('secondSourceURLIn').value)">GO</button>
     </td>
 </tr>
-<!--tr>
-<td>Image:</td>
-<td><input type="text" id="secondImageIn" class="imageBox" 
-    placeholder="File name of image in 'records' folder (no ext)"
-    onInput="draftResult()">
-    <input type="text" id="secondImageExtIn" class="extBox" value=".jpg" 
-    placeholder="Extension"
-    onInput="draftResult()">
-    <button onClick="openRecord(document.getElementById('secondImageIn').value, document.getElementById('secondImageExtIn').value)">GO</button>
-    </td>
-</tr-->
 <tr>
 <td>Key-value<br>pairs:<br><button 
         onClick="document.getElementById('secondPastedIn').value = tabs2colons(document.getElementById('secondPastedIn').value)">Add colons</button><br><button 
@@ -904,7 +835,6 @@ The fields under "Data for building the page"  contain text snippets that will b
 <td><textarea id="secondPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
-    <!--<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('secondPastedIn'))    ">✚</span>-->
     </td>
     <td>
         <span style="font-size:small">Templates:</span><br>
@@ -948,17 +878,6 @@ The fields under "Data for building the page"  contain text snippets that will b
     <button onClick="openWindow(document.getElementById('burSourceURLIn').value)">GO</button>
     </td>
 </tr>
-<!--tr>
-<td>Image:</td>
-<td><input type="text" id="burImageIn" class="imageBox" 
-    placeholder="File name of image in 'records' folder (no ext)"
-    onInput="draftResult()">
-    <input type="text" id="burImageExtIn" class="extBox" value=".jpg"
-    placeholder="Extension"
-    onInput="draftResult()">
-    <button onClick="openRecord(document.getElementById('burImageIn').value, document.getElementById('burImageExtIn').value)">GO</button>
-    </td>
-</tr-->
 <tr>
 <td>Key-value<br>pairs:<br><button 
         onClick="document.getElementById('burPastedIn').value = tabs2colons(document.getElementById('burPastedIn').value)">Add colons</button><br><button 
@@ -1010,17 +929,6 @@ The fields under "Data for building the page"  contain text snippets that will b
 <button onClick="openWindow(document.getElementById('fourthSourceURLIn').value)">GO</button>
 </td>
 </tr>
-<!--tr>
-<td>Image:</td>
-<td><input type="text" id="fourthImageIn" class="imageBox" 
-    placeholder="File name of image in 'records' folder (no ext)"
-    onInput="draftResult()">
-<input type="text" id="fourthImageExtIn" class="extBox" value=".jpg"
-    placeholder="Extension"
-    onInput="draftResult()">
-<button onClick="openRecord(document.getElementById('fourthImageIn').value, document.getElementById('fourthImageExtIn').value)">GO</button>
-</td>
-</tr-->
 <tr>
 <td>Key-value<br>pairs:<br><button 
         onClick="document.getElementById('fourthPastedIn').value = tabs2colons(document.getElementById('fourthPastedIn').value)">Add colons</button><br><button 
@@ -1028,7 +936,6 @@ The fields under "Data for building the page"  contain text snippets that will b
 <td><textarea id="fourthPastedIn" class="tallPasteBox"
     placeholder="Copy-paste lists here from transcript pages. (Only lines with a colon are captured.)"
     onInput="draftResult()"></textarea>
-<!--<span class="copy" title='Remove "[...]", when copying legacy.' onClick="removeBrackets(document.getElementById('fourthPastedIn'))    ">✚</span>-->
 </td>
     <td>
         <span style="font-size:small">Templates:</span><br>
@@ -1390,27 +1297,6 @@ function makeTimestampX () {
             onInput="draftResult()">
             </td>
       </tr>
-      <!--tr>
-        <td>Named in probate:</td>
-        <td><input type="text" id="probateNamesIn"  
-            placeholder="Comma-separated list of people named in probate or wills. Use ids where available." class="wideInputBox"
-            onInput="draftResult()">
-            </td>
-      </tr-->
-
-
-
-
-<!--tr>
-        <td>GPS:</td>
-        <td><select id="gpsList" onChange="
-            newline = ''
-            if (document.getElementById('gpsIn').value === '') {}
-            else newline = '\n'
-            document.getElementById('gpsIn').value += newline+this.value
-            draftResult()
-            "></select></td>
-      </tr-->
 
       <tr>
         <td>GPS:</td>
@@ -1429,13 +1315,6 @@ function makeTimestampX () {
             this.value = ''">
         <datalist id="gpsList"></datalist>
         </td>
-        <!--td><select id="gpsList" onChange="
-            newline = ''
-            if (document.getElementById('gpsIn').value === '') {}
-            else newline = '\n'
-            document.getElementById('gpsIn').value += newline+this.value
-            draftResult()
-            "></select></td-->
       </tr>
 
 
@@ -1655,10 +1534,6 @@ function prepCopyX () {
     return false
     }
 </script>
-<!--<div style="text-align: center;"><button  style="font-size: 2rem;" onClick="prepCopy()">Copy</button> <textarea style="block-size:2rem;inline-size:1rem; vertical-align: bottom;" id="draftCopy"></textarea></div>-->
-
-    
-    <!--<p style="text-align: center;"><button style="font-size: 1.5rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Regenerate with timestamp</button></p>-->
 
 
       

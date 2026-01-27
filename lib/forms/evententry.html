@@ -52,37 +52,8 @@ document.head.appendChild(db)
 
 
 if (theperson) {
-    //setTimeout(() => autoPropagate(theperson), 1000)
     setTimeout(() => checkForEvents(theperson), 1000)
     }
-</script>
-
-
-<script>
-/*trace = false
-// read in project
-var project
-parameters = location.search.split('&');
-parameters[0] = parameters[0].substring(1);
-for (var p=0;p<parameters.length;p++) {  
-	pairs = parameters[p].split('=');
-	if (pairs[0] == 'project') { if (pairs[1]) { var project = pairs[1] } }
-	if (pairs[0] == 'person' && pairs[1]) { var theperson = pairs[1] }
-	}
-
-// load the appropriate db file	
-if (! project) alert('Specify the project name in the URL, using ?project=...')
-var db = document.createElement('script')
-db.id = 'database'
-db.src = '../../'+project+'/db.js'
-db.async = false
-document.head.appendChild(db);
-
-
-//if (theperson) {
-//    setTimeout(() => autoPropagate(theperson), 1000)
-//    }
-*/
 </script>
 <script>
 
@@ -143,52 +114,6 @@ function checkForEvents (person) {
 
 
 function autoPropagate (person) {
-
-/*
-    // Pull up a list of ids for related people, and fill in some fields automatically
-    if (person === '') {
-        alert('No id provided.')
-        return
-        }
-    if (document.getElementById('timestampIn').value.trim() === '') {
-        //var ts = document.getElementById('timestampIn').value
-        //if (ts === '') {
-            // get any known event timestamps
-          //  if (db[person] && db[person].events) {
-            //    tsList = 'Known timetamps:\n'
-            //    for (tStamp in db[person].events) tsList += tStamp+'\n'
-            //    }
-            //ts = prompt(tsList+'Provide a timestamp.')
-            //}
-        document.getElementById('timestampIn').value = ts
-        
-        
-        
-        // get any known event timestamps
-        if (db[person] && db[person].events) {
-            tsList = 'Known timetamps:<br>'
-            for (tStamp in db[person].events) tsList += `<span style="cursor:pointer;" onclick="document.getElementById('tsPanelInput').value='${ tStamp }'">${ tStamp }</span><br>`
-            }
-        
-        document.getElementById('getEventList').innerHTML = tsList 
-        //document.getElementById('timestampIn').value = tsList
-        
-        
-        
-        }
-        
-*/
-                
-                
-            
-      /*      tsArray = db[person].events
-            tsList = ''
-            for (s=0;s<tsArray.length;s++) listOfSpouses += fgArray[s][1]+'\n'
-            if (fgArray.length > 0) listOfSpouses = 'Known spouses:\n'+listOfSpouses+'\n'
-            }
-        spouse = prompt(listOfSpouses+'Provide the id of the spouse.')
-        document.getElementById('spouseIdIn').value = spouse*/
-
     
     // add id for parameter driven use
     document.getElementById('idIn').value = person
@@ -201,12 +126,6 @@ function autoPropagate (person) {
     // make a list of relatives to the right
 	listRelations(person)
     
-    /*
-    console.log(document.getElementById('timestampIn').value.trim())
-    console.log(db[person].events)
-    console.log()
-    console.log('Looking for',db[person].events[document.getElementById('timestampIn').value.trim()])
-    */
     
     if (db[person] && db[person].events && db[person].events[document.getElementById('timestampIn').value.trim()]) {
         document.getElementById('notesYearIn').value = db[person].b.trim()
@@ -216,8 +135,6 @@ function autoPropagate (person) {
         var notes = ''
         var fnotes = ''
         var discussion = ''
-        
-        //if (dataItems.timestamp) document.getElementById('timestampIn').value = dataItems.timestamp.trim() 
         
         if (dataItems.type) document.getElementById('noteTypeIn').value = dataItems.type.trim()
         
@@ -291,6 +208,10 @@ function autoPropagate (person) {
     }
 
 
+
+
+
+
 function formatSource (sources, discussion) {
     // wrap source lines in link markup
     // console.log(enter, 'formatSource(',sources,')')
@@ -298,7 +219,6 @@ function formatSource (sources, discussion) {
     if (typeof sources === 'undefined') return ''
     
     var sourceList = sources.split('SOURCE:')
-    //console.log(sourceList)
     
     var counter = 0
     for (s=0;s<sourceList.length;s++) {
@@ -312,7 +232,6 @@ function formatSource (sources, discussion) {
             case 3: target = 'third'; break
             }
         counter++
-        //console.log(target, sourceList[s])
     
         var lines = sourceList[s].split('\n')
         for (var i=0;i<lines.length;i++) {
@@ -342,13 +261,10 @@ function formatSource (sources, discussion) {
             }
     
     sources = lines.join('\n').replace(/\[|\]/g,'')
-    
-    //console.log(sources)
-    //if (discussion) sources += '\n<img src="lib/i/discn.png" alt="Commentary" title="Commentary">'+discussion
-    
-    // console.log(exit,'formatSource:',sources)
+
     return sources
     }
+
 
 
 
@@ -368,6 +284,8 @@ function addQuotesTo (content) {
 
 
 
+
+
 function clearAll () {
 	inputs = document.querySelectorAll('input, textarea')
 	for (var i=0;i<inputs.length;i++) inputs[i].value = ''
@@ -380,12 +298,23 @@ function clearAll () {
 	}
 
 
+
+
+
 function formatGPS (str) {
 	str = str.replace(/https:\/\/maps.google.com\/maps\?q=/,'')
 	str = str.trim().replace(/,/,' ').replace(/\s+/,',')
 	return str
 	}
 </script>
+
+
+
+
+
+
+
+
 <style>
 #draft p {
 	margin: 0;
@@ -419,6 +348,11 @@ function formatGPS (str) {
 .soften input { border: 1px solid gray; }
 */
 </style>
+
+
+
+
+
 
 
 <script>
@@ -464,17 +398,20 @@ function hideShowFields () {
         }
     }
 
+
+
+
 function draftResult () {
     // called each time a field is changed; updates the output
     
 
 
-// type
+    // type
     document.getElementById('noteType').textContent = `type: "${ document.getElementById('noteTypeIn').value }",` 
 
-hideShowFields()
+    hideShowFields()
 
-// timestamp & title
+    // timestamp & title
     if (document.getElementById('timestampIn').value.trim())
         document.getElementById('start').textContent = `"${ document.getElementById('timestampIn').value.trim() }": {` 
     else document.getElementById('start').textContent = ''
@@ -485,7 +422,7 @@ hideShowFields()
     
 
 
-// notes
+    // notes
     if (document.getElementById('notesTextIn').value) {
         //escaped = document.getElementById('notesTextIn').value.replace(/\n/g,'\\n')
         document.getElementById('note').textContent = `notes: \`${ document.getElementById('notesTextIn').value.trim() }\`,`
@@ -603,11 +540,6 @@ hideShowFields()
     else document.getElementById('informant').textContent = ''
 
 
-    /*
-    if (document.getElementById('censusNotes').value) {
-        document.getElementById('note').textContent = "notes: \u0060"+document.getElementById('censusNotes').value+"\u0060,"
-        }
-    */
 
     if (document.getElementById('censusDisc').value) {
         document.getElementById('discussion').textContent = "discussion: \u0060"+document.getElementById('censusDisc').value+"\u0060,"
@@ -676,6 +608,9 @@ hideShowFields()
     }
 
 
+
+
+
 function checkDB (fieldname, dbfield, checkID) {
     // checks certain values against what currently in the top-level db, and raises flags if they differ
 
@@ -685,6 +620,10 @@ function checkDB (fieldname, dbfield, checkID) {
     else { document.getElementById(checkID).textContent = `` }
 
     }
+
+
+
+
 
 
 function getMonthOnly (MMM) {
@@ -705,6 +644,10 @@ function getMonthOnly (MMM) {
         default: return '???'
         }
     }
+
+
+
+
 
 function getMonth (dateValue) {
 console.log(dateValue)
@@ -729,31 +672,16 @@ console.log(dateValue)
     }
 
 
-function getMonthOLD (dateValue) {
-    parts = dateValue.replace('~','').split(' ')
-    while (parts[0].length < 2) parts[0] = '0'+parts[0]
-    month = ''
-    switch (parts[1]) {
-        case 'Jan': month = '01'; break
-        case 'Feb': month = '02'; break
-        case 'Mar': month = '03'; break
-        case 'Apr': month = '04'; break
-        case 'May': month = '05'; break
-        case 'Jun': month = '06'; break
-        case 'Jul': month = '07'; break
-        case 'Aug': month = '08'; break
-        case 'Sep': month = '09'; break
-        case 'Oct': month = '10'; break
-        case 'Nov': month = '11'; break
-        case 'Dec': month = '12'; break
-        }
-    return month+'-'+parts[0]
-    }
-</script></head>
+</script>
+</head>
+
+
+
+
+
 
 
 <body>
-
 
 <dialog id="getEvent" style="display:none; position:fixed; top:0; border:1px solid gray; border-radius:.75rem; width:25%; padding: 1em; background: #fffbff;">
 <p style="font-weight: 500; font-size: 90%;">Choose or add an event timestamp</p>
@@ -818,27 +746,6 @@ document.getElementById('indexLink').href = `../../index.html?project=${ project
     </div>
 
 
-  <!--div id="subsubbanner"> autoPropagate(document.getElementById('idIn').value)
-    <div>
-      <!--button onClick="dump()">Go</button-->&nbsp;
-    <!--strong>Id:</strong> 
-<input type="text" id="idIn" style="width:200px;" placeholder="Add ID, then click on 🔁."
-onInput="document.getElementById('id').textContent = '&quot;id: '+this.value+'&quot;,';"
-onChange="autoPropagate(this.value);"/> 
-<!--<span class="redo" onClick="autoPropagate(document.getElementById('idIn').value);">🔁</span>
--->
-<!--button class="redo" onClick="autoPropagate(document.getElementById('idIn').value);">Load</button>
-
-<span class="redo" id="clearAll" style="margin-inline-start:3rem; font-weight: bold; color: red;">X</span>   <button id="new">Clear the form</button>
-
-<script> // set the events
-document.getElementById('load').onclick = function () { document.location=`evententry.html?project=${ project }&person=${ document.getElementById('idIn').value }` }
-document.getElementById('new').onclick = function () { document.location=`evententry.html?project=${ project }` }
-</script>
-
-   
-</div>
-</div-->
 <div id="main">
 
 <div id="references">
@@ -862,12 +769,6 @@ document.getElementById('new').onclick = function () { document.location=`evente
     <option value="figure">Figure</option>
     <option value="census">Census</option>
     </select>
-
-<!--input type="text" id="timestampIn"  style="width: 50%; font-size: 120%;"
-            placeholder="Timestamp: YYYY-MM-DD"
-            onInput="draftResult()">
-<textarea id="readIn" placeholder="Drop existing code here to read it in." style="width:98%;"></textarea><br>
-<button onClick="autoPropagate(document.getElementById('idIn').value)">Read in existing event</button-->
     </td>
 </tr>
 </table>
@@ -1080,39 +981,38 @@ Need to fix this properly at some point. -->
 
    
    
-<!--p class="" style="margin: 4rem 0 0 2rem; font-style:italic; color: teal;"><textarea id="copyIn" placeholder="Converter"></textarea> <button onClick="doConversion()">GO</button></p-->
    
-   <script>
-   // drop OLD data into the textarea and click GO
-   // this function finds stuff to put in the page building data list
-   function doConversion () {
-        lines = document.getElementById('copyIn').value.split('\n')
-        for (i=0;i<lines.length;i++) {
-            lines[i] = lines[i].trim().replace(/"/g,'')
-            if (lines[i] === '') continue
-            console.log(lines[i])
-            
-            if (lines[i].startsWith('year:')) outId = 'notesYearIn'
-            
-            else if (lines[i].startsWith('date:')) outId = 'notesDateIn'
-            
-            else if (lines[i].startsWith('place:')) outId = 'notesPlaceIn'
-            
-            else if (lines[i].startsWith('occ:')) outId = 'notesOcc'
-                        
-            else if (lines[i].startsWith('informant:')) outId = 'informantIn'
-            
-            else outId = ''
-            
-            value = lines[i].split(':')
-            if (outId) document.getElementById(outId).value = value[1].replace(/,$/,'').trim()
-            console.log(value[1].replace(/,$/,'').trim())
-            }
-        
-        // create the timestamp
-        if (document.getElementById('notesDateIn').value !== '' && document.getElementById('notesYearIn').value !== '') document.getElementById('timestampIn').value = document.getElementById('notesYearIn').value+'-'+getMonth(document.getElementById('notesDateIn').value)
+<script>
+// drop OLD data into the textarea and click GO
+// this function finds stuff to put in the page building data list
+function doConversion () {
+    lines = document.getElementById('copyIn').value.split('\n')
+    for (i=0;i<lines.length;i++) {
+        lines[i] = lines[i].trim().replace(/"/g,'')
+        if (lines[i] === '') continue
+        console.log(lines[i])
+
+        if (lines[i].startsWith('year:')) outId = 'notesYearIn'
+
+        else if (lines[i].startsWith('date:')) outId = 'notesDateIn'
+
+        else if (lines[i].startsWith('place:')) outId = 'notesPlaceIn'
+
+        else if (lines[i].startsWith('occ:')) outId = 'notesOcc'
+
+        else if (lines[i].startsWith('informant:')) outId = 'informantIn'
+
+        else outId = ''
+
+        value = lines[i].split(':')
+        if (outId) document.getElementById(outId).value = value[1].replace(/,$/,'').trim()
+        console.log(value[1].replace(/,$/,'').trim())
         }
-   </script>
+
+    // create the timestamp
+    if (document.getElementById('notesDateIn').value !== '' && document.getElementById('notesYearIn').value !== '') document.getElementById('timestampIn').value = document.getElementById('notesYearIn').value+'-'+getMonth(document.getElementById('notesDateIn').value)
+    }
+</script>
 
 
 
@@ -1204,6 +1104,11 @@ Need to fix this properly at some point. -->
 </tr>
 </table>
 </details>
+
+
+
+
+
 
 
 
@@ -1322,8 +1227,6 @@ function removeBrackets (node) {
 
 
 
-    
-    <!--<p style="text-align: center;"><button style="font-size: 2rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Generate data</button></p>-->
 
     <p class="" style="margin: 4rem 0 0 2rem; font-style:italic; color: teal;">When all the data is entered, copy the text below to the db.js file, under 'birth'.</p>
    
@@ -1406,6 +1309,7 @@ function removeBrackets (node) {
 
 
 
+
 <script>
 function prepCopy () {
     var draft, copied, divs
@@ -1418,25 +1322,10 @@ function prepCopy () {
         }
     return copied
     }
-
-
-
-function prepCopyX () {
-    draft = document.getElementById('draft')
-    copied = document.getElementById('draftCopy')
-    copied.value = ''
-    divs = draft.querySelectorAll('div')
-    for (i=0;i<divs.length;i++) {
-        if (divs[i].textContent.trim() !== '') copied.value += divs[i].textContent+'\n'
-        }
-    copied.focus()
-    copied.select()
-    document.execCommand('copy')
-    return false
-    }
 </script>
-<!--<div style="text-align: center;"><button  style="font-size: 2rem;" onClick="prepCopy()">Copy</button> <textarea style="block-size:2rem;inline-size:1rem; vertical-align: bottom;" id="draftCopy"></textarea></div>-->
-    <!--<p style="text-align: center;"><button style="font-size: 1.5rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Regenerate to include timestamp</button></p>-->
+
+
+
 
 
     <pre id="places">
@@ -1448,7 +1337,6 @@ function prepCopyX () {
 
 
 <script>
-//document.getElementById('new').href = document.location
 if (theperson) {
     document.getElementById('idIn').value = theperson
     }

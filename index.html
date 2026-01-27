@@ -3,30 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Index</title>
+
+
+
 <link href="lib/style.css" rel="stylesheet">
 <style>
 #xbanner::before {
   content: '📇';
   font-size: 4rem;
   padding: 1rem;
-}
+  }
 #pageicon {
   position: absolute;
   font-size: 4rem;
   padding: 1rem 2rem;
-}
+  }
 .checkbox {
   accent-color: antiquewhite;
-}
+  }
 </style>
+
+
+
 <script src="lib/checkmarks.js"></script>
 <script>
 // read in project
 var project = ''
-parameters = location.search.split('&');
-parameters[0] = parameters[0].substring(1);
+parameters = location.search.split('&')
+parameters[0] = parameters[0].substring(1)
 for (var p=0;p<parameters.length;p++) {  
-	pairs = parameters[p].split('=');
+	pairs = parameters[p].split('=')
 	if (pairs[0] == 'project') { if (pairs[1]) { var project = pairs[1] } }
 	}
 
@@ -43,37 +49,6 @@ document.head.appendChild(db)
 
 
 <script>
-
-function resizeTextareaXX() {
-    const article = document.getElementById('mainpanel');
-    const textarea = document.getElementById('listOfCheckedNames');
-
-    if (!article || !textarea) return;
-
-    // Wait 2 seconds before measuring
-    setTimeout(() => {
-        const articleHeight = article.offsetHeight;
-        textarea.style.height = (articleHeight * 0.9) + "px";
-    }, 1000);
-}
-function resizeTextareaX () {
-    // sets the height of the list textarea
-    const article = document.getElementById('mainpanel')
-    const textarea = document.getElementById('listOfCheckedNames')
-
-    if (!article || !textarea) return
-
-    const articleHeight = article.offsetHeight
-    textarea.style.height = (articleHeight * 0.9) + "px"
-    }
-
-// Run on load and on resize
-/*window.addEventListener('load', resizeTextarea)
-window.addEventListener('resize', resizeTextarea)*/
-
-
-
-
 
 function filter (str) {
 	str = str.toLowerCase()
@@ -94,9 +69,10 @@ function secondFilter (str) {
 	var names = document.querySelectorAll('#listrecord a')
 	for (var i=0;i<names.length;i++) {
 		if (names[i].textContent.toLowerCase().match(match1) && names[i].textContent.toLowerCase().match(str)) {
-			names[i].style.display = 'inline'; total++
+			names[i].style.display = 'inline'
+            total++
 			}
-		else { names[i].style.display = 'none'; }
+		else { names[i].style.display = 'none' }
 		}
 	document.getElementById('total').textContent = total
 	}
@@ -134,6 +110,8 @@ function findAnnotatedPath(startId, targetId, db) {
     }
 
 
+
+
 function getLinkedWithLabels(id, db) {
     const person = db[id]
     if (!person) return []
@@ -162,7 +140,7 @@ function getLinkedWithLabels(id, db) {
 
         if (Array.isArray(otherPerson.fg)) {
             for (const group of otherPerson.fg) {
-                const [_, spouse, ...children] = group;
+                const [_, spouse, ...children] = group
                 if (spouse === id) links.push({ id: otherId, via: "spouse (reverse)" })
                 if (children.includes(id)) links.push({ id: otherId, via: "parent (reverse)" })
                 }
@@ -170,6 +148,8 @@ function getLinkedWithLabels(id, db) {
         }
     return links
     }
+
+
 
 
 function formatPathToHTML (path) { console.log(path)
@@ -181,15 +161,6 @@ function formatPathToHTML (path) { console.log(path)
     }
 
 
-function formatPathToHTMLX(path) { console.log(path)
-    if (!path) return "<p>No path found.</p>"
-    return path.map((step, index) => {
-        const label = step.via ? `→ ${ step.via }: ` : ""
-        return `<li>${ label }<strong>${ step.id }</strong></li>`
-        }).join("")
-    }
-//file:///Users/ishida/Sites/ancestordb/tree.html?person=birch_william_heakin_1894&project=2024
-
 
 
 function findPathway ( direction, person1, person2 ) {
@@ -197,6 +168,8 @@ function findPathway ( direction, person1, person2 ) {
     if (direction === 'reverse') document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person2, person1, db)) }</ul>`
     else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person1, person2, db)) }</ul>`
     }
+
+
 
 function getPathSelections (direction) {
     // finds 2 people in index list with checkboxes on, then produces a path between them
@@ -215,24 +188,6 @@ function getPathSelections (direction) {
     document.getElementById('pathPair2').value = ends[1]
     }
 
-
-
-function getPathSelectionsX (direction) {
-    // finds 2 people in index list with checkboxes on, then produces a path between them
-    // direction can be 'reverse', meaning go from the second person to the first person
-    pathEnds = document.querySelectorAll('.personRow input')
-    let ends = []
-    for (const checkbox of pathEnds) {
-        if (checkbox.checked) ends.push(checkbox.title)
-        }
-    if (ends.length < 2) {
-        alert('You need to select the ends of the pathway by clicking on two checkboxes.')
-        return
-        }
-    
-    if (direction === 'reverse') document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(ends[1], ends[0], db)) }</ul>`
-    else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(ends[0], ends[1], db)) }</ul>`
-    }
 
 
 
@@ -285,13 +240,13 @@ function sortList () {
 .dropdown {
     position: relative;
     display: inline-block;
-}
+    }
 
 .dropdown_icon {
     /*width: 24px;*/
     height: 24px;
     cursor: pointer;
-}
+    }
 
 .dropdown_menu {
     position: absolute;
@@ -304,7 +259,7 @@ function sortList () {
     display: none;
     z-index: 1000;
     min-width: 200px;
-}
+    }
 .dropdown_item {
     padding: 12px 20px;
     cursor: pointer;
@@ -315,11 +270,11 @@ function sortList () {
 
 .dropdown_item:last-child {
     border-bottom: none;
-}
+    }
 
 .dropdown_item:hover {
     background-color: #f0f0f0;
-}
+    }
 #copyNotice {
     position: fixed;
     top: 40%;
@@ -337,11 +292,6 @@ function sortList () {
     font-size: 70%;
     }
 </style>
-
-
-<script>
-
-</script>
 </head>
 
 
@@ -362,10 +312,6 @@ function sortList () {
 <td><input type="text" id="pathPair2" style="padding:1rem; border:1px solid #ccc; border-radius:.5rem; width:12rem;"></td>
 </tr></table>
 
-<!--<p>
-<button onClick="findPathway( 'forward', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">A-B</button>
-<button onClick="findPathway( 'reverse', document.getElementById('pathPair2').value, document.getElementById('pathPair1').value )">B-A</button>
-</p>-->
 
 <div id="pathwayOut"></div>
 
@@ -470,13 +416,13 @@ function sortList () {
   <article id="mainpanel">
     <section id="listrecord">
       </section>
-    <!--div id="places">
-      <p class="recordTitle" id="explanations">Explanations regarding dates</p>
-      <p>Where the date  Note that the dates following each name are only token dates, associated with the name as part of its ID. In some cases these dates are pure guesswork, such as in the case where a father is known from a marriage record but no other information. In some cases the date may accurately reflect the birth date of the person. In others, that birth date may be ajusted in the light of new evidence in the actual records, but the date here will remain the same.<a target="_blank" href="https://maps.google.com/maps?q=53.8352112,-2.832418"></a></p>
-    </div-->
-  </article>
+    </article>
   </div>
 </div>
+
+
+
+
 
 <script>
 function init () {
@@ -492,8 +438,6 @@ function init () {
 
 
 	for (var person in dbOrdered) {
-		//if (db[person].p) out += '<p><a href="data/'+person+'.html">'+db[person].f
-		//else 
 		out += '<p class="personRow">'
 
         out += '<span style="margin-inline: 2em; float:right;">'
@@ -507,7 +451,6 @@ function init () {
         
         out += '<input type="checkbox" class="checkbox" title="'+person+'"> &nbsp;'
         
-        //out += '<a href="tree.html?person='+person+'&project='+project+'">'+db[person].f
         out += `<a href="tree.html?project=${ project }&person=${ person }">${ db[person].f }`
 		if (db[person].m) {
 			for (var i=0;i<db[person].m.length;i++) {
@@ -523,7 +466,6 @@ function init () {
 			var temp = person.split('_')
 			out += ', ~'+temp[temp.length-1]
 			}
-		//if (db[person].p) out += '</a><a class="detaillink" href="person.html?project='+project+'&person='+person+'">[details]'
 		out += '</a>'
 		out += ` <span class="personsID">${ person }</span>`
 		out += '</p>'
@@ -552,79 +494,63 @@ function init () {
 
 
 
-const toggle = document.getElementById('dropdownToggle');
-const menu = document.getElementById('dropdownMenu');
-const container = toggle.closest('.dropdown');
+const toggle = document.getElementById('dropdownToggle')
+const menu = document.getElementById('dropdownMenu')
+const container = toggle.closest('.dropdown')
 
 toggle.addEventListener('click', () => {
-    const isOpen = menu.style.display === 'block';
+    const isOpen = menu.style.display === 'block'
 
     if (isOpen) {
-        menu.style.display = 'none';
-        return;
-    }
+        menu.style.display = 'none'
+        return
+        }
 
     // Show menu so we can measure it
-    menu.style.display = 'block';
+    menu.style.display = 'block'
 
-    const iconRect = toggle.getBoundingClientRect();
-    const menuRect = menu.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
+    const iconRect = toggle.getBoundingClientRect()
+    const menuRect = menu.getBoundingClientRect()
+    const containerRect = container.getBoundingClientRect()
 
     // Position below icon (relative to container)
-    let top = iconRect.bottom - containerRect.top;
+    let top = iconRect.bottom - containerRect.top
 
     // Align RIGHT edge of menu with RIGHT edge of icon (relative to container)
-    let left = (iconRect.right - menuRect.width) - containerRect.left;
+    let left = (iconRect.right - menuRect.width) - containerRect.left
 
     // Clamp so it doesn't go off the left of the viewport
     if (containerRect.left + left < 8) {
-        left = 8 - containerRect.left;
-    }
+        left = 8 - containerRect.left
+        }
 
     // If menu would go off bottom of viewport, show above icon
     if (containerRect.top + top + menuRect.height > window.innerHeight) {
-        top = iconRect.top - menuRect.height - containerRect.top;
-    }
+        top = iconRect.top - menuRect.height - containerRect.top
+        }
 
-    menu.style.left = `${left}px`;
-    menu.style.top = `${top}px`;
-});
+    menu.style.left = `${left}px`
+    menu.style.top = `${top}px`
+    })
+
 
 // Close when clicking outside
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.dropdown')) {
-        menu.style.display = 'none';
-    }
-});
+        menu.style.display = 'none'
+        }
+    })
 
 // Close menu when pressing Escape
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        menu.style.display = 'none';
-    }
-});
+        menu.style.display = 'none'
+        }
+    })
 
 
 }
 
-
-
-/*
-var sortkeys = []
-var names = document.querySelectorAll('#list p')
-for (var i=0;i<names.length;i++) {
-	var id = names[i].textContent
-	id = id.replace(/ \([^\)]+\)/g,'')
-	id = id.toLowerCase().trim()
-	sortkeys.push(id)
-	id = id.replace(/ /g,'_')
-	id = id.replace(/,/g,'')
-	
-	var anchor = '<a href="data/'+id+'.html">'+names[i].textContent+'</a>'
-	names[i].innerHTML = anchor
-	}
-*/
 </script>
 </body>
 </html>

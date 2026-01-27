@@ -262,6 +262,8 @@ function autoPropagate (person) {
 
 
 
+
+
 function formatSource (sources, discussion) {
     // wrap source lines in link markup
     if (trace) console.log(enter, 'formatSource(',sources,')')
@@ -323,26 +325,7 @@ function formatSource (sources, discussion) {
 
 
 
-function addQuotesToOLD (content) {
-    // quotes no longer needed. Just normalisation of lines.
-	var out = ''
-	var lines = content.split('\n')
-	for (var i=0;i<lines.length;i++) {
-		if (lines[i].match(':')) {
-			lines[i] = lines[i].replace(/\s+/g,' ')
-			out += lines[i]
-            if (i<lines.length-1) out += '\n'
-			}
-		else if (lines[i].match('\t')) {
-			var parts = lines[i].split('\t')
-			parts[0] = parts[0].replace(/ /g,'').replace(/'/g,'')
-			parts[1] = parts[1].replace(/[\s]+/g,' ')
-			out += parts[0]+': '+parts[1].trim()
-			out += '\n'
-			}
-		}
-	return out
-	}
+
 
 function addQuotesTo (content) { 
     // quotes no longer needed. Just normalisation of lines.
@@ -359,6 +342,8 @@ function addQuotesTo (content) {
 
 
 
+
+
 function clearAll () {
 	inputs = document.querySelectorAll('input, textarea')
 	for (var i=0;i<inputs.length;i++) inputs[i].value = ''
@@ -371,12 +356,22 @@ function clearAll () {
 	}
 
 
+
+
+
 function formatGPS (str) {
 	str = str.replace(/https:\/\/maps.google.com\/maps\?q=/,'')
 	str = str.trim().replace(/,/,' ').replace(/\s+/,',')
 	return str
 	}
 </script>
+
+
+
+
+
+
+
 <style>
 #draft p {
 	margin: 0;
@@ -537,21 +532,6 @@ function draftResult () {
         document.getElementById('caution').textContent = "caution: \u0060"+document.getElementById('cautionIn').value+"\u0060,"
         }
 
-
-
-    /*if (document.getElementById('gpsIn').value.trim()) {
-        lines = document.getElementById('gpsIn').value.split('\n')
-        output = ''
-        for (o=0;o<lines.length;o++) {
-            if (lines[o].trim() === '') continue
-            console.log('lines',lines[o])
-            temp = lines[o].split(':')
-            output += '"'+temp[0]+' https://maps.google.com/maps?q='+temp[1].replace(/ /g,'')+'"'
-            if (o<lines.length-1) output += ', '
-            }
-        document.getElementById('gps').textContent = `gps: [${ output }],`
-        }
-    else document.getElementById('gps').textContent = '' */
     
     
     if (document.getElementById('gpsIn').value.trim()) {
@@ -559,7 +539,6 @@ function draftResult () {
         output = ''
         for (o=0;o<lines.length;o++) {
             if (lines[o].trim() === '') continue
-            //console.log('lines',lines[o])
             output += `"${ lines[o] }"`
             if (o<lines.length-1) output += ', '
             }
@@ -568,23 +547,6 @@ function draftResult () {
     else document.getElementById('gps').textContent = ''
     
     
-    /*if (document.getElementById('recordsIn').value.trim()) {
-        var imagesArray = []
-        imagesArray = document.getElementById('recordsIn').value.split('\n')
-
-        var imagesOut = ''
-        for (i=0;i<imagesArray.length;i++) {
-            if (imagesArray[i].trim() === '') continue
-            parts = imagesArray[i].split(' ')
-            if (imagesArray[i].match('http')) {} //
-            else parts[parts.length-1] = 'url:../'+project+'_records/'+parts[parts.length-1]
-            imagesOut += '"'+parts.join(' ').trim()+'"'
-            if (i<imagesArray.length-1) imagesOut += ', '
-            }
-        if (imagesArray.length > 0) document.getElementById('images').textContent = 'images: ['+imagesOut+'],'
-        }
-    else document.getElementById('images').textContent = ''*/
-    
     
     if (document.getElementById('recordsIn').value.trim()) {
         var imagesArray = []
@@ -592,16 +554,9 @@ function draftResult () {
 
         var imagesOut = ''
         for (i=0;i<imagesArray.length;i++) { 
-            // commented out since image pointers all include url:../2024 already
-            /*iif (imagesArray[i].trim() === '') continue
-            parts = imagesArray[i].split(' ')
-            f (imagesArray[i].match('http')) {} //
-            else parts[parts.length-1] = 'url:../'+project+'_records/'+parts[parts.length-1]
-            imagesOut += '"'+parts.join(' ').trim()+'"'*/
             if (imagesArray[i].trim() === '') continue
             if (i>0) imagesOut += ', '
             imagesOut += '"'+imagesArray[i].trim()+'"'
-            //if (i<imagesArray.length-1) imagesOut += ', '
             }
         if (imagesArray.length > 0) document.getElementById('images').textContent = 'images: ['+imagesOut+'],'
         }
@@ -622,6 +577,10 @@ function draftResult () {
     }
 
 
+
+
+
+
 function checkDB (fieldname, dbfield, checkID) {
     // checks certain values against what currently in the top-level db, and raises flags if they differ
 
@@ -631,6 +590,9 @@ function checkDB (fieldname, dbfield, checkID) {
     else { document.getElementById(checkID).textContent = `` }
 
     }
+
+
+
 
 
 function getMonthOnly (MMM) {
@@ -651,6 +613,10 @@ function getMonthOnly (MMM) {
         default: return '???'
         }
     }
+
+
+
+
 
 function getMonth (dateValue) {
 console.log('dateValue', dateValue)
@@ -683,11 +649,18 @@ console.log('dateValue', dateValue)
 
 
 
+
+
 function fillAtHome () {
     if (db[theperson].father) document.getElementById('atHomeIn').value += db[theperson].father+' '
     if (db[theperson].mother) document.getElementById('atHomeIn').value += db[theperson].mother+' '
     }
-</script></head>
+</script>
+</head>
+
+
+
+
 
 
 <body>
@@ -829,6 +802,9 @@ The fields under "Data for building the page"  contain text snippets that will b
 
 
 
+
+
+
 <script>
 function removeBrackets (node) {
     // removes "[ and ]", from copied older records
@@ -859,16 +835,6 @@ function removeBrackets (node) {
     <button onClick="openWindow(document.getElementById('secondSourceURLIn').value)">GO</button>
     </td>
 </tr>
-<!--tr>
-<td>Image:</td>
-<td><input type="text" id="secondImageIn" class="imageBox" 
-    placeholder="File name of image in 'records' folder (no ext)"
-    onInput="draftResult()">
-    <input type="text" id="secondImageExtIn" value=".jpg" class="extBox" 
-    placeholder="Extension"
-    onInput="draftResult()">
-    </td>
-</tr-->
 <tr>
 <td>Key-value<br>pairs:<br><button 
         onClick="document.getElementById('secondPastedIn').value = tabs2colons(document.getElementById('secondPastedIn').value)">Add colons</button><br><button 
@@ -920,16 +886,6 @@ function removeBrackets (node) {
     <button onClick="openWindow(document.getElementById('thirdSourceURLIn').value)">GO</button>
     </td>
 </tr>
-<!--tr>
-<td>Image:</td>
-<td><input type="text" id="thirdImageIn" class="imageBox" 
-    placeholder="File name of image in 'records' folder (no ext)"
-    onInput="draftResult()">
-    <input type="text" id="thirdImageExtIn" value=".jpg" class="extBox" 
-    placeholder="Extension"
-    onInput="draftResult()">
-    </td>
-</tr-->
 <tr>
 <td>Key-value<br>pairs:<br>pairs:<br><button 
         onClick="document.getElementById('thirdPastedIn').value = tabs2colons(document.getElementById('thirdPastedIn').value)">Add colons</button><br><button 
@@ -1033,8 +989,14 @@ Need to fix this properly at some point. -->
             placeholder="YYYY"
             onFocus="checkDB('birthYearIn', 'b', 'bCheck')">
             <span class="instructions" id="bCheck" style="color:red;"></span>
-<script>
 
+
+
+
+
+
+
+<script>
 
 /**
  * Compute halfway date between the start of the first month
@@ -1107,6 +1069,10 @@ function halfwayDate(range) {
 }
 
 
+
+
+
+
 function makeTimestamp () {
     let daymonth = document.getElementById('birthDateIn').value.trim().replace(/\*/,'')
     let year = document.getElementById('birthYearIn').value.trim().replace(/\*/,'')
@@ -1130,6 +1096,13 @@ function makeTimestamp () {
     }
 
 </script>
+
+
+
+
+
+
+
     <button class="copy" title="Add timestamp." onClick="makeTimestamp()">Make time stamp</button>
             </td>
       </tr>
@@ -1220,19 +1193,6 @@ function makeTimestamp () {
             </td>
       </tr>
 
-
-
-      <!--tr>
-        <td>GPS:</td>
-        <td><select id="gpsListOLD" onChange="
-            newline = ''
-            if (document.getElementById('gpsIn').value === '') {}
-            else newline = '\n'
-            document.getElementById('gpsIn').value += newline+this.value
-            draftResult()
-            "></select></td>
-      </tr-->
-
       <tr>
         <td>More GPS:</td>
         <td>
@@ -1250,13 +1210,6 @@ function makeTimestamp () {
             this.value = ''">
         <datalist id="gpsList"></datalist>
         </td>
-        <!--td><select id="gpsList" onChange="
-            newline = ''
-            if (document.getElementById('gpsIn').value === '') {}
-            else newline = '\n'
-            document.getElementById('gpsIn').value += newline+this.value
-            draftResult()
-            "></select></td-->
       </tr>
 
 
@@ -1294,8 +1247,11 @@ function makeTimestamp () {
       </tr>
    </table>
    
-   
-   
+
+
+
+
+
    <script>
    // drop OLD data into the textarea and click GO
    // this function finds stuff to put in the page building data list
@@ -1340,6 +1296,10 @@ function makeTimestamp () {
         }
    </script>
     
+
+
+
+
 
     <p class="" style="margin: 4rem 0 0 2rem; font-style:italic; color: teal;">When all the data is entered, copy the text below to the db.js file, under 'birth'.</p>
     
@@ -1442,8 +1402,10 @@ function makeTimestamp () {
 
 
 
-<script>
 
+
+
+<script>
 
 function prepCopy () {
     var draft, copied, divs
@@ -1457,26 +1419,12 @@ function prepCopy () {
     return copied
     }
 
-
-
-function prepCopyX () {
-    draft = document.getElementById('draft')
-    copied = document.getElementById('draftCopy')
-    copied.value = ''
-    divs = draft.querySelectorAll('div')
-    for (i=0;i<divs.length;i++) {
-        if (divs[i].textContent.trim() !== '') copied.value += divs[i].textContent+'\n'
-        }
-    copied.focus()
-    copied.select()
-    document.execCommand('copy')
-    return false
-    }
 </script>
-    <!--<p style="text-align: center;"><button style="font-size: 1.5rem; background-color: antiquewhite; border-radius: 1rem; padding-inline: .5rem; box-shadow: none; border: 1px solid beige;" onClick="draftResult();">Regenerate to include timestamp</button></p>-->
 
 
-<!--<div style="text-align: center;"><button  style="font-size: 2rem;" onClick="prepCopy()">Copy</button> <textarea style="block-size:2rem;inline-size:1rem; vertical-align: bottom;" id="draftCopy"></textarea></div>-->
+
+
+
 
 
     <pre id="places">
@@ -1485,6 +1433,8 @@ function prepCopyX () {
 </div>
 
 <dialog id="copyNotice">Copied !</dialog>
+
+
 
 
 <script>
