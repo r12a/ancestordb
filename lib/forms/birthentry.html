@@ -228,6 +228,16 @@ function autoPropagate (person) {
             for (i=0;i<dataItems.images.length;i++)  out += `${ dataItems.images[i].replace(/url:records\//,'') }\n`
             document.getElementById('recordsIn').value = out
             }
+
+
+         if (dataItems.fnotes) {
+            out = ''
+            for (i=0;i<dataItems.fnotes.length;i++)  out += `${ dataItems.fnotes[i] }\n`
+            document.getElementById('censusFNotes').value = out
+            }
+        
+        
+        if (dataItems.notes) document.getElementById('censusNotes').value = dataItems.notes.trim()
         
         
         if (dataItems.discussion) document.getElementById('censusDisc').value = dataItems.discussion.trim()
@@ -1348,6 +1358,8 @@ function makeTimestamp () {
 <div id="name"></div>
 <div id="birthDate"></div>
 <div id="birthPlace"></div>
+<div id="gps"></div>
+
 <div id="atHome"></div>
 <div id="focc"></div>
 <div id="mmn"></div>
@@ -1359,7 +1371,6 @@ function makeTimestamp () {
 <div id="bapDate"></div>
 <div id="denomination"></div>
 <div id="images"></div>
-<div id="gps"></div>
 
 <div id="note" style="white-space: pre;"></div>
 <div id="fnote"></div>
