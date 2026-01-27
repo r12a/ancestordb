@@ -261,7 +261,7 @@ article {
 
 .personRow {
     line-height: 1.6;
-    clear: both;
+    /*clear: both;*/
     }
 .personRow:hover {
     background-color: #eee;
@@ -504,7 +504,10 @@ button {
     color: #648200;
     cursor: pointer;
     margin-block:3rem;
-    width: 4rem;
+    border: 1px solid lightgray;
+    padding: .5em;
+    border-radius: .5rem;
+    width: 6em;
     }
 
 
@@ -513,4 +516,62 @@ button {
     vertical-align: top;
     padding-inline: 1em;
     text-transform: capitalize;
+    }
+
+
+
+#helpPopup {
+    position: absolute;
+    display: none;
+    max-width: 260px;
+    padding: 0.6em 0.8em;
+    background: #333;
+    color: #fff;
+    border-radius: 0.4em;
+    font-size: 0.85em;
+    z-index: 9999;
+    pointer-events: none;
+    /*opacity: 0;
+    transition: opacity 0.18s ease-out;*/
+    }
+
+.listTable tr:hover {
+	background-color: #f0f6ff;
+    }
+.listTable th {
+	text-align: start;
+    min-width: 3rem;
+    }
+.list_age {
+    color: #FFDEAF;
+    font-size: 1.4em;
+    background: gray;
+    padding-block: 0;
+    padding-inline: 0.25em;
+    text-align: center;
+    border-radius: 0.5em;
+    vertical-align: middle;
+    margin-inline-end: .5rem;
+    display: inline-block;
+    min-width: 1.5em;
+    }
+.life_summary .list_age a {
+    color: #FFDEAF;
+    }
+
+
+.listTable td {
+    vertical-align: top;
+    }
+
+#summaryToggle p {
+    margin-block: .25rem;
+    font-size: 90%;
+    line-height: 1.2;
+    }
+
+
+
+.life_summary a {
+    color: chocolate;
     }

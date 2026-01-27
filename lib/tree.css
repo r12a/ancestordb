@@ -156,6 +156,15 @@ a { color: rgba(183,117,0,1.00); color: #648200; text-decoration: none; font-wei
 
 
 
-
+/* push the cstatus to bottom of the box */
+.data {
+    display: flex;
+    flex-direction: column;
+    }
+.data .stop {
+    margin-block-start: auto;
+    min-height: 3em;
+    align-content: center;
+    }
 
 
