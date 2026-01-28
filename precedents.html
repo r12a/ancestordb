@@ -137,7 +137,7 @@ function returnName (personID) {
     console.log(personID, personRec.father, personRec.mother)
     out += '<details>'
         
-    out += `<summary><span class="n"><input type="checkbox" checked title="${ personID }"> ${ personRec.g } <strong>${ personRec.f }</strong></span>`
+    out += `<summary><span class="n"><input type="checkbox" checked title="${ personID }"> <a href="tree.html?project=${ project }&person=${ personID }" style="float:none; color: black;">${ personRec.g } <strong>${ personRec.f }</strong></a></span>`
     out += ' <span class="dates">'+personRec.b+'–'+personRec.d+'</span>'
     out += ' <span class="bplace">'+personRec.bplace+'</span>'
     out += ' <span class="occ">'+personRec.occ+'</span>'

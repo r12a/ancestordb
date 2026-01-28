@@ -7,21 +7,7 @@
 
 
 <link href="lib/style.css" rel="stylesheet">
-<style>
-#xbanner::before {
-  content: '📇';
-  font-size: 4rem;
-  padding: 1rem;
-  }
-#pageicon {
-  position: absolute;
-  font-size: 4rem;
-  padding: 1rem 2rem;
-  }
-.checkbox {
-  accent-color: antiquewhite;
-  }
-</style>
+<link href="lib/index_style.css" rel="stylesheet">
 
 
 
@@ -82,94 +68,6 @@ function secondFilter (str) {
 
 
 
-function findAnnotatedPath(startId, targetId, db) {
-    if (!db[startId] || !db[targetId]) return null
-
-    const visited = new Set()
-    const queue = [[{ id: startId, via: null }]]
-
-    while (queue.length > 0) {
-        const path = queue.shift()
-        const current = path[path.length - 1]
-        const currentId = current.id
-
-        if (visited.has(currentId)) continue
-        visited.add(currentId)
-
-        if (currentId === targetId) return path
-
-        const neighbors = getLinkedWithLabels(currentId, db)
-        for (const { id: neighborId, via } of neighbors) {
-            if (!visited.has(neighborId)) {
-                queue.push([...path, { id: neighborId, via }])
-                }
-            }
-       }
-
-    return null
-    }
-
-
-
-
-function getLinkedWithLabels(id, db) {
-    const person = db[id]
-    if (!person) return []
-
-    const links = []
-
-    // Parents
-    if (db[person.father]) links.push({ id: person.father, via: "father" })
-    if (db[person.mother]) links.push({ id: person.mother, via: "mother" })
-
-    // Children and spouses via fg
-    if (Array.isArray(person.fg)) {
-        for (const group of person.fg) {
-            const [_, spouse, ...children] = group
-            if (db[spouse]) links.push({ id: spouse, via: "spouse" })
-            for (const child of children) {
-                if (db[child]) links.push({ id: child, via: "child" })
-                }
-            }
-        }
-
-    // Reverse links: people who list this person as parent or spouse
-    for (const [otherId, otherPerson] of Object.entries(db)) {
-        if (otherPerson.father === id) links.push({ id: otherId, via: "child (via father)" })
-        if (otherPerson.mother === id) links.push({ id: otherId, via: "child (via mother)" })
-
-        if (Array.isArray(otherPerson.fg)) {
-            for (const group of otherPerson.fg) {
-                const [_, spouse, ...children] = group
-                if (spouse === id) links.push({ id: otherId, via: "spouse (reverse)" })
-                if (children.includes(id)) links.push({ id: otherId, via: "parent (reverse)" })
-                }
-            }
-        }
-    return links
-    }
-
-
-
-
-function formatPathToHTML (path) { console.log(path)
-    if (!path) return "<p>No path found.</p>"
-    return path.map((step, index) => {
-        const label = step.via ? `→ ${ step.via }: ` : ""
-        return `<li>${ label }<strong><a target="_blank" href="tree.html?project=${ project }&person=${ step.id }">${ step.id }</a></strong></li>`
-        }).join("")
-    }
-
-
-
-
-function findPathway ( direction, person1, person2 ) {
-    console.log(direction, person1, person2)
-    if (direction === 'reverse') document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person2, person1, db)) }</ul>`
-    else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person1, person2, db)) }</ul>`
-    }
-
-
 
 function getPathSelections (direction) {
     // finds 2 people in index list with checkboxes on, then produces a path between them
@@ -187,6 +85,469 @@ function getPathSelections (direction) {
     document.getElementById('pathPair1').value = ends[0]
     document.getElementById('pathPair2').value = ends[1]
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+abbott_mary_1885
+adams_doris_louisa_1908
+*/
+
+
+/*. AI GENERATED CODE FOR MAPPING PATHS BETWEEN TWO PEOPLE */
+
+//------------------------------------------------------------
+// PART 1 — DATA EXTRACTION & NORMALIZATION
+// Biological-only kinship (BP1 + R1)
+//------------------------------------------------------------
+
+// Get biological parents of a person
+function getBiologicalParents(id, db) {
+    const p = db[id]
+    if (!p) return []
+    const parents = []
+    if (p.father && db[p.father]) parents.push(p.father)
+    if (p.mother && db[p.mother]) parents.push(p.mother)
+    return parents
+}
+
+// Get biological children of a person
+// Children are biological ONLY if this person is listed as father or mother
+function getBiologicalChildren(id, db) {
+    const children = []
+    for (const [otherId, other] of Object.entries(db)) {
+        if (other.father === id || other.mother === id) {
+            children.push(otherId)
+        }
+    }
+    return children
+}
+
+// Get spouses (from fg groups)
+// Spouses DO NOT imply biological parenthood
+function getSpouses(id, db) {
+    const p = db[id]
+    if (!p || !Array.isArray(p.fg)) return []
+    const spouses = []
+    for (const group of p.fg) {
+        const spouse = group[1]
+        if (spouse && spouse !== id) spouses.push(spouse)
+    }
+    return spouses
+}
+
+// Get siblings (S1 + H1)
+// Siblings share at least one biological parent
+function getSiblings(id, db) {
+    const parents = getBiologicalParents(id, db)
+    const sibs = new Set()
+    for (const parent of parents) {
+        const kids = getBiologicalChildren(parent, db)
+        for (const k of kids) {
+            if (k !== id) sibs.add(k)
+        }
+    }
+    return [...sibs]
+}
+
+// Unified relationship extractor for BFS pathfinding
+function getLinkedWithLabels(id, db) {
+    const links = []
+
+    // Biological parents
+    for (const parent of getBiologicalParents(id, db)) {
+        links.push({ id: parent, via: "parent" })
+    }
+
+    // Biological children
+    for (const child of getBiologicalChildren(id, db)) {
+        links.push({ id: child, via: "child" })
+    }
+
+    // Spouses (non-biological)
+    for (const spouse of getSpouses(id, db)) {
+        links.push({ id: spouse, via: "spouse" })
+    }
+
+    // Siblings (biological or half)
+    for (const sib of getSiblings(id, db)) {
+        links.push({ id: sib, via: "sibling" })
+    }
+
+    return links
+}
+
+
+
+
+//------------------------------------------------------------
+// PART 2 — GENERATION MAPPING ENGINE
+//------------------------------------------------------------
+
+// Compute generation numbers relative to the start person
+// Rules:
+// - parent = generation - 1
+// - child  = generation + 1
+// - spouse = same generation
+// - sibling = same generation
+// - missing parents allowed
+// - half-siblings treated as siblings
+// - step-relations ignored (handled in Part 1)
+//------------------------------------------------------------
+
+function computeGenerationMap(startId, db) {
+    const generation = {}
+    const queue = []
+
+    generation[startId] = 0
+    queue.push(startId)
+
+    while (queue.length > 0) {
+        const current = queue.shift()
+        const currentGen = generation[current]
+
+        // Get all linked persons with relationship labels
+        const links = getLinkedWithLabels(current, db)
+
+        for (const link of links) {
+            const other = link.id
+            if (generation.hasOwnProperty(other)) continue
+
+            let newGen = currentGen
+
+            switch (link.via) {
+                case "parent":
+                    newGen = currentGen - 1
+                    break
+                case "child":
+                    newGen = currentGen + 1
+                    break
+                case "spouse":
+                case "sibling":
+                    newGen = currentGen
+                    break
+            }
+
+            generation[other] = newGen
+            queue.push(other)
+        }
+    }
+
+    return generation
+}
+
+
+
+
+//------------------------------------------------------------
+// PART 3 — ANCESTOR CHAIN + LCA ENGINE
+//------------------------------------------------------------
+
+// Build ancestor chain for a person
+// Returns a map: ancestorId → generationsUp
+// Example: { "murray_timothy_1830": 1, "murray_elizabeth_1863": 2, ... }
+function buildAncestorChain(id, db) {
+    const chain = {}
+    const queue = [{ person: id, dist: 0 }]
+
+    while (queue.length > 0) {
+        const { person, dist } = queue.shift()
+
+        // Do not include the person themself
+        if (dist > 0) chain[person] = dist
+
+        const parents = getBiologicalParents(person, db)
+        for (const p of parents) {
+            if (!chain.hasOwnProperty(p)) {
+                queue.push({ person: p, dist: dist + 1 })
+            }
+        }
+    }
+
+    return chain
+}
+
+// Find Lowest Common Ancestor between start and target
+// Uses biological parents only
+function findLCA(startId, otherId, db) {
+    const startAnc = buildAncestorChain(startId, db)
+    const otherAnc = buildAncestorChain(otherId, db)
+
+    let best = null
+    let bestDist = Infinity
+
+    for (const anc of Object.keys(startAnc)) {
+        if (otherAnc.hasOwnProperty(anc)) {
+            const totalDist = startAnc[anc] + otherAnc[anc]
+            if (totalDist < bestDist) {
+                best = anc
+                bestDist = totalDist
+            }
+        }
+    }
+
+    return best
+}
+
+
+
+
+//------------------------------------------------------------
+// PART 4 — KINSHIP CLASSIFICATION ENGINE
+//------------------------------------------------------------
+
+// Convert a number to ordinal: 1 → "first", 2 → "second", etc.
+function ordinal(n) {
+    const map = {
+        1: "first",
+        2: "second",
+        3: "third",
+        4: "fourth",
+        5: "fifth",
+        6: "sixth",
+        7: "seventh",
+        8: "eighth",
+        9: "ninth",
+        10: "tenth"
+    }
+    return map[n] || `${n}th`
+}
+
+// Build ancestor chain once per person
+function getAncestorChainCached(id, db, cache) {
+    if (!cache[id]) cache[id] = buildAncestorChain(id, db)
+    return cache[id]
+}
+
+
+function genderOf(id, db) {
+    const person = db[id]
+    return person && person.male === true ? "male" : "female"
+}
+
+function gendered(termMale, termFemale, id, db) {
+    return genderOf(id, db) === "male" ? termMale : termFemale
+}
+
+
+// Main kinship classifier
+function classifyKinship(startId, otherId, db, generationMap, ancestorCache) {
+
+    if (startId === otherId) return "self"
+
+    const gOther = generationMap[otherId]
+
+    const startAnc = getAncestorChainCached(startId, db, ancestorCache)
+    const otherAnc = getAncestorChainCached(otherId, db, ancestorCache)
+
+    // True direct ancestor
+    if (startAnc.hasOwnProperty(otherId)) {
+        const up = startAnc[otherId]
+        if (up === 1) return gendered("father", "mother", otherId, db)
+        if (up === 2) return gendered("grandfather", "grandmother", otherId, db)
+        return "great-".repeat(up - 2) + gendered("grandfather", "grandmother", otherId, db)
+    }
+
+    // True direct descendant
+    if (otherAnc.hasOwnProperty(startId)) {
+        const down = otherAnc[startId]
+        if (down === 1) return gendered("son", "daughter", otherId, db)
+        if (down === 2) return gendered("grandson", "granddaughter", otherId, db)
+        return "great-".repeat(down - 2) + gendered("grandson", "granddaughter", otherId, db)
+    }
+
+    // Same generation: siblings, cousins, etc.
+    const sharedParents = getBiologicalParents(startId, db)
+        .filter(p => getBiologicalParents(otherId, db).includes(p))
+
+    if (sharedParents.length > 0) {
+        return gendered("brother", "sister", otherId, db)
+    }
+
+    // Find LCA
+    const lca = findLCA(startId, otherId, db)
+    if (!lca) return "unrelated"
+
+    const distStart = startAnc[lca]
+    const distOther = otherAnc[lca]
+
+    const degree = Math.min(distStart, distOther)
+    const removed = Math.abs(distStart - distOther)
+
+    // Aunt/uncle / niece/nephew
+    if (degree === 1 && removed >= 1) {
+        if (distStart < distOther) {
+            // other is further down from LCA → niece/nephew side
+            const down = distOther - distStart
+            if (down === 1) return gendered("nephew", "niece", otherId, db)
+            if (down === 2) return gendered("grand-nephew", "grand-niece", otherId, db)
+            return "great-".repeat(down - 2) + gendered("grand-nephew", "grand-niece", otherId, db)
+        } else {
+            // other is closer to LCA → aunt/uncle side
+            const up = distStart - distOther
+            if (up === 1) return gendered("uncle", "aunt", otherId, db)
+            if (up === 2) return gendered("grand-uncle", "grand-aunt", otherId, db)
+            return "great-".repeat(up - 2) + gendered("grand-uncle", "grand-aunt", otherId, db)
+        }
+    }
+
+    // Cousins
+    const cousinName = `${ordinal(degree)} cousin`
+    if (removed === 0) return cousinName
+    if (removed === 1) return `${cousinName} once removed`
+    if (removed === 2) return `${cousinName} twice removed`
+    return `${cousinName} ${removed} times removed`
+}
+
+
+
+
+
+//------------------------------------------------------------
+// PART 5 — PATH FORMATTING ENGINE
+//------------------------------------------------------------
+
+// Map relationship type to arrow symbol
+function arrowFor(via) {
+    switch (via) {
+        case "parent": return "↑"
+        case "child": return "↓"
+        case "spouse": return "→"
+        case "sibling": return "↔"
+        default: return ""
+    }
+}
+
+// Format a single step into an <li> element
+function formatStep(step, kinship, project) {
+    const arrow = arrowFor(step.via)
+    const viaLabel = step.via ? `${step.via}:` : ""
+
+    return `<li>${arrow} ${viaLabel} <strong><a target="_blank" href="tree.html?project=${project}&person=${step.id}">${step.id}</a></strong> <span class="kinship">${kinship}</span></li>`
+}
+
+// Format the entire path, with START at the TOP
+function formatPathway(path, startId, db, generationMap, project) {
+    const ancestorCache = {}
+    const items = []
+
+    // START person at the top
+    items.push(
+        `<li><strong><a target="_blank" href="tree.html?project=${project}&person=${startId}">${startId}</a></strong> <span class="kinship">self</span></li>`
+    )
+
+    // For each step in the path
+    for (const step of path) {
+        const kinship = classifyKinship(startId, step.id, db, generationMap, ancestorCache)
+        items.push(formatStep(step, kinship, project))
+    }
+
+    return `<ul>${items.join("")}</ul>`
+}
+
+
+
+
+
+//------------------------------------------------------------
+// PART 6 — FINAL WRAPPER: findPathway()
+//------------------------------------------------------------
+
+// BFS to find the relationship path between two people
+function bfsPath(startId, targetId, db) {
+    const queue = [startId]
+    const visited = new Set([startId])
+    const parent = {}   // childId → { id: parentId, via: relationship }
+
+    while (queue.length > 0) {
+        const current = queue.shift()
+        if (current === targetId) break
+
+        const links = getLinkedWithLabels(current, db)
+        for (const link of links) {
+            const next = link.id
+            if (!visited.has(next)) {
+                visited.add(next)
+                parent[next] = { id: current, via: link.via }
+                queue.push(next)
+            }
+        }
+    }
+
+    // If target not reached
+    if (!visited.has(targetId)) return null
+
+    // Reconstruct path from start → target
+    const path = []
+    let cur = targetId
+    while (cur !== startId) {
+        const p = parent[cur]
+        path.unshift({ id: cur, via: p.via })
+        cur = p.id
+    }
+
+    return path
+}
+
+// Main public function
+function findPathway(startId, targetId, db, project) {
+
+    // 1. Find BFS path
+    const path = bfsPath(startId, targetId, db)
+    if (!path) {
+        return `<ul><li>No relationship path found.</li></ul>`
+    }
+
+    // 2. Compute generation map
+    const generationMap = computeGenerationMap(startId, db)
+
+    // 3. Format the path with kinship labels
+    return formatPathway(path, startId, db, generationMap, project)
+}
+
+
+function findPathwayXXX ( direction, person1, person2 ) {  // changed by AI code
+    console.log('findPathway(',direction, person1, person2,')')
+    if (direction === 'reverse') document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person2, person1, db)) }</ul>`
+    else document.getElementById('pathwayOut').innerHTML = `<ul>${ formatPathToHTML( findAnnotatedPath(person1, person2, db)) }</ul>`
+    }
+
+
+/*birch_peter_frank_1928
+birch_phillip_1936*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -232,85 +593,33 @@ function sortList () {
     document.getElementById('listOfCheckedNames').value = sortedList.join('\n')
     }
 </script>
-
-
-
-
-<style>
-.dropdown {
-    position: relative;
-    display: inline-block;
-    }
-
-.dropdown_icon {
-    /*width: 24px;*/
-    height: 24px;
-    cursor: pointer;
-    }
-
-.dropdown_menu {
-    position: absolute;
-    top: 100%; 
-    left: 0;
-    background: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    border-radius: 4px;
-    display: none;
-    z-index: 1000;
-    min-width: 200px;
-    }
-.dropdown_item {
-    padding: 12px 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #eee;
-    line-height: 1.6;
-    }
-
-.dropdown_item:last-child {
-    border-bottom: none;
-    }
-
-.dropdown_item:hover {
-    background-color: #f0f0f0;
-    }
-#copyNotice {
-    position: fixed;
-    top: 40%;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 1rem;
-    z-index: 10000;
-    }
-
-
-.personsID {
-    color:gray;
-    margin-inline-start: 2em;
-    font-size: 70%;
-    }
-</style>
 </head>
 
 
 
 
 <body onLoad="init()">
-<dialog id="pathfinder" style="border-radius:.5rem; max-width: 70%;">
+
 <dialog id="copyNotice">Copied !</dialog>
 
+
+<!-- PATHWAY FINDER -->
+<dialog id="pathfinder">
 <h2>Find relationship pathways</h2>
 
 <p>To show how two individuals are linked, click on the checkboxes of two people in the index or enter their ids in the boxes, then click on one of the directional buttons. <button onClick="document.getElementById('pathPair1').value = mark">Add root person</button></p>
 
 <table style="margin:auto;"><tr>
-<td><input type="text" id="pathPair1" style="padding:1rem; border:1px solid #ccc; border-radius:.5rem; width:12rem;"></td>
-<td style="padding-inline:1rem;"><button onClick="findPathway( 'forward', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">→</button><br>
-<button onClick="findPathway( 'reverse', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">←</button></td>
-<td><input type="text" id="pathPair2" style="padding:1rem; border:1px solid #ccc; border-radius:.5rem; width:12rem;"></td>
-</tr></table>
+<td><input type="text" id="pathPair1"></td>
+<!-- PRE AI td style="padding-inline:1rem;"><button onClick="findPathway( 'forward', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">→</button><br>
+<button onClick="findPathway( 'reverse', document.getElementById('pathPair1').value, document.getElementById('pathPair2').value )">←</button></td-->
+<td style="padding-inline:1rem;"><button onClick="document.getElementById('pathwayOut').innerHTML = findPathway( document.getElementById('pathPair1').value, document.getElementById('pathPair2').value, db, project )">→</button><br>
+<button onClick="document.getElementById('pathwayOut').innerHTML = findPathway( document.getElementById('pathPair2').value, document.getElementById('pathPair1').value, db, project)">←</button>
+</td>
+
+<td><input type="text" id="pathPair2"></td>
+</tr>
+</table>
 
 
 <div id="pathwayOut"></div>
@@ -321,11 +630,11 @@ function sortList () {
 
 
 
-<div id="floatingLinks" style="margin-block: 3rem;">
+<div id="floatingLinks">
 <div class="dropdown">
-    <img id="dropdownToggle" src="lib/i/moreOptions.png" alt="More options" class="dropdown_icon" style="height: 1.8rem;">
+    <img id="dropdownToggle" src="lib/i/moreOptions.png" alt="More options" class="dropdown_icon">
     <div id="dropdownMenu" class="dropdown_menu">
-        <div style="line-height: 2rem; font-size:.8rem; font-weight: bold;">ADD CHECKS/TAGS</div>   
+        <div class="dropdown_title">Add checks/tags</div>   
         <div class="dropdown_item" onclick="checkVisibleRows()">Add checkmarks to all visible people</div>
         <div class="dropdown_item" onClick="checkFromList()">Add checkmarks to everyone in the list</div>
         <div class="dropdown_item" onClick="checkRoot()">Add a checkmark to the root person</div>
@@ -333,12 +642,12 @@ function sortList () {
         <div class="dropdown_item" onClick="uncheckAll()">Remove all checkmarks</div>
         <div class="dropdown_item" onclick="swapChecks();">Invert checkmark selections</div>
         
-        <div style="line-height: 2rem; font-size:.8rem; font-weight: bold; margin-block-start:3rem;">MAKE A LIST</div>   
+        <div  class="dropdown_title">Make a list</div>   
         <div class="dropdown_item" onClick="listChecked()">List everyone with check marks</div>
         <div class="dropdown_item" onClick="listTagged()">List everyone who is tagged</div>
         <div class="dropdown_item" onClick="uncheck100()">List people born &lt;100 years ago</div>
         
-        <div style="line-height: 2rem; font-size:.8rem; font-weight: bold; margin-block-start:3rem;">LIST MANAGEMENT</div>   
+        <div  class="dropdown_title">List management</div>   
         <div class="dropdown_item" onClick="showFromList()">Show only the people in the list</div>
         <div class="dropdown_item" onClick="sortList()">Sort the list items alphabetically</div>
         <div class="dropdown_item" onClick="document.getElementById('listOfCheckedNames').value = ''">Clear the list</div>
@@ -349,24 +658,22 @@ function sortList () {
 
 <a title="Go to the Search page." id="searchLink" href="">&#x1F50D;</a>
 
-<a href="#top" title="Go to root" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">&#x1F538;</a>
+<a href="#top" title="Add checkmark to root" onClick="this.href=`tree.html?person=${ mark }&project=${ window.project }`">&#x1F538;</a>
 
-<span title="Find a relationship path between two individuals." id="relationshipPath" onClick="document.getElementById('pathfinder').showModal(); getPathSelections();" style="cursor: pointer;">&#x1F9ED;</span>
+<span title="Find a relationship path between two individuals." id="relationshipPath" 
+    onClick="document.getElementById('pathfinder').showModal(); getPathSelections();">&#x1F9ED;</span>
 </div>
 <script>document.getElementById('searchLink').href = `search.html?project=${ project }`</script>
 
 
 
 <div id="topMenu">
-	<a id="detailLink" href="#"></a>
-	<a id="fatherLink" href="#"></a>
 	<a id="checkVisibleRows" href="#" onClick="checkVisibleRows(); return false">&#x2713; visible</a>
 	<a id="removeChecks" href="#" onClick="uncheckAll(); return false">Remove &#x2713;</a>
 	<a id="swapChecks" href="#" onClick="swapChecks(); return false">Swap &#x2713;</a>
 	<a href="#top" onClick="uncheck100()">&lt;100 years</a>
 	<a id="listNames" href="#" onClick="checkFromList(); return false">List&#x2192;&#x2713;</a>
 	<a id="captureNames" href="#" onClick="listChecked(); return false">&#x2713;&#x2192;list</a>
-	<!--a href="index.html" style="margin-right: 2em;">Index</a-->
 	</div>
 
 
@@ -374,9 +681,10 @@ function sortList () {
 <div id="out">
   <div id="banner">
     <div id="pageicon">📇</div>
-    <div id="pagetitle">Index<br><span style="font-size: 53%; text-align: center;">Total <span id="total"></span></span>
+    <div id="pagetitle">Index<br><span>Total <span id="total"></span></span>
     </div>
   </div>
+  
   <div id="subbanner">
     <div>Filter <input id="filter" type="text" onInput="filter(this.value);" />  <!--input id="filter2" type="text" onInput="secondFilter(this.value);" /-->
     </div>
@@ -387,14 +695,14 @@ function sortList () {
   
   
   
-  <div id="layout" style="display: flex; flex-direction: row-reverse; align-items: flex-start;">
+  <div id="layout">
   
   
   <!-- LIST MANAGEMENT -->
-  <div id="subsubsubbanner" style="width:20rem; display: block;">
+  <div id="listManagement">
   
   <div style="height: 2rem;">
-      <a href="#explanations">Lists [<span id="checkedTotal">0</span>]</a>
+      <a href="#explanations">List [<span id="checkedTotal">0</span>]</a>
       
       <img src="lib/i/copytiny.svg" alt="Copy" style="height:.8em; width:1em; margin-inline:2rem; vertical-align: baseline; cursor: pointer;" 
           onclick="navigator.clipboard.writeText(document.getElementById('listOfCheckedNames').value); document.getElementById('copyNotice').style.display = 'block'; setTimeout(() =&gt; { document.getElementById('copyNotice').style.display = 'none' }, '500')">
@@ -405,7 +713,7 @@ function sortList () {
       </div>
   
   
-  <textarea id="listOfCheckedNames" style="width:90%; height:80vh; color: #555; padding: .5em;" placeholder="Add a list of ids here, one per line, and click on CHECK FROM LIST. Only those people will be checked below. Alternatively, clicking on LIST FROM CHECKED will add a list here." onInput="listed=this.value.split('\n');document.getElementById('checkedTotal').textContent=listed.length"></textarea>
+  <textarea id="listOfCheckedNames" placeholder="Add a list of ids here, one per line. You can add them manually, or by using one of the commands available when you click on the small square icon at the bottom right of the window. People in the database may be tagged (on their personal page, using whatever criteria you decide).  Separately, people in the index list can have a checkmark against their name, allowing for batch processing." onInput="listed=this.value.split('\n');document.getElementById('checkedTotal').textContent=listed.length"></textarea>
 
   </div>
   
@@ -419,6 +727,7 @@ function sortList () {
     </article>
   </div>
 </div>
+
 
 
 
@@ -440,7 +749,7 @@ function init () {
 	for (var person in dbOrdered) {
 		out += '<p class="personRow">'
 
-        out += '<span style="margin-inline: 2em; float:right;">'
+        out += '<span class="icons">'
         if (db[person].p) out += `<a href="person.html?person=${ person }&project=${ window.project }" style="" title="Show details">📄</a> `
 		out += `<a href="tree.html?person=${ person }&project=${ window.project }" style="opacity:90%;" title="Show relationships">⏳</a> `
 		out += `<a href="ancestors.html?person=${ person }&project=${ window.project }" style="opacity:60%;" title="Show family tree">🌳</a> `
@@ -508,29 +817,6 @@ toggle.addEventListener('click', () => {
 
     // Show menu so we can measure it
     menu.style.display = 'block'
-
-    const iconRect = toggle.getBoundingClientRect()
-    const menuRect = menu.getBoundingClientRect()
-    const containerRect = container.getBoundingClientRect()
-
-    // Position below icon (relative to container)
-    let top = iconRect.bottom - containerRect.top
-
-    // Align RIGHT edge of menu with RIGHT edge of icon (relative to container)
-    let left = (iconRect.right - menuRect.width) - containerRect.left
-
-    // Clamp so it doesn't go off the left of the viewport
-    if (containerRect.left + left < 8) {
-        left = 8 - containerRect.left
-        }
-
-    // If menu would go off bottom of viewport, show above icon
-    if (containerRect.top + top + menuRect.height > window.innerHeight) {
-        top = iconRect.top - menuRect.height - containerRect.top
-        }
-
-    menu.style.left = `${left}px`
-    menu.style.top = `${top}px`
     })
 
 

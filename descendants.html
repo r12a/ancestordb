@@ -122,7 +122,7 @@ function findFamily (id) {
         // show the fg head
 		out += `<summary class="lineHead"`
         if (id === window.thisPerson) out += ` style="color:chocolate; font-size: 1.4rem;"`
-        out += `><span class="n"><input type="checkbox" checked title="${ id }" onclick="if (this.checked===false) clearChecks(this.parentNode.parentNode.parentNode)"> ${ person.g } ${ person.f }<\span>`
+        out += `><span class="n"><input type="checkbox" checked title="${ id }" onclick="if (this.checked===false) clearChecks(this.parentNode.parentNode.parentNode)"> <a href="tree.html?project=${ project }&person=${ id }" style="float:none; color: black;">${ person.g } <strong>${ person.f }</strong></a><\span>`
 
     
     // delete these trackers after reworking the data
@@ -158,7 +158,7 @@ function findFamily (id) {
 			
 			// spouse name
 			if (db[person.fg[g][1]]) {
-				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ person.fg[g][1] }"> ${ db[person.fg[g][1]].g } ${ db[person.fg[g][1]].f }`
+				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ person.fg[g][1] }"> <a href="tree.html?project=${ project }&person=${ id }" style="float:none; color: black;">${ db[person.fg[g][1]].g } ${ db[person.fg[g][1]].f }</a>`
 
     
     // delete these trackers after reworking the data

@@ -4,14 +4,33 @@
     font-weight: normal;
     font-style: normal;
 	} /* contains only one character: ⏵ */
-
+/*@font-face {
+    font-family: 'ralewaywf';
+    src: url('fonts/raleway-regular-webfont.woff2');
+    font-weight: normal;
+    font-style: normal;
+	}
+@font-face {
+    font-family: 'ralewaywf';
+    src: url('fonts/raleway-italic-webfont.woff2');
+    font-weight: normal;
+    font-style: italic;
+	}
+@font-face {
+    font-family: 'ralewaywf';
+    src: url('fonts/raleway-bold-webfont.woff2');
+    font-weight: bold;
+    font-style: normal;
+	}
+*/
 
 
 
 
 /*body { font: 19.5px/1.45 "Source Sans Pro","Helvetica Neue",Arial,sans-serif; -moz-osx-font-smoothing: grayscale;  margin: 0; background-color: #dedcd6;  } */
 /*body { font: 16.5px/1.45 "Source Sans Pro","Helvetica Neue",Arial, TriangleWF, sans-serif; -moz-osx-font-smoothing: grayscale;  margin: 0; background-color: #dedcd6;  } */
-body { font: 16.5px/1.45 "Helvetica Neue", Arial, TriangleWF, sans-serif; -moz-osx-font-smoothing: grayscale;  margin: 0; background-color: #dedcd6;  } 
+body { font: 15px/1.45 "Helvetica Neue", Helvetica, Arial, TriangleWF, sans-serif; -moz-osx-font-smoothing: grayscale;  margin: 0; background-color: #dedcd6;  } 
+
 #summaryIn { display: none; }
 #main { background-color: #f8f7f3; }
 #topMenu { 
@@ -239,6 +258,7 @@ article {
     font-size: 1.8rem;
     align-items: center;
     line-height: 4rem;
+    z-index: 1000;
     }
 #floatingLinks a {
     color: forestgreen;
@@ -246,6 +266,8 @@ article {
     padding: 0;
     background: #dedcd6;
     border-radius: 1rem;
+    display: inline-block;
+    height: 4rem;
     }
 /*#floatingLinks a:hover {
     font-size: 5rem;
