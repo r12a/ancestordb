@@ -1,0 +1,189 @@
+#xbanner::before {
+  content: '📇';
+  font-size: 4rem;
+  padding: 1rem;
+  }
+#pageicon {
+  position: absolute;
+  font-size: 4rem;
+  padding: 1rem 2rem;
+  }
+.checkbox {
+  accent-color: antiquewhite;
+  }
+
+
+.dropdown {
+    }
+
+.dropdown_icon {
+    /*width: 24px;*/
+    height: 24px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 2rem;
+    right: .5rem;
+    }
+
+.dropdown_menu {
+    position: fixed;
+    bottom: 3rem; 
+    right: 3rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    display: none;
+    z-index: 1000;
+    min-width: 400px;
+    }
+.dropdown_item, .dropdown_title {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eee;
+    line-height: 1.6;
+    text-align: start;
+    }
+.dropdown_title {
+    margin-inline-start: -.75rem;
+    font-weight: bold;
+    }
+
+.dropdown_item:last-child {
+    border-bottom: none;
+    }
+
+.dropdown_item:hover {
+    background-color: #f0f0f0;
+    }
+
+
+
+#copyNotice {
+    position: fixed;
+    top: 40%;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 1rem;
+    z-index: 10000;
+    }
+
+
+.personsID {
+    color:gray;
+    margin-inline-start: 2em;
+    font-size: 70%;
+    }
+
+
+#pathfinder {
+    border-radius:.5rem;
+    max-width: 70%;
+    }
+#pathPair1 , #pathPair2 {
+    padding:1rem;
+    border:1px solid #ccc;
+    border-radius:.5rem;
+    width:12rem
+    }
+
+#floatingLinks {
+    margin-block: 3rem;
+    }
+#dropdownToggle {
+    height: 1.8rem;
+    }
+#relationshipPath {
+    cursor: pointer;
+    }
+
+
+
+#pagetitle span {
+	font-size: 53%;
+	text-align: center
+	}
+
+
+
+#layout {
+	display: flex; 
+	flex-direction: row-reverse; 
+	align-items: flex-start;
+	}
+
+#listManagement {
+	width:20rem;
+	display: block;
+    background-color: #f8f7f3;
+	border-bottom: 1px solid #ddd;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgb(83, 77, 70);
+    font-size: 90%;
+    align-items: center;
+    padding: 0.5em;
+    height: 70%;
+    border-radius: 1rem;
+    
+    position: fixed;
+	}
+
+#listManagement textarea {
+	width:90%; 
+	height:90%; 
+	color: #555; 
+	padding: .5em;
+	}
+
+
+.icons {
+    margin-inline-end: 2rem;
+    min-width: 10rem;
+    }
+
+#mainpanel {
+	width: 100%;
+	}
+
+
+
+
+
+.kinship {
+    font-style: italic;
+    margin-inline-start: 1rem;
+    font-size: 90%;
+    }
+.kinship::before {
+    content: '( ';
+    }
+.kinship::after {
+    content: ' )';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
