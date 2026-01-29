@@ -15,7 +15,7 @@ source: http://www.ucl.ac.uk/bloomsbury-project/articles/individuals/dickens_cha
 
 location_summary = { 
 list: "Landport, London, Higham",
-url: "url_goes_here",
+url: "https://www.google.com/maps/d/edit?mid=1IwXqWAQFBjXrHTPJ8HKgNbNeC0K_UaI&usp=sharing",
 }
  
  
