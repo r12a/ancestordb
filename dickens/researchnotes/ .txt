@@ -1,0 +1,46 @@
+db[thisPerson].timeline = `
+
+
+`
+
+
+
+
+location_summary = { 
+list: "comma_separated_list_goes_here",
+url: "url_goes_here",
+}
+ 
+ 
+narrative = ``
+ 
+ 
+ 
+
+
+
+db[thisPerson].death.obit = ``
+
+
+
+
+places = ``
+
+
+
+
+
+db[thisPerson].events["TIMESTAMP"] = {
+type: "note",
+title: "TITLE",
+notes: `
+Always_visible_intro_goes_here
+<section class="life_context">
+<details><summary>Details</summary>
+<p>CONTENT_GOES_HERE</p>
+<p><small>Created by AI</small></p>
+</details>
+</section>
+`
+}
+

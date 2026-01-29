@@ -1,0 +1,71 @@
+db[thisPerson].timeline = `
+
+
+
+`
+
+
+
+
+location_summary = { 
+list: "Portsmouth",
+url: "url_goes_here",
+}
+ 
+ 
+narrative = `
+<p>Alfred Allen Dickens was born around <strong>22 April 1814</strong>, the date of his baptism, when his family were living in Wish Street, <strong>Portsmouth</strong>, in the county of Hampshire. His parents were <strong>John Dickens</strong>, a pay clerk, and <strong>Elizabeth Barrow</strong>, whose maiden name was Barrow, and he had two older siblings, <strong>Frances Elizabeth</strong> and <strong>Charles John Huffam</strong>. Portsmouth at this time was one of Britain’s principal naval ports, crowded with dockyard workers, sailors, and their families, and the town’s fortunes were closely tied to the Royal Navy and the long wars with Napoleonic France.</p>
+<p>Alfred was baptised at <strong>St Mary’s, Portsea</strong>, a parish that served a growing population of naval and civilian families clustered around the dockyard and associated trades. Life in early nineteenth‑century Portsmouth was shaped by the demands of war, fluctuating employment in the dockyards, and the pressures of rapid urban growth. Housing was often cramped and sanitation poor, conditions that contributed to high levels of disease and infant mortality in port towns across Britain.</p>
+<p>In <strong>1814</strong>, the year of Alfred’s short life, Europe was in the final stages of the Napoleonic Wars, with British forces heavily engaged on land and at sea. Although he would have been too young to be aware of events, his father’s work as a pay clerk would have been directly connected to the naval and military infrastructure that underpinned Britain’s war effort. Families like the Dickens household lived with the uncertainties of wartime economies, periodic shortages, and the constant movement of people through the port.</p>
+<p>Alfred died on or before <strong>10 September 1814</strong>, the date of his burial, when he was less than a year old, his residence recorded as Southsea, Portsmouth. He was buried at <strong>Widley</strong>, a village to the north of Portsmouth, reflecting a common pattern in which burials took place in parish churchyards serving both town and nearby rural communities. His brief life is a reminder of the vulnerability of infants in the early nineteenth century, when infectious disease, limited medical knowledge, and harsh living conditions meant that many children did not survive their first year.</p>
+<p>The record of Alfred’s life is fragmentary and marked as only partially researched, but even these few details place him within the wider story of a naval port at war, a working family dependent on clerical employment in the service of the state, and a society in which high infant mortality was a painful but familiar reality. His birth and death in Portsmouth in <strong>1814</strong> occurred against a backdrop of profound military and political change, as Britain moved toward the end of decades of conflict and into a new era of peace and social transformation.</p>
+`
+ 
+ 
+ 
+
+
+
+db[thisPerson].death.obit = ``
+
+
+
+
+places = `
+Age,Name,Latitude,Longitude,Precision
+0,"1814  Wish Street, Portsmouth HAM: Birth",50.787118995534456,-1.0780815750579116,📌 road
+0,"1814  St Marys, Portsea HAM: Baptism",50.80356204725931,-1.076376740745234,📌 exact
+0,"1814  Southsea, Portsmouth HAM: Death",50.790308909744176,-1.073535512417251,📌 district
+0,"1814  Widley HAM: Death",50.86073646264501,-1.0376042696367251,📌 town
+0,"1814  Southsea, Portsmouth HAM: Burial",https://www.google.co.uk/maps/place/Southsea,+Portsmouth,📌 outline
+`
+
+
+
+
+
+
+
+
+db[thisPerson].intro = `
+<p><a target="_blank" href="https://www.google.com/maps/d/edit?mid=1xC5sW5K8Zd1OtDubM8cdOFu1GZUToos&usp=sharing">Portsmouth</a></p>
+
+
+`
+
+
+
+
+db[thisPerson].death.obit = ``
+
+
+
+
+places = `
+Age,Name,Latitude,Longitude,Precision
+0,"1814  Wish Street, Portsmouth HAM: Birth",50.787118995534456,-1.0780815750579116,📌 road
+0,"1814  St Marys, Portsea HAM: Baptism",50.80356204725931,-1.076376740745234,📌 exact
+0,"1814  Southsea, Portsmouth HAM: Death",50.790308909744176,-1.073535512417251,📌 district
+0,"1814  Widley HAM: Death",50.86073646264501,-1.0376042696367251,📌 town
+0,"1814  Southsea, Portsmouth HAM: Burial",https://www.google.co.uk/maps/place/Southsea,+Portsmouth,📌 outline
+`

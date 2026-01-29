@@ -2,59 +2,471 @@ db = {
 
 barrow_elizabeth_culliford_1789:{
 g:"Elizabeth Culliford", k:"Elizabeth", f:"Barrow", bdate:"21 Dec", b:"1789", ddate:"13 Sep", d:"1863",
-bplace:"", dplace:"London", thumb:true, p:false,
+bplace:"", dplace:"London", thumb:true, p:true,
 father:"Charles Barrow", mother:"Mary Culliford", occ:"", m:['Dickens'],
 fg:[["1809-06-13", "dickens_john_1785", "dickens_frances_elizabeth_1810", "dickens_charles_john_huffam_1812", "dickens_alfred_allen_1813", "dickens_letitia_1816", "dickens_harriet_1819", "dickens_frederick_1820", "dickens_alfred_lamert_1822", "dickens_augustus_1827"]]
 },
 
 collins_charles_allston_1828:{
 g:"Charles Allston", k:"Charles", f:"Collins", bdate:"25 Jan", b:"1828", ddate:"9 Apr", d:"1873",
-bplace:"Hampstead", dplace:"London", thumb:true, male:true, p:false,
+bplace:"Hampstead", dplace:"London", thumb:true, male:true, p:true,
 father:"William Collins", mother:"", occ:"Artist, writer", cstatus:"No children",
 fg:[["1860-07-01", "dickens_catherine_elizabeth_macready_1839"]],
 },
 
-dickens_alfred_allen_1813:{
-g:"Alfred Allen", k:"", f:"Dickens", bdate:"", b:"1813", ddate:"", d:"1813",
-bplace:"", dplace:"", thumb:false, male:true, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"", cstatus:"Died as infant"
-},
+dickens_alfred_allen_1813:{ 
+g:"Alfred Allen", k:"", f:"Dickens",  bdate:"~22 Apr", b:"1814", ddate:"~10 Sep", d:"1814", 
+bplace:"Portsmouth", dplace:"Portsmouth",
+a:"208735037,372746703505", thumb:false, male:true, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"",
+cstatus:"Died as an infant.",
 
-dickens_alfred_dorsay_tennison_1845:{
-g:"Alfred D'Orsay Tennison", k:"", f:"Dickens", bdate:"28 Oct", b:"1845", ddate:"2 Jan", d:"1912",
-bplace:"London", dplace:"New York, NY", thumb:true, male:true, p:false,
+birth: {
+timestamp: "1814-04-22",
+place: "39 Wish Street, Portsmouth HAM https://www.google.com/maps?q=50.787118995534456,-1.0780815750579116§road",
+athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
+focc: "pay clerk",
+bapplace: "St Marys, Portsea HAM https://www.google.com/maps?q=50.80356204725931,-1.076376740745234§exact",
+bapyear: "1814",
+bapdate: "22 Apr",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/62422/images/62421_314054000109_1479-00042"],
+discussion: `I'm assuming that Wish St and modern-day Wish Place are the same road, but that could be wrong.`,
+sources: `
+SOURCE: Hampshire, England, Church of England Baptisms, 1813-1921  https://www.ancestry.co.uk/search/collections/62422/records/1194223,
+Baptism place: Portsea: St Mary, Hampshire
+Baptism date: 22 Apr 1814
+Name: Alfred Allen
+Parents: John Elizabeth
+Surname: Dickens
+Abode: Wish Street
+Father occ: pay clerk
+`,
+},//b
+
+death: {
+timestamp: "1814-09-10",
+of: "39 Wish Street, Southsea, Portsmouth HAM https://www.google.com/maps?q=50.790308909744176,-1.073535512417251§district",
+gps: ["Southsea, Portsmouth HAM https://www.google.com/maps?q=https://www.google.co.uk/maps/place/Southsea,+Portsmouth§outline"],
+age: "~5mo",
+buryear: "1814",
+burdate: "10 Sep",
+burplace: "Widley HAM https://www.google.com/maps?q=50.86073646264501,-1.0376042696367251§town",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/62424/images/62421_373055000119_1568-00005"],
+sources: `
+SOURCE: Hampshire, England, Church of England Burials, 1813-1921  https://www.ancestry.co.uk/search/collections/62424/records/1507600
+Burial place: Widley, Hampshire
+Burial date: 10 Sep 1814
+Name: Alfred Allen Dickens
+Death age: inf
+Abode: Southsea
+`
+},//d
+
+events: {
+// data
+},//e
+},//p
+
+dickens_alfred_dorsay_tennison_1845:{ provisional: true,
+warning: "Only partially researched.",
+g:"Alfred D'Orsay Tennison", k:"", f:"Dickens",  bdate:"28 Oct", b:"1845", ddate:"2 Jan", d:"1912", 
+bplace:"London", dplace:"New York",
+a:"", thumb:true, male:true, p:true,
 father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Lecturer",
-fg:[["~1874", "Augusta Jessie Devlin", "Kathleen Mary", "Violet Georgina"]]
-},
+fg: [["~1874", "Augusta Jessie Devlin", "Kathleen Mary", "Violet Georgina"]],
 
-dickens_alfred_lamert_1822:{
-g:"Alfred Lamert", k:"", f:"Dickens", bdate:"", b:"1822", ddate:"", d:"1860",
-bplace:"", dplace:"", thumb:false, male:true, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Railway engineer"
-},
+birth: {
+timestamp: "1845-10-28",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "esquire",
+bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapyear: "1846",
+bapdate: "21 Apr",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194659-00243"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1138726,
+Baptism place: Saint Marylebone: Marylebone Road, Westminster
+Baptism date: 21 Apr 1846
+When born: 28 Oct 1845
+Name: Alfred D'Orsay Tennyson Son of
+Parents: Charles John Huffman & Catherine Thomson
+Surname: Dickens
+Mother née:
+Abode: Devonshire Terrace
+Father occ: esquire
+`,
+},//b
 
-dickens_augustus_1827:{
-g:"Augustus", k:"", f:"Dickens", bdate:"", b:"1827", ddate:"", d:"1866",
-bplace:"", dplace:"", thumb:false, male:true, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Railway engineer"
-},
+death: {
+// data
+},//d
 
-dickens_catherine_elizabeth_macready_1839:{
-g:"Catherine Elizabeth Macready", k:"Kate", f:"Dickens", bdate:"29 Oct", b:"1839", ddate:"9 May", d:"1929",
-bplace:"", dplace:"", thumb:true, p:true,
-father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Painter", m:['Perugini'],
-fg:[["1860-07-01", "collins_charles_allston_1828"],
-    ["1874", "perugini_charles_edward_1839", "perugini_leonard_ralph_dickens_1876"]],
+marriages: {
+// data
+},//m
 
-marriages:{
-"collins_charles_allston_1828":{
-timestamp: "1860-07-01",
+events: {
+// data
+},//e
+},//p
+
+
+dickens_alfred_lamert_1822:{ provisional: true,
+warning: "Only partially researched.",
+g:"Alfred Lamert", k:"", f:"Dickens",  bdate:"Mar", b:"1822", ddate:"27 Jul", d:"1860", 
+bplace:"London", dplace:"Manchester",
+a:"208735037,372746738557", thumb:true, male:true, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Railway engineer",
+fg: [["1846", "dobson_helen_1827"]],
+
+birth: {
+timestamp: "1822-04-03",
+athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
+bapplace: "St Marys, Chatham KEN https://www.google.com/maps?q=51.38764524978052,0.524421227799185§exact",
+bapyear: "1822",
+bapdate: "3 Apr",
+sources: `
+SOURCE: England, Select Births and Christenings, 1538-1975  https://www.ancestry.co.uk/search/collections/9841/records/189233827,
+Name: Alfred Lamert Dickens
+Gender: Male
+Baptism Date: 3 Apr 1822
+Baptism Place: St Mary's, Chatham, Kent, England
+Father: John Dickens
+Mother: Elizabeth
+FHL Film Number: 1473647
+Reference ID: p124
+`,
+},//b
+
+death: {
+timestamp: "1860-07-27",
+place: "Mosley Arms Inn, Manchester LAN https://www.google.com/maps?q=53.47989281949611,-2.24546673358011§city",
+athome: "dobson_helen_1827",
+sources: `
+SOURCE: England & Wales, Civil Registration Death Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8914/records/9305171
+Name: Alfred Lamert Dickins
+Registration Quarter: Jul-Aug-Sep
+Death Registration Place: Manchester, Lancashire
+Death Date: Sep 1860
+Inferred Death Place: Lancashire
+Volume: 8d
+Page: 141
+
+SOURCE: Wikipedia  https://en.wikipedia.org/wiki/Alfred_Lamert_Dickens
+Death place: Mosley Arms Inn, Manchester
+Death date: 27 July 1860
+`
+},//d
+
+marriages: {
+"dobson_helen_1827": {
+timestamp: "1846-05-16",
+year: "1846",
+date: "16 May",
+place: "St Andrews, Holborn, London https://www.google.com/maps?q=51.517231566495916,-0.10666354397410914§exact",
+groom: "Alfred Lamert Dickens",
+gid: "dickens_alfred_lamert_1822",
+bride: "Helen Dobson",
+bid: "dobson_helen_1827",
+gage: "over 21",
+bage: "under 21",
+gparish: "Parish of Norton, County of York",
+bparish: "Harper Street",
+gstatus: "bachelor",
+bstatus: "spinster",
+gocc: "esquire",
+gfather: "John Dickens",
+gfid: "dickens_john_1785",
+gfocc: "esquire",
+bfather: "Robert Dobson",
+bfocc: "esquire",
+witnesses: "Robert Dobson, Anna Delaney Willis, Georgina Hogarth",
+by: "licence",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1623/images/31281_a100978-00124"],
+sources: `
+SOURCE: London, England, Church of England Marriages and Banns, 1754-1940  https://www.ancestry.co.uk/search/collections/1623/records/92556
+Marriage Date: 16 May 1846
+Marriage Place: St Andrews, Holborn, London
+Groom: Alfred Lamert Dickens
+Groom details: full age, bachelor, esquire, Parish of Norton, County of York, John Dickens, esquire
+Bride: Helen Dobson
+Bride details: minor, spinster, , Harper Street, Robert Dobson, esquire
+By: licence
+Signatures: Alfred L Dickens, Helen Dobson
+Witnesses: Robert Dobson, Anna Delaney Willis, Georgina Hogarth
+
+SOURCE: England & Wales, Civil Registration Marriage Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8913/records/7931081
+Name: Alfred Lamert Dickens
+Registration Year: 1846
+Registration Quarter: Apr-May-Jun
+Registration District: West London
+Inferred County: London
+Volume: 2
+Page: 264
+`},
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+dobson_helen_1827:{     provisional: true,
+warning: "Not yet researched.",
+g:"Helen", k:"", f:"Dobson", m:['Dickens'],  bdate:"", b:"~1827", ddate:"", d:"", 
+bplace:"", dplace:"",
+a:"", thumb:false, male:false, p:true,
+father:"Robert Dobson", mother:"", occ:"",
+fg: [["1846", "dickens_alfred_lamert_1822"]],
+
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+
+
+dickens_augustus_1827:{  provisional: true,
+warning: "Only partially researched.",
+g:"Augustus Newnham", k:"", f:"Dickens",  bdate:"10 Nov", b:"1827", ddate:"", d:"1866", 
+bplace:"London", dplace:"",
+a:"208735037,372746738634", thumb:true, male:true, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Railway engineer",
+fg:[["1848","lovell_harriett_1827"]],
+
+birth: {
+timestamp: "1827-11-10",
+place: "Johnson St",
+athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
+focc: "—",
+bapplace: "Saint Pancras, Euston Rd, London https://www.google.com/maps?q=51.527213047761215,-0.1300909286326682§exact",
+bapyear: "1827",
+bapdate: "7 Dec",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194991-00190"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1763709,
+Baptism place: Saint Pancras Parish Church: Euston Road, Camden
+Baptism date: 7 Dec 1827
+When born: 10 Nov 1827
+Name: Augustus Newnham Son of
+Parents: John & Elizabeth
+Surname: Dickens
+Abode: Johnson St
+Father occ: —
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+"lovell_harriett_1827": {
+timestamp: "1848-12-05",
+year: "1848",
+date: "5 Dec",
+place: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+groom: "Augustus Newnham Dickens",
+gid: "dickens_augustus_1827",
+bride: "Harriett Lovell",
+bid: "lovell_harriett_1827",
+gage: "over 21",
+bage: "under 21",
+gparish: "Trinity District",
+bparish: "Trinity District",
+gstatus: "bachelor",
+bstatus: "spinster",
+gocc: "gentleman",
+gfather: "John Dickens",
+gfid: "dickens_john_1785",
+gfocc: "gentleman",
+bfather: "Francis Lovell",
+bfocc: "esquire (deceased)",
+witnesses: "Francis Lovell, Elizabeth Lovell, William C... Lovell, J Wylie Barrow, Julia Hilary ..., Helen Isabella Hogarth",
+by: "licence",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1623/images/31280_194716-00465"],
+sources: `
+SOURCE: London, England, Church of England Marriages and Banns, 1754-1940  https://www.ancestry.co.uk/search/collections/1623/records/2014855
+Marriage Date: 5 Dec 1848
+Marriage Place: St Marylebones, Marylebone Rd, London
+Groom: Augustus Newnham Dickens
+Groom details: full age, bachelor, gentleman, Trinity District, John Dickens, gentleman
+Bride: Harriett Lovell
+Bride details: minor, spinster, , Trinity District, Francis Lovell, esquire (deceased)
+By: licence
+Signatures: Augustus Dickens, Harriett Lovell
+Witnesses: Francis Lovell, Elizabeth Lovell, William C... Lovell, J Wylie Barrow, Julia Hilary ..., Helen Isabella Hogarth
+
+SOURCE: England & Wales, Civil Registration Marriage Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8913/records/7931350
+Name: Augustus Newnham Dickens
+Registration Year: 1848
+Registration Quarter: Oct-Nov-Dec
+Registration District: Marylebone
+Inferred County: London
+Volume: 1
+Page: 256
+`},
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+lovell_harriett_1827:{     provisional: true,
+warning: "Not yet researched.",
+g:"Harriett", k:"", f:"Lovell", m:['Dickens'],  bdate:"", b:"~1827", ddate:"", d:"", 
+bplace:"", dplace:"",
+a:"", thumb:false, male:false, p:true,
+father:"Francis Lovell", mother:"", occ:"",
+fg:[["1848","dickens_augustus_1827"]],
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+dickens_catherine_elizabeth_macready_1839:{     provisional: true,
+warning: "Only partially researched.",
+g:"Catherine Elizabeth Macready", k:"Kate", f:"Dickens", m:['Perugini'],  bdate:"29 Oct", b:"1839", ddate:"9 May", d:"1929", 
+bplace:"Marylebone", dplace:"",
+a:"", thumb:true, male:false, p:true,
+father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"painter",
+fg: [["1860", "collins_charles_allston_1828"],
+    ["1874", "perugini_charles_edward_1839", "perugini_leonard_ralph_dickens_1876"]],
+
+birth: {
+timestamp: "1839-10-29",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "esquire",
+bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapyear: "1840",
+bapdate: "25 Aug",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194658-00654"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1192646,
+Baptism place: Saint Marylebone: Marylebone Road, Westminster
+Baptism date: 25 Aug 1840
+When born: 29 Oct 1839
+Name: Catharine Elizabeth Macready Daur of
+Parents: Charles & Catharine
+Surname: Dickens
+Abode: 1 D Terrace
+Father occ: esquire
+
+SOURCE: England & Wales, Civil Registration Birth Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8912/records/42450190
+Name: Catherine Elizabeth Macready Dickens
+Registration Date: 1839
+Quarter of the Year: Oct-Nov-Dec
+Registration Place: Pancras, London, England
+Volume: 1
+Page: 235
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+"collins_charles_allston_1828": {
+timestamp: "1860-07-17",
+year: "1860",
+date: "17 Jul",
+place: "St Johns, Higham KEN https://www.google.com/maps?q=51.41632674096065,0.46183379847492373§exact",
 groom: "Charles Allston Collins",
 gid: "collins_charles_allston_1828",
 bride: "Catherine Elizabeth Macready Dickens",
 bid: "dickens_catherine_elizabeth_macready_1839",
-}},
-},
+gage: "32",
+bage: "20",
+gfather: "William Collins",
+bfather: "Charles John Huffam Dickens",
+bfid: "dickens_charles_john_huffam_1812",
+sources: `
+SOURCE: Kent, England, Church of England Baptisms, Marriages, and Burials, 1538-1914  https://www.ancestry.co.uk/search/collections/61746/records/90405327
+Name: Catherine Elisabeth Macready Dickens
+Gender: Female
+Marriage Age: 20
+Record Type: Marriage
+Birth Year: abt 1840
+Marriage Date: 17 Jul 1860
+Marriage Place: Higham, Kent, England
+Father: Charles Dickens
+Spouse: Charles Allston Collins
+`},
+
+"perugini_charles_edward_1839": {
+timestamp: "1874-06-04",
+year: "1874",
+date: "4 Jun",
+place: "St Pauls, Knightsbridge London https://www.google.com/maps?q=51.50145587436509,-0.15570738161892372§exact",
+groom: "Charles Edward Perugini",
+gid: "perugini_charles_edward_1839",
+bride: "Catherine Elizabeth Macready Dickens",
+bid: "dickens_catherine_elizabeth_macready_1839",
+gage: "over 21",
+bage: "over 21",
+gparish: "4 Westbourne Place, Eaton Square",
+bparish: "81 Gloucester Terrace, Hyde Park, London https://www.google.com/maps?q=51.513921444002136,-0.17891578451342885§exact",
+gstatus: "bachelor",
+bstatus: "widow",
+gocc: "artist",
+gfather: "Leonardo Perugini",
+gfocc: "musician",
+bfather: "Charles John Huffam Dickens",
+bfid: "dickens_charles_john_huffam_1812",
+bfocc: "author",
+witnesses: "Francis Jeffrey Dickens, Mary Dickens, Georgina Hogarth, John Everett Millais?, Henry F Dickens",
+by: "licence",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/61867/images/61865_314054001181_18265-00077"],
+sources: `
+SOURCE: Westminster, London, England, Church of England Marriages and Banns, 1754-1935  https://www.ancestry.co.uk/search/collections/61867/records/92165397
+Marriage Date: 4 Jun 1874
+Marriage Place: St Pauls, Knightsbridge London
+Groom: Charles Edward Perugini
+Groom details: full, bachelor, artist, 4 Westbourne Place, Eaton Square, Leonardo Perugini, musician
+Bride: Catherine Elizabeth Macready Dickens
+Bride details: full, widow, , 81 Gloucester Terrace, Hyde Park, Charles John Huffam Dickens, author
+By: licence
+Signatures: Charles Edward Perugini, Catherine Elizabeth Macready Collins
+Witnesses: Francis Jeffrey Dickens, Mary Dickens, Georgina Hogarth, John Everett Millais?, Henry F Dickens
+`},
+},//m
+
+events: {
+// data
+},//e
+},//p
 
 
 
@@ -193,7 +605,7 @@ The servants at the house were Matilda Taylor<sup class="ageTag">32</sup>, nurse
 
 evans_elizabeth_matilda_moule_18xx:{
 g:"Elizabeth Matilda Moule", k:"", f:"Evans", bdate:"", b:"", ddate:"", d:"",
-bplace:"", dplace:"", thumb:true, p:false,
+bplace:"", dplace:"", thumb:true, p:true,
 father:"", mother:"", occ:"",
 fg:[["1861-07-01", "dickens_charles_culliford_boz_1837"]]
 },
@@ -202,30 +614,43 @@ fg:[["1861-07-01", "dickens_charles_culliford_boz_1837"]]
 
 dickens_charles_john_huffam_1812:{ 
 g:"Charles John Huffam", k:"Charles", f:"Dickens",  bdate:"7 Feb", b:"1812", ddate:"9 Jun", d:"1870", 
-bplace:"Landport, Hants", dplace:"Higham, London", thumb:true, male:true, p:true,
+bplace:"Landport, Hants", dplace:"Higham, London",
+a:"", thumb:true, male:true, p:true,
 father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Writer",
 fg: [["1836", "hogarth_catherine_thompson_1815", "dickens_charles_culliford_boz_1837", "dickens_mary_1838", "dickens_catherine_elizabeth_macready_1839", "dickens_walter_savage_landor_1841", "dickens_francis_jeffrey_1844", "dickens_alfred_dorsay_tennison_1845", "dickens_sydney_smith_haldimand_1847", "dickens_henry_fielding_1849", "dickens_dora_annie_1850", "dickens_edward_bulwer_lytton_1852"]],
 
-intro: `Charles John Huffam Dickens was an English writer and social critic. He created some of the world's best-known fictional characters and is regarded by many as the greatest novelist of the Victorian era. His works enjoyed unprecedented popularity during his lifetime, and by the twentieth century critics and scholars had recognised him as a literary genius. His novels and short stories enjoy lasting popularity.`,
-
 birth: {
 timestamp: "1812-02-07",
-place: "Landport, Hampshire https://www.google.co.uk/maps/place/Landport",
+place: "1 Mile End Terrace, Landport HAM https://www.google.com/maps?q=50.80478094443263,-1.0869221681181538§approx",
 athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
-bapplace: "St Marys, Portsea, Hampshire https://www.google.com/maps?q=50.80356204725931,-1.076376740745234",
+bapplace: "St Marys, Portsea HAM https://www.google.com/maps?q=50.80356204725931,-1.076376740745234§exact",
 bapyear: "1812",
 bapdate: "4 Mar",
+images: ["Parish record https://search.findmypast.co.uk/record?id=S2%2FGBPRS%2FPORTSMOUTH%2F007907183%2F00661"],
+notes: `What was in Dickens' time 1 Mile End Terrace, Landport is now approximately located at 393 Commercial Road in the centre of Portsmouth.`,
 sources: `
-SOURCE: Select Births and Christenings, 1538-1975  http://search.ancestry.co.uk/cgi-bin/sse.dll?indiv=try&db=FS1EnglandBirthsandChristenings&h=152229257,
-Parish: St Marys, Portsea
-WhenBaptised: 4 Mar 1812
+SOURCE: Select Births and Christenings, 1538-1975  https://www.ancestry.co.uk/search/collections/9841/records/152229257,
 Name: Charles John Huffham Dickens
+Gender: Male
+Baptism Date: 4 Mar 1812
+Baptism Place: Saint Marys,Portsea,Hampshire
 Father: John Dickens
-Mother: Elizabeth Dickens
+Mother: Elizabeth
+FHL Film Number: 919738, 919739
 
 SOURCE: Wikipedia  https://en.wikipedia.org/wiki/Charles_Dickens
+Birth Place: 1 Mile End Terrace, Landport, HAM
+Birth Date: 7 Feb 1812
+SOURCE: Hampshire, Portsmouth Baptisms  https://www.findmypast.co.uk/transcript?id=GBPRS%2FPORTSMOUTH%2FBAP%2F00092387
+Baptism place: Portsea, St Mary
+Baptism date: 04 Mar 1812
+Name: Charles John Huffham
+Parents: John & Elizabeth
+Surname: Dickens
+Abode:
+Father occ:
+text: Charles John Huffman S. of John and Elizth Dickens
 `,
-
 },//b
 
 death: {
@@ -354,48 +779,317 @@ sources: `Wikipedia https://en.wikipedia.org/wiki/Charles_Dickens#/media/File:St
 
 
 
-dickens_dora_annie_1850:{
-g:"Dora Annie", k:"", f:"Dickens", bdate:"16 Aug", b:"1850", ddate:"14 Apr", d:"1851",
-bplace:"London", dplace:"London", thumb:false, p:true,
-father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"", m:[], cstatus:"Died as infant"
-},
+dickens_dora_annie_1850:{     provisional: true,
+warning: "Only partially researched.",
+g:"Dora Annie", k:"", f:"Dickens",  bdate:"16 Aug", b:"1850", ddate:"14 Apr", d:"1851", 
+bplace:"London", dplace:"London",
+a:"", thumb:false, male:false, p:true,
+father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"",
+cstatus:"Died as infant",
 
-dickens_edward_bulwer_lytton_1852:{
-g:"Edward Bulwer Lytton", k:"Edward", f:"Dickens", bdate:"13 Mar", b:"1852", ddate:"23 Jan", d:"1902",
-bplace:"", dplace:"Moree, NSW", thumb:false, male:true, p:false,
-father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Politician", cstatus:"Died single"
-},
+birth: {
+timestamp: "1850-08-16",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+sources: `
+SOURCE: England & Wales, Civil Registration Birth Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8912/records/42450686,
+Name: Dora Annie Dickens
+Registration Date: 1850
+Quarter of the Year: Jul-Aug-Sep
+Registration Place: Marylebone, London, England
+Volume: 1
+Page: 25
+`,
+},//b
 
-dickens_frances_elizabeth_1810:{
-g:"Frances Elizabeth", k:"Fanny", f:"Dickens", bdate:"", b:"1810", ddate:"", d:"1848",
-bplace:"", dplace:"", thumb:false, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"", m:[]
-},
+death: {
+timestamp: "1851-04-14",
+of: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+sources: `
+SOURCE: England & Wales, Civil Registration Death Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8914/records/9292669
+Name: Dora Annie Dickens
+Registration Quarter: Apr-May-Jun
+Death Registration Place: Marylebone, London, United Kingdom
+Death Date: Jun 1851
+Inferred Death Place: London, United Kingdom
+Volume: 1
+Page: 191
+`
+},//d
 
-dickens_francis_jeffrey_1844:{
-g:"Francis Jeffrey", k:"Frank", f:"Dickens", bdate:"15 jan", b:"1844", ddate:"11 Jun", d:"1886",
-bplace:"London", dplace:"Moline, IL", thumb:false, male:true, p:false,
-father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Indian Army Officer", cstatus:"Died single"
-},
+events: {
+// data
+},//e
+},//p
 
-dickens_frederick_1820:{
-g:"Frederick", k:"", f:"Dickens", bdate:"", b:"1820", ddate:"", d:"1868",
-bplace:"", dplace:"", thumb:false, male:true, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:""
-},
 
-dickens_harriet_1819:{
-g:"Harriet", k:"", f:"Dickens", bdate:"", b:"1819", ddate:"", d:"1824",
-bplace:"", dplace:"", thumb:false, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"", cstatus:"Died as child"
-},
+dickens_edward_bulwer_lytton_1852:{ provisional: true,
+warning: "Only partially researched.",
+g:"Edward Bulwer Lytton", k:"Edward", f:"Dickens",  bdate:"13 Mar", b:"1852", ddate:"23 Jan", d:"1902", 
+bplace:"", dplace:"Moree, NSW",
+a:"", thumb:false, male:true, p:true,
+father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Politician",
+cstatus:"No spouse. No children.",
 
-dickens_henry_fielding_1849:{
-g:"Henry Fielding", k:"", f:"Dickens", bdate:"16 Jan", b:"1849", ddate:"21 Dec", d:"1933",
-bplace:"London", dplace:"London", thumb:true, male:true, p:false,
+birth: {
+timestamp: "1852-03-13",
+place: "Tavistock House",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "esquire",
+bapplace: "Saint Pancras Parish Church",
+bapyear: "1852",
+bapdate: "6 May",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_195000-00078"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1661936,
+Baptism place: Saint Pancras Parish Church: Euston Road, Camden
+Baptism date: 6 May 1852
+When born: 13 Mar 1852
+Name: Edward Bulwer Lytton
+Parents: Charles John Huffman & Catherine Thomson
+Surname: Dickens
+Mother née:
+Abode: Tavistock House
+Father occ: esquire
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+dickens_frances_elizabeth_1810:{     provisional: true,
+warning: "Only partially researched.",
+g:"Frances Elizabeth", k:"Fanny", f:"Dickens", m:['Burnett'], bdate:"28 Aug", b:"1810", ddate:"2 Sep", d:"1848", 
+bplace:"Landport", dplace:"London",
+a:"208735037,372746737648", thumb:true, male:false, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"pianist and singer",
+fg: [["1837", "Henry Burnett"]],
+
+birth: {
+timestamp: "1810-08-28",
+place: "1 Mile End Terrace, Landport HAM https://www.google.com/maps?q=50.80478094443263,-1.0869221681181538§approx",
+athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
+focc: "clerk in the Navy Pay Office",
+bapplace: "St Marys, Portsea HAM https://www.google.com/maps?q=50.80356204725931,-1.076376740745234§exact",
+bapyear: "1810",
+bapdate: "23 Nov",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/62421/images/62421_314054000109_1883-01735"],
+sources: `
+SOURCE: Hampshire, England, Church of England Baptisms, Marriages and Burials, 1536-1812  https://www.ancestry.co.uk/search/collections/62421/records/1816816,
+text: Frances Elizth. D. of John and Elizth. Dickens
+Baptism place: Portsea: St Mary, Hampshire
+Baptism date: 23 Nov 1810
+Name: Frances
+Parents: John and Elizth
+Surname: Dickens
+
+SOURCE: Wikipedia  https://en.wikipedia.org/wiki/Fanny_Dickens
+Name: Frances Elizabeth (Fanny) Dickens
+Father occ: clerk in the Navy Pay Office
+Place born: Landport, Portsea Island
+Date born: 28 Aug 1810
+Baptism place: St Marys, Portsea
+Baptism date: 23 Nov 1810
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+dickens_francis_jeffrey_1844:{     provisional: true,
+warning: "Only partially researched.",
+g:"Francis Jeffrey", k:"Frank", f:"Dickens",  bdate:"15 jan", b:"1844", ddate:"11 Jun", d:"1886", 
+bplace:"London", dplace:"Moline, IL",
+a:"", thumb:true, male:true, p:true,
+father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Indian Army Officer",
+cstatus:"No spouse. No children.",
+
+birth: {
+timestamp: "1844-01-15",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "esquire",
+bapplace: "Saint Marylebone",
+bapyear: "1844",
+bapdate: "15 Jun",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194659-00143"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1455460,
+Baptism place: Saint Marylebone: Marylebone Road, Westminster
+Baptism date: 15 Jun 1844
+When born: 15 Jan 1844
+Name: Francis Jeffrey son of
+Parents: Charles John Huffman & Catherine Thomson
+Surname: Dickens
+Abode: Devonshire Terrace
+Father occ: esquire
+
+SOURCE: England & Wales, Civil Registration Birth Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8912/records/42451979
+Name: Francis Jeffrey Dickens
+Registration Date: 1844
+Quarter of the Year: Jan-Feb-Mar
+Registration Place: Marylebone, London, England
+Volume: 1
+Page: 248
+`,
+},//b
+
+death: {
+timestamp: "1886-06-11",
+place: "Moline IL https://www.google.com/maps?q=41.49232008714682,-90.49973252153201§city",
+probate: `DICKENS Francis Jeffrey of Ottawa Ontario Canada died 11 June 1886 at Maline Illinois U.S.A. Administration London 22 June to Henry Charles Dickens barrister. Effects £2480 2s. 9d. Former Grant P.R. 1 February 1897.`,
+sources: `
+SOURCE: England & Wales, National Probate Calendar (Index of Wills and Administrations), 1858-1995  https://www.ancestry.co.uk/search/collections/1904/records/5805030
+Name: Francis Jeffrey Dickens
+Death Date: 11 Jun 1886
+Death Place: Canada
+Probate Date: 22 Jun 1935
+Probate Registry: London, England
+`
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+dickens_frederick_1820:{     provisional: true,
+warning: "Not yet researched.",
+g:"Frederick", k:"Fred", f:"Dickens",  bdate:"4 Jul", b:"1820", ddate:"20 Oct", d:"1868", 
+bplace:"", dplace:"",
+a:"208735037,372746738331", thumb:true, male:true, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"",
+fg: [["1848", "Anna Weller"]],
+
+birth: {
+place: "11 Ordnance Terrace, Chatham KEN https://www.google.com/maps?q=51.380102141015925,0.5201019784727644§exact",
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+dickens_harriet_1819:{     provisional: true,
+warning: "Not yet researched.",
+g:"Harriet Ellen", k:"", f:"Dickens",  bdate:"", b:"1819", ddate:"", d:"1824*", 
+bplace:"", dplace:"",
+a:"208735037,372746738125", thumb:false, male:false, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"",
+cstatus:"Died as child",
+
+birth: {
+timestamp: "1819-09-03",
+place: "11 Ordnance Terrace, Chatham KEN https://www.google.com/maps?q=51.380102141015925,0.5201019784727644§exact",
+athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
+bapplace: "St Marys, Chatham KEN https://www.google.com/maps?q=51.38764524978052,0.524421227799185§exact",
+bapyear: "1819",
+bapdate: "3 Sep",
+sources: `
+SOURCE: England, Select Births and Christenings, 1538-1975  https://www.ancestry.co.uk/search/collections/9841/records/179852903,
+Name: Harriet Ellen Dickens
+Gender: Female
+Baptism Date: 3 Sep 1819
+Baptism Place: St Mary's, Chatham, Kent, England
+Father: John Dickens
+Mother: Elizabeth
+FHL Film Number: 1473647
+Reference ID: p235
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+dickens_henry_fielding_1849:{     provisional: true,
+warning: "Only partially researched.",
+g:"Henry Fielding", k:"", f:"Dickens",  bdate:"16 Jan", b:"1849", ddate:"21 Dec", d:"1933", 
+bplace:"London", dplace:"London",
+a:"", thumb:true, male:true, p:true,
 father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Common Serjeant of London",
-fg:[["1876", "Marie Roche"]]
-},
+fg: [["1876", "Marie Roche"]],
+
+birth: {
+timestamp: "1849-01-16",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "gentleman",
+bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapyear: "1849",
+bapdate: "21 Apr",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194660-00016"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1323003,
+Baptism place: St Marylebone: Marylebone Road, Westminster
+Baptism date: 21 Apr 1849
+When born: 16 Jan 1849
+Name: Henry Fielding Son of
+Parents: Charles John Huffman & Catherine Thomson
+Surname: Dickens
+Mother née:
+Abode: 1 Devonshire Terrace
+Father occ: Genln
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
 
 dickens_john_1785:{
 g:"John", k:"", f:"Dickens", bdate:"21 Aug", b:"1785", ddate:"31 Mar", d:"1851",
@@ -511,7 +1205,7 @@ sources: `Wikipedia https://en.wikipedia.org/wiki/Marshalsea#/media/File:Plan_of
 
 hogarth_catherine_thompson_1815:{ 
 g:"Catherine Thompson", k:"Kate", f:"Hogarth", m:['Dickens'],  bdate:"19 May", b:"1815", ddate:"22 Nov", d:"1879", 
-bplace:"Edinburgh", dplace:"London", thumb:true, male:false, p:false,
+bplace:"Edinburgh", dplace:"London", thumb:true, male:false, p:true,
 father:"George Hogarth", mother:"", occ:"",
 fg: [["1836", "dickens_charles_john_huffam_1812", "dickens_charles_culliford_boz_1837", "dickens_mary_1838", "dickens_catherine_elizabeth_macready_1839", "dickens_walter_savage_landor_1841", "dickens_francis_jeffrey_1844", "dickens_alfred_dorsay_tennison_1845", "dickens_sydney_smith_haldimand_1847", "dickens_henry_fielding_1849", "dickens_dora_annie_1850", "dickens_edward_bulwer_lytton_1852"]],
 
@@ -553,11 +1247,50 @@ events: {
 
 
 
-dickens_letitia_1816:{
-g:"Letitia", k:"", f:"Dickens", bdate:"", b:"1816", ddate:"", d:"1893",
-bplace:"", dplace:"", thumb:false, p:false,
-father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"", m:['Austin']
-},
+dickens_letitia_1816:{     provisional: true,
+warning: "Only partially researched.",
+g:"Letitia", k:"", f:"Dickens", m:['Austin'],  bdate:"", b:"1816", ddate:"", d:"1893", 
+bplace:"Marylebone", dplace:"",
+a:"208735037,372746737992", thumb:true, male:false, p:true,
+father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"",
+fg: [["1837", "Henry Austin"]],
+
+birth: {
+timestamp: "1816-04-23",
+place: "10 Norfolk Street, Fitzrovia, London https://www.google.com/maps?q=51.519565920939186,-0.13752287718614814§exact",
+athome: "dickens_john_1785 barrow_elizabeth_culliford_1789",
+focc: "gentleman",
+bapplace: "Saint Marylebone",
+bapyear: "1816",
+bapdate: "16 May",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194654-00067"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1100056,
+Baptism place: Saint Marylebone: Marylebone Road, Westminster
+Baptism date: 16 May 1816
+When born: 23 Apr 1816
+Name: Letitia Mary
+Parents: John & Elizabeth
+Surname: Dickens
+Mother née:
+Abode: Marylebone
+Father occ: Gentn
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
 
 dickens_mary_1838:{ 
 g:"Mary", k:"Mamie", f:"Dickens",  bdate:"6 Mar", b:"1838", ddate:"23 Jul", d:"1896", 
@@ -607,29 +1340,105 @@ events: {
 },//p
 
 
-dickens_sydney_smith_haldimand_1847:{
-g:"Sydney Smith Haldimand", k:"", f:"Dickens", bdate:"18 Apr", b:"1847", ddate:"2 May", d:"1872",
-bplace:"", dplace:"Indian Ocean", thumb:false, male:true, p:false,
-father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Naval lieutenant", cstatus:"Died single"
-},
+dickens_sydney_smith_haldimand_1847:{ provisional: true,
+warning: "Only partially researched.",
+g:"Sydney Smith Haldimand", k:"", f:"Dickens",  bdate:"18 Apr", b:"1847", ddate:"2 May", d:"1872", 
+bplace:"London", dplace:"Indian Ocean",
+a:"", thumb:false, male:true, p:true,
+father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Naval lieutenant",
+cstatus:"Died single",
 
-dickens_walter_savage_landor_1841:{
-g:"Walter Savage Landor", k:"Walter", f:"Dickens", bdate:"8 Feb", b:"1841", ddate:"31 Dec", d:"1863",
-bplace:"London", dplace:"Calcutta, IN", thumb:false, male:true, p:false,
-father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Mountie", cstatus:"Died single"
-},
+birth: {
+timestamp: "1847-04-18",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "gentleman",
+bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapyear: "1847",
+bapdate: "24 Jun",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194659-00305"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1209485,
+Baptism place: St Marylebone: Marylebone Road, Westminster
+Baptism date: 24 Jun 1847
+When born: 18 Apr 1847
+Name: Sydney Smith Haldimand Son of
+Parents: Charles John Huffman & Catherine Thomson
+Surname: Dickens
+Mother née:
+Abode: 1 Devonshire Terrace
+Father occ: Genln
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+dickens_walter_savage_landor_1841:{ provisional: true,
+warning: "Only partially researched.",
+g:"Walter Savage Landor", k:"Walter", f:"Dickens",  bdate:"8 Feb", b:"1841", ddate:"31 Dec", d:"1863", 
+bplace:"London", dplace:"Calcutta, IN",
+a:"", thumb:true, male:true, p:true,
+father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"Mountie",
+cstatus:"No spouse. No children.",
+
+birth: {
+timestamp: "1841-02-08",
+place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
+focc: "esquire",
+bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapyear: "1841",
+bapdate: "4 Dec",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194658-00726", "Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31281_a100597-00274"],
+sources: `
+SOURCE: London, England, Church of England Births and Baptisms, 1813-1924  https://www.ancestry.co.uk/search/collections/1558/records/1282673,
+Baptism place: Saint Marylebone: Marylebone Road, Westminster
+Baptism date: 4 Dec 1841
+When born: 8 Feby 1841
+Name: Walter Landor Son of
+Parents: Charles John Huffman & Catherine Thomson
+Surname: Dickens
+Abode: Devonshire Terrace
+Father occ: esquire
+`,
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
 
 
 perugini_charles_edward_1839:{
 g:"Charles Edward", k:"", f:"Perugini", bdate:"1 Sep", b:"1839", ddate:"22 Dec", d:"1918",
-bplace:"Naples, IT", dplace:"London", thumb:true, male:true, p:false,
+bplace:"Naples, IT", dplace:"London", thumb:true, male:true, p:true,
 father:"", mother:"", occ:"Artist, writer",
 fg:[["1874", "dickens_catherine_elizabeth_macready_1839", "perugini_leonard_ralph_dickens_1876"]]
 },
 
 perugini_leonard_ralph_dickens_1876:{
 g:"Leonard Ralph Dickens", k:"", f:"Perugini", bdate:"", b:"1876", ddate:"24 Jul", d:"1876",
-bplace:"", dplace:"", thumb:false, male:true, p:false,
+bplace:"", dplace:"", thumb:false, male:true, p:true,
 father:"perugini_charles_edward_1839", mother:"dickens_catherine_elizabeth_macready_1839", occ:"", cstatus:"Died as infant"
 },
 

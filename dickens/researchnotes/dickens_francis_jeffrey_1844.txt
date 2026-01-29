@@ -1,0 +1,33 @@
+db[thisPerson].timeline = `
+
+`
+
+
+
+
+location_summary = { 
+list: "comma_separated_list_goes_here",
+url: "url_goes_here",
+}
+ 
+ 
+narrative = ``
+ 
+ 
+ 
+
+
+
+db[thisPerson].death.obit = `
+intro: Source unknown (clipping in ancestry.com tree)
+A dispatch from Rock Island, Illinois, says that Captain Francis Jeffrey Dickens, son of the late Charles Dickens, the English novelist, died suddenly n Moline, Friday night, of paralysis of the heart. He was 41 years old.`
+
+
+
+
+places = ``
+
+
+
+
+
