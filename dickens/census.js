@@ -1,8 +1,7 @@
 var censi = {
 
 "1841_dickens_charles_john_huffam_1812": {
-place: "Devonshire Terrace, St Marylebone, London",
-gps: ["1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810"],
+place: "Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 images: ["Census record url:records/1841_dickens_charles_catherine_c.jpg"],
 source: "HO107; Piece: 680; Book: 14; Civil Parish: St Marylebone; County: Middlesex; Enumeration District: 14; Folio: 12; Page: 18 http://search.ancestry.co.uk/cgi-bin/sse.dll?db=uki1841&indiv=try&h=7352195",
 cparish: "St Marylebone, srd Rectory, rd St Marylebone",
@@ -30,8 +29,7 @@ others: [
 },
 
 "1851_dickens_charles_john_huffam_1812": {
-place: "34 Keppel St, Finsbury, London",
-gps: ["34 Keppel St, London https://maps.google.com/maps?q=51.520668,-0.129617"],
+place: "34 Keppel St, Finsbury LND https://maps.google.com/maps?q=51.520668,-0.129617§road",
 images: ["Census record url:records/1851_dickens_charles_catherine_c1.jpg", "Census record url:records/1851_dickens_charles_catherine_c2.jpg"],
 source: "HO107; Piece: 1507; Folio: 206; Page: 16 ed06 http://search.ancestry.co.uk/cgi-bin/sse.dll?db=uki1851&indiv=try&h=2618450",
 cparish: "St George Bloomsbury, srd St George Bloomsbury, rd St Giles",
@@ -58,8 +56,7 @@ visitors: [
 
 
 "1861_dickens_charles_john_huffam_1812": {
-place: "3 Hanover Terrace, London",
-gps: ["3 Hanover Terrace, London https://maps.google.com/maps?q=51.527356,-0.162363"],
+place: "3 Hanover Terrace LND https://maps.google.com/maps?q=51.527356,-0.162363§exact",
 images: ["Census record url:records/1861_dickens_charles_c.jpg"],
 source: "RG 9; Piece: 83; Folio: 111; Page: 1 ed16 http://search.ancestry.co.uk/cgi-bin/sse.dll?db=uki1861&indiv=try&h=8463678",
 cparish: "St Marylebone, srd Christchurch, rd St Marylebone",

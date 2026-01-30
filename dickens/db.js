@@ -77,10 +77,10 @@ fg: [["~1874", "Augusta Jessie Devlin", "Kathleen Mary", "Violet Georgina"]],
 
 birth: {
 timestamp: "1845-10-28",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "esquire",
-bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapplace: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 bapyear: "1846",
 bapdate: "21 Apr",
 images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194659-00243"],
@@ -280,7 +280,7 @@ marriages: {
 timestamp: "1848-12-05",
 year: "1848",
 date: "5 Dec",
-place: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+place: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 groom: "Augustus Newnham Dickens",
 gid: "dickens_augustus_1827",
 bride: "Harriett Lovell",
@@ -365,10 +365,10 @@ fg: [["1860", "collins_charles_allston_1828"],
 
 birth: {
 timestamp: "1839-10-29",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "esquire",
-bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapplace: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 bapyear: "1840",
 bapdate: "25 Aug",
 images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194658-00654"],
@@ -478,7 +478,7 @@ fg: [["1861-07-01", "evans_elizabeth_matilda_moule_18xx"]],
 
 birth: {
 timestamp: "1837-01-06",
-place: "48 Doughty St, London https://maps.google.co.uk/maps?q=51.523947346057795, -0.11684857767057455",
+place: "48 Doughty St LND https://maps.google.co.uk/maps?q=51.523947346057795,-0.11684857767057455§exact",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "Gentleman",
 bapplace: "St Pancras parish, London",
@@ -538,7 +538,7 @@ bride: "Elizabeth Matilda Moule Evans",
 bid: "evans_elizabeth_matilda_moule_18xx",
 gage: "over 21",
 bage: "over 21",
-gparish: "70 Gloucester Crescent, Regent's Park, Middlesex https://www.google.com/maps?q=51.53807190514849,-0.14597952630996786",
+gparish: "70 Gloucester Crescent, Regent's Park, MDX https://www.google.com/maps?q=51.53807190514849,-0.14597952630996786§exact",
 bparish: "19 Queen's Road West",
 gstatus: "bachelor",
 bstatus: "spinster",
@@ -615,7 +615,7 @@ fg:[["1861-07-01", "dickens_charles_culliford_boz_1837"]]
 dickens_charles_john_huffam_1812:{ 
 g:"Charles John Huffam", k:"Charles", f:"Dickens",  bdate:"7 Feb", b:"1812", ddate:"9 Jun", d:"1870", 
 bplace:"Landport, Hants", dplace:"Higham, London",
-a:"", thumb:true, male:true, p:true,
+a:"208735037,372746703319", thumb:true, male:true, p:true,
 father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Writer",
 fg: [["1836", "hogarth_catherine_thompson_1815", "dickens_charles_culliford_boz_1837", "dickens_mary_1838", "dickens_catherine_elizabeth_macready_1839", "dickens_walter_savage_landor_1841", "dickens_francis_jeffrey_1844", "dickens_alfred_dorsay_tennison_1845", "dickens_sydney_smith_haldimand_1847", "dickens_henry_fielding_1849", "dickens_dora_annie_1850", "dickens_edward_bulwer_lytton_1852"]],
 
@@ -655,12 +655,11 @@ text: Charles John Huffman S. of John and Elizth Dickens
 
 death: {
 timestamp: "1870-06-09",
-of: "Gads Hill Place, near Rochester",
+of: "Gads Hill Place, Higham KEN https://maps.google.com/maps?q=51.411201,0.457370§exact",
 age: "58",
 namedInProbate: "Georgina Hogarth and John Forster of Palace Gate House Kensington in the County of Middlesex Esquire the Executors",
 probate: `DICKENS Charles otherwise Charles John Huffham Esq. 19 July. The Will with a Codicil of Charles otherwise Charles John Huffham Dickens late of Gads Hill Place near Rochester in the County of Kent Esquire deceased who died 9 June 1870 at Gads Hill Place aforesaid was proved at the Principal Registry by the oaths of Georgina Hogarth and John Forster of Palace Gate House Kensington in the County of Middlesex Esquire the Executors. Effects under £80,000.`,
 images: ["Probate url:records/1870_dickens_charles_probate.jpg"],
-gps: ["Gads Hill Place, Higham, Kent https://maps.google.com/maps?q=51.411201,0.457370"],
 sources: `
 SOURCE: Civil Registration Death Index, 1837-1915  http://search.ancestry.co.uk/cgi-bin/sse.dll?indiv=try&db=FreeBMDDeath&h=9292484
 Name: Charles Dickens
@@ -684,7 +683,7 @@ gid: "dickens_charles_john_huffam_1812",
 bride: "Catherine Thompson Hogarth",
 bid: "hogarth_catherine_thompson_1815",
 bage: "less than 21",
-gparish: "Furnival's Inn, London https://maps.google.com/maps?q=51.51814694111903,-0.10985003298183434",
+gparish: "Furnival's Inn LND https://maps.google.com/maps?q=51.51814694111903,-0.10985003298183434§approx",
 bparish: "Chelsea parish",
 gstatus: "bachelor",
 bstatus: "spinster (minor)",
@@ -693,7 +692,7 @@ witnesses: "George Hogarth(?), Elizabeth Dickens, others (writing illegible)",
 by: "licence",
 fnotes: ["The consent field on the marriage register says 'George Hogarth the ... and daughter(?) father(?) of the said ...'"],
 images: ["Parish record url:records/1836_dickens_charles_catherine_hogarth_m.jpg.jpg"],
-gps: ["St Lukes church, Chelsea, London https://maps.google.com/maps?q=51.489569,-0.169524"],
+gps: ["St Lukes church, Chelsea LND https://maps.google.com/maps?q=51.489569,-0.169524§exact"],
 sources: `
 SOURCE: Church of England Marriages and Banns, 1754-1921 http://search.ancestry.co.uk/cgi-bin/sse.dll?indiv=try&db=LMAmarriages&h=2187669
 Parish: St Lukes, Chelsea parish, London]
@@ -717,7 +716,7 @@ note: The family had left Kent amidst rapidly mounting debts, and, living beyond
 note: On Sundays—with his sister {dickens_frances_elizabeth_1810:k}, free from her studies at the Royal Academy of Music—{dickens_charles_john_huffam_1812:kx0} spent the day at the Marshalsea. He later used the prison as a setting in Little Dorrit. To pay for his board and to help his family, Dickens was forced to leave school and work ten-hour days at Warren's Blacking Warehouse, on Hungerford Stairs, near the present Charing Cross railway station, where he earned six shillings a week pasting labels on pots of boot blacking.`,
 place: "112 College Place, Camden Town",
 occ: "boot black labeller",
-gps: ["Marshalsea Prison location, Southwark https://maps.google.com/maps?q=51.501800,-0.092100", "112 College Place, Camden Town, London https://maps.google.com/maps?q=51.53852983395088,-0.13641449660565133", "Charing Cross Railway Station, London https://maps.google.com/maps?q=51.50811290986514,-0.12469758957022929"],
+gps: ["Marshalsea Prison, Southwark LND https://maps.google.com/maps?q=51.501800,-0.092100§exact", "112 College Place, Camden Town LND https://maps.google.com/maps?q=51.53852983395088,-0.13641449660565133§exact", "Charing Cross Railway Station LND https://maps.google.com/maps?q=51.50811290986514,-0.12469758957022929§exact"],
 sources: `
 SOURCE: Wikipedia  https://en.wikipedia.org/wiki/Charles_Dickens#Early_years`
 },
@@ -734,13 +733,6 @@ relation: "head",
 occ: "Gentleman",
 notes: `{dickens_charles_john_huffam_1812:kx} was a gentleman.
 The children were {dickens_charles_culliford_boz_1837:k}, {dickens_mary_1838:k}, {dickens_catherine_elizabeth_macready_1839:k}, and {dickens_walter_savage_landor_1841:k} (aged 4 months).`,
-},
-"1841-07-01": {
-title: "Social setting",
-type: "note",
-notes: `At a time when Britain was the major economic and political power of the world, Dickens highlighted the life of the forgotten poor and disadvantaged within society. Through his journalism he campaigned on specific issues—such as sanitation and the workhouse—but his fiction probably demonstrated its greatest prowess in changing public opinion in regard to class inequalities. 
-He often depicted the exploitation and oppression of the poor and condemned the public officials and institutions that not only allowed such abuses to exist, but flourished as a result. His most strident indictment of this condition is in Hard Times (1854), Dickens's only novel-length treatment of the industrial working class. In this work, he uses vitriol and satire to illustrate how this marginalised social stratum was termed "Hands" by the factory owners; that is, not really "people" but rather only appendages of the machines they operated. His writings inspired others, in particular journalists and political figures, to address such problems of class oppression.`,
-sources: `SOURCE: Wikipedia  https://en.wikipedia.org/wiki/Charles_Dickens`
 },
 "1851-03-30": {
 type: 'census',
@@ -789,7 +781,7 @@ cstatus:"Died as infant",
 
 birth: {
 timestamp: "1850-08-16",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 sources: `
 SOURCE: England & Wales, Civil Registration Birth Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8912/records/42450686,
@@ -804,7 +796,7 @@ Page: 25
 
 death: {
 timestamp: "1851-04-14",
-of: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+of: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 sources: `
 SOURCE: England & Wales, Civil Registration Death Index, 1837-1915  https://www.ancestry.co.uk/search/collections/8914/records/9292669
 Name: Dora Annie Dickens
@@ -833,7 +825,7 @@ cstatus:"No spouse. No children.",
 
 birth: {
 timestamp: "1852-03-13",
-place: "Tavistock House",
+place: "Tavistock House LND https://maps.google.com/maps?q=51.52583813573959,-0.12884138657333563§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "esquire",
 bapplace: "Saint Pancras Parish Church",
@@ -927,7 +919,7 @@ cstatus:"No spouse. No children.",
 
 birth: {
 timestamp: "1844-01-15",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "esquire",
 bapplace: "Saint Marylebone",
@@ -1056,10 +1048,10 @@ fg: [["1876", "Marie Roche"]],
 
 birth: {
 timestamp: "1849-01-16",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "gentleman",
-bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapplace: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 bapyear: "1849",
 bapdate: "21 Apr",
 images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194660-00016"],
@@ -1099,7 +1091,7 @@ fg:[["1809-06-13", "barrow_elizabeth_culliford_1789", "dickens_frances_elizabeth
 
 birth: {
 timestamp: "1785-08-21",
-bapplace: "St Marylebone, Middlesex",
+bapplace: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 bapyear: "1785",
 bapdate: "20 Nov",
 images: ["Baptismal record url:records/1785_dickens_john_bap.jpg"],
@@ -1150,13 +1142,12 @@ text: by consent of her Father`}
 
 death: {
 timestamp: "1851-03-31",
-of: "34 Keppel St, Russell Square",
+of: "34 Keppel St, Finsbury LND https://maps.google.com/maps?q=51.520668,-0.129617§road",
 age: "66",
 buryear: "1851",
 burdate: "5 Apr",
 burplace: "St James, St Pancras, London",
 images: ["Burial record url:records/1851_dickens_john_bur.jpg"],
-gps: ["34 Keppel St, London https://maps.google.com/maps?q=51.520668,-0.129617"],
 notes: `Davey was John Dickens’s doctor; he had performed a painful operation on his patient’s bladder—without chloroformon 25 March in the Keppel Street house, and this was where John Dickens died, surrounded by family members, on the very night of the census (The Letters of Charles Dickens, vol. 6, 1988) [<a href="http://www.ucl.ac.uk/bloomsbury-project/articles/individuals/dickens_charles.htm">link</a>]`,
 sources: `
 SOURCE: Civil Registration Death Index, 1837-1915 1 46  http://search.ancestry.co.uk/cgi-bin/sse.dll?indiv=try&db=FreeBMDDeath&h=9293977
@@ -1204,18 +1195,33 @@ sources: `Wikipedia https://en.wikipedia.org/wiki/Marshalsea#/media/File:Plan_of
 
 
 hogarth_catherine_thompson_1815:{ 
-g:"Catherine Thompson", k:"Kate", f:"Hogarth", m:['Dickens'],  bdate:"19 May", b:"1815", ddate:"22 Nov", d:"1879", 
-bplace:"Edinburgh", dplace:"London", thumb:true, male:false, p:true,
-father:"George Hogarth", mother:"", occ:"",
+g:"Catherine Thomson", k:"Kate", f:"Hogarth", m:['Dickens'],  bdate:"19 May", b:"1815", ddate:"22 Nov", d:"1879", 
+bplace:"Stow", dplace:"London", thumb:true, male:false, p:true,
+father:"hogarth_george_1783", mother:"thomson_georgina_1793", occ:"",
 fg: [["1836", "dickens_charles_john_huffam_1812", "dickens_charles_culliford_boz_1837", "dickens_mary_1838", "dickens_catherine_elizabeth_macready_1839", "dickens_walter_savage_landor_1841", "dickens_francis_jeffrey_1844", "dickens_alfred_dorsay_tennison_1845", "dickens_sydney_smith_haldimand_1847", "dickens_henry_fielding_1849", "dickens_dora_annie_1850", "dickens_edward_bulwer_lytton_1852"]],
 
 birth: {
-// data
+timestamp: "1815-05-19",
+place: "Stow MLN https://www.google.com/maps?q=55.691340171823924,-2.860106767298486§village",
+athome: "George Hogarth",
+bapplace: "Stow, Midlothian, Scotland",
+sources: `
+SOURCE: Scotland, Select Births and Baptisms, 1564-1950  https://www.ancestry.co.uk/search/collections/60143/records/5674423,
+Name: Catherine Hogarth
+Gender: Female
+Birth Date: 5 Jul 1814
+Birth Place: Stow, Midlothian, Scotland
+Baptism Place: Stow, Midlothian, Scotland
+Residence Date: 1814
+Residence Place: Stow, Midlothian, Scotland
+Father: George Hogarth
+Mother: Mary Thorburn
+`,
 },//b
 
 death: {
 timestamp: "1879-11-22",
-of: "70 Gloucester Crescent, Regent's Park, Middlesex https://www.google.com/maps?q=51.53807190514849,-0.14597952630996786",
+of: "70 Gloucester Crescent, Regent's Park MDX https://www.google.com/maps?q=51.53807190514849,-0.14597952630996786§exact",
 age: "64",
 namedInProbate: "dickens_henry_fielding_1849",
 probate: `DICKENS Catherine. 8 January. The Will of Catherine Dickens late of 70 Gloucester-crescent Regent's Park in the County of Middlesex Widow who died 22 November 1979 at 70 Gloucester-crescent was proved at the Principal Registry by Henry Fielding Dickens of 7 Crown-Office-row Temple in the City of London Barrister-at-Law the Son the sole Executor. Personal Estate under £800.`,
@@ -1300,7 +1306,7 @@ cstatus:"Died single",
 
 birth: {
 timestamp: "1838-03-06",
-place: "48 Doughty St, London https://maps.google.co.uk/maps?q=51.523947346057795, -0.11684857767057455",
+place: "48 Doughty St LND https://maps.google.co.uk/maps?q=51.523947346057795,-0.11684857767057455§exact",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 bapplace: "Old St Pancras, St Pancras, Camden",
 bapyear: "1839",
@@ -1350,10 +1356,10 @@ cstatus:"Died single",
 
 birth: {
 timestamp: "1847-04-18",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "gentleman",
-bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapplace: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 bapyear: "1847",
 bapdate: "24 Jun",
 images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194659-00305"],
@@ -1395,10 +1401,10 @@ cstatus:"No spouse. No children.",
 
 birth: {
 timestamp: "1841-02-08",
-place: "1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810§approx",
+place: "1 Devonshire Terrace LND https://maps.google.com/maps?q=51.513611,-0.179810§approx",
 athome: "dickens_charles_john_huffam_1812 hogarth_catherine_thompson_1815",
 focc: "esquire",
-bapplace: "St Marylebones, Marylebone Rd, London https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
+bapplace: "St Marylebones, Marylebone Rd LND https://www.google.com/maps?q=51.52269172571905,-0.15230468657964424§exact",
 bapyear: "1841",
 bapdate: "4 Dec",
 images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31280_194658-00726", "Parish record https://www.ancestry.co.uk/imageviewer/collections/1558/images/31281_a100597-00274"],
@@ -1441,5 +1447,136 @@ g:"Leonard Ralph Dickens", k:"", f:"Perugini", bdate:"", b:"1876", ddate:"24 Jul
 bplace:"", dplace:"", thumb:false, male:true, p:true,
 father:"perugini_charles_edward_1839", mother:"dickens_catherine_elizabeth_macready_1839", occ:"", cstatus:"Died as infant"
 },
+
+
+hogarth_george_1783:{     provisional: true,
+warning: "Only partially researched.",
+g:"George", k:"", f:"Hogarth",  bdate:"6 Sept", b:"1783", ddate:"12 Feb", d:"1870", 
+bplace:"Carfraemill", dplace:"London",
+a:"", thumb:true, male:true, p:true,
+father:"Robert Hogarth", mother:"Mary Scott", occ:"lawyer, newspaper editor, music critic, musicologist",
+fg: [["1814", "thomson_georgina_1793", "hogarth_catherine_thompson_1815", "hogarth_georgina_1827"]],
+
+birth: {
+// data
+},//b
+
+death: {
+timestamp: "1870-02-12",
+of: "10 Gloucester Crescent, Camden Town",
+age: "86",
+buryear: "1870",
+burdate: "17 Feb",
+burplace: "All Souls, Kensal Green, Kensington and Chelsea",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1559/images/31547_213104-00136"],
+sources: `
+SOURCE: London, England, Church of England Deaths and Burials, 1813-2003  https://www.ancestry.co.uk/search/collections/1559/records/10271077
+Burial place: All Souls, Kensal Green, Kensington and Chelsea
+Burial date: 17 Feb 1870
+Name: George Hogarth
+Death age: 86
+Abode: 10 Gloucester Crescent, Camden Town
+`
+},//d
+
+marriages: {
+"thomson_georgina_1793": {
+timestamp: "1814-05-30",
+year: "1814",
+date: "30 May",
+place: "Edinburgh, Scotland",
+groom: "George Hogarth",
+gid: "hogarth_george_1783",
+bride: "Georgina Thomson",
+bid: "thomson_georgina_1793",
+gfather: "Robert Hogarth",
+bfather: "George Thomson",
+sources: `
+SOURCE: Scotland, Select Marriages, 1561-1910  https://www.ancestry.co.uk/search/collections/60144/records/1845553
+Name: Georgina Thomson
+Name: George Hogarth
+Marriage Date: 30 May 1814
+Marriage Place: Edinburgh, Edinburghshire, Scotland
+Father: George Thomson
+Spouse: George Hogarth
+`},
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+thomson_georgina_1793:{     provisional: true,
+warning: "Not yet researched.",
+g:"Georgina", k:"", f:"Thomson",  bdate:"2 Mar", b:"1793", ddate:"~10 Aug", d:"1863", 
+bplace:"", dplace:"London",
+a:"", thumb:false, male:false, p:true,
+father:"George Thomson", mother:"", occ:"",
+fg: [["1814", "hogarth_george_1783", "hogarth_catherine_thompson_1815", "hogarth_georgina_1827"]],
+
+birth: {
+// data
+},//b
+
+death: {
+timestamp: "1863-08-10",
+of: "79 Great Russell Street, Bloomsbury",
+age: "68",
+buryear: "1863",
+burdate: "10 Aug",
+burplace: "All Souls, Kensal Green, Kensington and Chelsea",
+athome: "hogarth_george_1783",
+images: ["Parish record https://www.ancestry.co.uk/imageviewer/collections/1559/images/31547_213103-00078"],
+sources: `
+SOURCE: London, England, Church of England Deaths and Burials, 1813-2003  https://www.ancestry.co.uk/search/collections/1559/records/10259527
+Burial place: All Souls, Kensal Green, Kensington and Chelsea
+Burial date: 10 Aug 1863
+Name: Georgina Hogarth
+Death age: 68
+Abode: 79 Great Russell Street, Bloomsbury
+`
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+
+
+hogarth_georgina_1827:{     provisional: true,
+warning: "Only partially researched.",
+g:"Georgina", k:"", f:"Hogarth",  bdate:"22 Jan", b:"1827", ddate:"19 Apr", d:"1917", 
+bplace:"Scotland", dplace:"London",
+a:"", thumb:true, male:false, p:true,
+father:"hogarth_george_1783", mother:"thomson_georgina_1793", occ:"",
+cstatus:"No spouse. No children.",
+
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+// data
+},//e
+},//p
+
+
+
 
 }

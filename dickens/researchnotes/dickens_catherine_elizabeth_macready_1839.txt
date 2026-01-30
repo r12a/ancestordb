@@ -1,125 +1,58 @@
-§ 1839 Birth
-birth: dickens_catherine_elizabeth_macready_1839
+db[thisPerson].timeline = `
 
 
-§ 1841 brother born dickens_walter_savage_landor_1841
-
-§ 1841 Census
-gps: 1 Devonshire Terrace, London https://maps.google.com/maps?q=51.513611,-0.179810
-date: 6 Jun
-relation: child
-occ: Child
-record: Census record url:records/1841_dickens_charles_catherine_c.jpg
-source: HO107; Piece: 680; Book: 14; Civil Parish: St Marylebone; County: Middlesex; Enumeration District: 14; Folio: 12; Page: 18 http://search.ancestry.co.uk/cgi-bin/sse.dll?db=uki1841&indiv=try&h=7352195
-div: cparish St Marylebone, srd Rectory, rd St Marylebone
-place: Devonshire Terrace, St Marylebone, London
-head: dickens_charles_john_huffam_1812, Chas Dickens, 29, Gent, not born in county
-wife: hogarth_catherine_thompson_1815, Catherine Dickens, 26, born in Scotland, Ireland, or foriegn parts
-child: Charles Dickens, 4, born in county
-child: Mary Dickens, 3, born in county
-child: Catherine Dickens, 1 1/2, born in county
-child: Walter Dickens, 4mnths, born in county
-note: {dickens_charles_john_huffam_1812:k} was a gentleman. The children were {dickens_charles_culliford_boz_1837:k}, 4, {dickens_mary_1838:k}, 3, {dickens_catherine_elizabeth_macready_1839:kx}, one and a half, and {dickens_walter_savage_landor_1841:k}, aged 4 months.
+`
 
 
-§ 1844 brother born dickens_francis_jeffrey_1844
-
-§ 1845 brother born dickens_alfred_dorsay_tennison_1845
-
-§ 1847 brother born dickens_sydney_smith_haldimand_1847
-
-§ 1849 brother born dickens_henry_fielding_1849
-
-§ 1850 sister born dickens_dora_annie_1850
-
-§ 1851 grandfather dies dickens_john_1785
-
-§ 1851 sister dies dickens_dora_annie_1850
-
-§ 1852 brother born dickens_edward_bulwer_lytton_1852
-
-§ 1860 Marriage
-marriage: collins_charles_allston_1828
-
-§ 1861 Census
-gps: Clarence Terrace, London https://maps.google.com/maps?q=51.525043,-0.159391
-date: 7 Apr
-relation: wife
-record: Census record url:records/1861_collins_charles_catherine_c.jpg
-source: RG 9; Piece: 83; Folio: 123; Page: 26 ed16 http://search.ancestry.co.uk/cgi-bin/sse.dll?db=uki1861&indiv=try&h=8464296
-div: cparish St Marylebone, srd Christchurch, rd Marylebone
-place: 2 Clarence Terrace, London
-head: collins_charles_allston_1828, Charles A Collins, mar, 33, author journalist, b Middlesex Hampstead
-wife: dickens_catherine_elizabeth_macready_1839, Catherine E M Collins, mar, 21, b Middlesex Hampstead
-serv: Mary Bull, un, 22, house serv, b Middlesex Marylebone
-note: {collins_charles_allston_1828:k} was an author and journalist.
-note: Mary Bull, 22, was the house servant.
 
 
-§ 1863 brother dies dickens_walter_savage_landor_1841
-
-§ 1863 grandmother dies barrow_elizabeth_culliford_1789
-
-§ 1867 event reform_act
-
-§ 1870 father dies dickens_charles_john_huffam_1812
-
-§ 1872 brother dies dickens_sydney_smith_haldimand_1847
-
-§ 1873 husband dies collins_charles_allston_1828
-
-§ 1874 Marriage
-marriage: perugini_charles_edward_1839
-
-§ 1876 son born perugini_leonard_ralph_dickens_1876
-
-§ 1876 son dies perugini_leonard_ralph_dickens_1876
-
-§ 1879 mother dies hogarth_catherine_thompson_1815
-
-§ 1883 event property_rights
-
-§ 1886 brother dies dickens_francis_jeffrey_1844
-
-§ 1896 brother dies dickens_charles_culliford_boz_1837
-
-§ 1896 sister dies dickens_mary_1838
-
-§ 1901 event victoria_dies
-
-§ 1902 brother dies dickens_edward_bulwer_lytton_1852
-
-§ 1911 Census
-gps: 32 Victoria Rd, Kensington, London https://maps.google.com/maps?q=51.499156,-0.185936
-date: 2 Apr
-relation: wife
-occ: Painter, artist
-record: Census record url:records/1911_perugini_charles_catherine_c.jpg
-source: RG14; Piece: 104 ed17 http://search.ancestry.co.uk/cgi-bin/sse.dll?db=1911England&indiv=try&h=884547
-div: cparish Kensington, srd rd Kensington 2
-place: 32 Victoria Rd, Kensington W, London
-rooms: 10
-head: perugini_charles_edward_1839, Charles Edward Perugini, 71, married, painter "Artist", own account, at home, b Italy, naturalized 1862
-wife: dickens_catherine_elizabeth_macready_1839, Catherine Elizabeth Macready Perugini, 70, married, painter "Artist", own account, at home, b Middlesex London, english
-married: 37 years, one child
-serv: Emily Elmer, cook, 45, single, b Boxford Suffolk
-serv: Alice Pantall, housemaid, 41, single, b Malvern
-serv: Annie Zinnelly, parlourmaid, 29, single, b Cavan Ireland
-note: {perugini_charles_edward_1839:k} and {dickens_catherine_elizabeth_macready_1839:kx} were listed as painters and artists.
-note: The servants were Emily Elmer, 45, cook, Alice Pantall, 41, housemaid, and Annie Zinnelly, 29, the parlourmaid.
+location_summary = { 
+list: "London",
+url: "url_goes_here",
+}
+ 
+ 
+narrative = `
+<p>Catherine Elizabeth Macready Dickens, known throughout her life as Kate, was born on <strong>29 October 1839</strong> at 1 Devonshire Terrace in <strong>Marylebone, London</strong>, the third child of <strong>Charles John Huffam Dickens</strong> and <strong>Catherine Thomson Hogarth</strong>. She entered the world in a prosperous and culturally vibrant district of the capital at a time when London was expanding rapidly, shaped by industrialisation, new railways, and the growing influence of the middle classes. Her early childhood unfolded in a household marked by literary activity, social visitors, and the rising fame of her father, whose success brought both comfort and scrutiny to family life.</p>
+<p>Kate grew up surrounded by her many siblings and spent her formative years in central London, first at Devonshire Terrace and later at Tavistock House, both situated in neighbourhoods that reflected the aspirations of Victorian professional families. Her baptism at <strong>St Marylebone</strong> in 1840 placed her within one of the capital’s most prominent parishes. As she matured, she witnessed the transformation of London into a modern metropolis, with new public institutions, improved sanitation, and expanding artistic circles—changes that would later shape her own career as a painter.</p>
+<p>The 1840s and 1850s brought both growth and loss. Several younger siblings were born at Devonshire Terrace, while the deaths of her sister <strong>Dora Annie</strong> in 1851 and her grandfather <strong>John Dickens</strong> that same year introduced her early to the fragility of Victorian family life. Her father’s increasing fame meant that the Dickens household was deeply connected to the literary and artistic world, and Kate’s upbringing exposed her to writers, illustrators, and performers who visited the family home. These influences helped nurture her artistic sensibilities at a time when opportunities for women in the arts were expanding, though still constrained by social expectations.</p>
+<p>On <strong>17 July 1860</strong>, Kate married <strong>Charles Allston Collins</strong> at St John’s, Higham in Kent. Collins, an artist associated with the Pre‑Raphaelite circle, brought her into a community of painters and illustrators who were reshaping British art. Their marriage lasted until his death in 1873, a period during which Kate continued to develop her own artistic identity. The 1860s also brought personal sorrow, including the deaths of her grandmothers <strong>Georgina Thomson</strong> and <strong>Elizabeth Barrow Dickens</strong> in 1863, and the loss of her brother <strong>Walter</strong> later that year. The death of her father <strong>Charles Dickens</strong> in <strong>1870</strong> marked a profound turning point, as the family navigated both public mourning and the complexities of his legacy.</p>
+<p>Kate remarried on <strong>4 June 1874</strong>, wedding the artist <strong>Charles Edward Perugini</strong> at St Paul’s, Knightsbridge. Their marriage placed her firmly within the artistic milieu of late Victorian London, a period when women artists were gaining greater visibility through exhibitions and professional networks. She gave birth to a son, <strong>Leonard Ralph Dickens</strong>, in 1876, though he died in infancy. Despite this loss, Kate continued to paint and exhibit her work, contributing to the growing presence of women in the British art world during a time of shifting gender expectations and increasing opportunities for female creativity.</p>
+<p>The later decades of Kate’s life were marked by the deaths of many siblings, including <strong>Frank</strong> in 1886, <strong>Charley</strong> and <strong>Mamie</strong> in 1896, <strong>Edward</strong> in 1902, and <strong>Alfred</strong> in 1912. She also outlived her second husband <strong>Charles Edward Perugini</strong>, who died in 1918. Through these years she witnessed extraordinary societal change: the rise of modern art, the expansion of women’s rights, the upheaval of the First World War, and the transformation of London into a twentieth‑century city. Her own artistic career unfolded against this backdrop of cultural evolution, and she remained connected to the Dickens family legacy while forging her own identity as a painter.</p>
+<p>Kate died on <strong>9 May 1929</strong> at the age of eighty‑nine, having lived through nearly a century of dramatic social, artistic, and technological change. Her long life bridged the Victorian, Edwardian, and early modern eras, and her experiences reflect the complexities of growing up in a celebrated literary family while carving out a personal path within the shifting landscape of British art and society.</p>
+`
+ 
+ 
+ 
 
 
-§ 1912 brother dies dickens_alfred_dorsay_tennison_1845
 
-§ 1914 event ww1_start
+db[thisPerson].death.obit = ``
 
-§ 1918 event ww1_end
 
-§ 1918 husband dies perugini_charles_edward_1839
 
-§ 1928 event womens_vote
 
-§ 1929 Death
-death: dickens_catherine_elizabeth_macready_1839
+places = `
+Age,Name,Latitude,Longitude,Precision
+0,"1839  1 Devonshire Terrace LND: Birth",51.513611,-0.179810,📌 approx
+0,"1839  St Marylebones, Marylebone Rd LND: Baptism",51.52269172571905,-0.15230468657964424,📌 exact
+1,"1841  1 Devonshire Terrace LND: Brother Walter (Walter Savage Landor)  born",51.513611,-0.179810,📌 approx
+4,"1844  1 Devonshire Terrace LND: Brother Frank (Francis Jeffrey)  born",51.513611,-0.179810,📌 approx
+5,"1845  1 Devonshire Terrace LND: Brother Alfred D'Orsay Tennison born",51.513611,-0.179810,📌 approx
+7,"1847  1 Devonshire Terrace LND: Brother Sydney Smith Haldimand born",51.513611,-0.179810,📌 approx
+9,"1849  1 Devonshire Terrace LND: Brother Henry Fielding born",51.513611,-0.179810,📌 approx
+10,"1850  1 Devonshire Terrace LND: Sister Dora Annie born",51.513611,-0.179810,📌 approx
+11,"1851  1 Devonshire Terrace LND: sister Dora Annie dies",51.513611,-0.179810,📌 approx
+12,"1852  Tavistock House LND: Brother Edward (Edward Bulwer Lytton)  born",51.52583813573959,-0.12884138657333563,📌 approx
+20,"1860  St Johns, Higham KEN: Marriage to Charles Collins",51.41632674096065,0.46183379847492373,📌 exact
+30,"1870  Gads Hill Place, Higham KEN: father dies",51.411201,0.457370,📌 exact
+34,"1874  St Pauls, Knightsbridge London: Marriage to Charles Edward Perugini",51.50145587436509,-0.15570738161892372,📌 exact
+34,"1874  81 Gloucester Terrace, Hyde Park, London: Address at marriage to Charles Edward Perugini",51.513921444002136,-0.17891578451342885,📌 exact
+89,"1929 : Death",—,📌 undefined
+`
+
+
+
+
 
 

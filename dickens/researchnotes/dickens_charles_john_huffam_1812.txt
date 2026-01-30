@@ -119,3 +119,21 @@ Age,Name,Latitude,Longitude,Precision
 49,"1861  3 Hanover Terrace, London: Census • Author, novelist, essayist & editor",51.527356,-0.162363,📌 exact
 58,"1870  Gads Hill Place, Higham, Kent: Death",51.411201,0.457370,📌 exact
 `
+
+
+
+
+db[thisPerson].events["1841-07-02"] = {
+type: "note",
+title: "Social setting",
+notes: `
+Notes on Dickens and the fight against victorian inequality 
+<section class="life_context">
+<details><summary>Details</summary>
+<p>At a time when Britain was the major economic and political power of the world, Dickens highlighted the life of the forgotten poor and disadvantaged within society. Through his journalism he campaigned on specific issues—such as sanitation and the workhouse—but his fiction probably demonstrated its greatest prowess in changing public opinion in regard to class inequalities.</p>
+<p>He often depicted the exploitation and oppression of the poor and condemned the public officials and institutions that not only allowed such abuses to exist, but flourished as a result. His most strident indictment of this condition is in Hard Times (1854), Dickens's only novel-length treatment of the industrial working class. In this work, he uses vitriol and satire to illustrate how this marginalised social stratum was termed "Hands" by the factory owners; that is, not really "people" but rather only appendages of the machines they operated. His writings inspired others, in particular journalists and political figures, to address such problems of class oppression.</p>
+</details>
+</section>
+`
+}
+

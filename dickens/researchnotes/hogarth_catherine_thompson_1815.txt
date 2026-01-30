@@ -1,0 +1,69 @@
+db[thisPerson].timeline = `
+
+
+`
+
+
+
+
+location_summary = { 
+list: "Stow, London, Higham, London",
+url: "https://www.google.com/maps/d/edit?mid=10V-WRxbIU-KYfR2PGdvkYf84290pNwQ&usp=sharing",
+}
+ 
+ 
+narrative = `
+<p>Catherine Thomson Hogarth was born on <strong>19 May 1815</strong> in the parish of Stow, <strong>Midlothian</strong>, the eldest child of <strong>George Hogarth</strong> and <strong>Georgina Thomson</strong>. Her early years unfolded in Scotland’s capital region at a time when Edinburgh was a centre of Enlightenment thought, journalism, and the arts, and her father’s work as a lawyer, journalist, and music critic placed the family within a lively cultural world. In <strong>1824</strong>, the Hogarths moved south to England, eventually settling in London, a city undergoing rapid expansion as industrialisation, migration, and new forms of print culture reshaped urban life.</p>
+<p>On <strong>2 April 1836</strong>, Catherine married <strong>Charles John Huffam Dickens</strong> at St Luke’s, Chelsea, when she was twenty years old and he was already gaining recognition as a journalist and writer. Their early married life was spent in central London, first at 48 Doughty Street and later at 1 Devonshire Terrace, both situated in districts transformed by the growth of the middle classes and the increasing importance of literary and professional occupations. Over the next two decades she gave birth to ten children, including <strong>Charles Culliford Boz</strong>, <strong>Mary</strong>, <strong>Catherine Elizabeth Macready</strong>, <strong>Walter Savage Landor</strong>, <strong>Francis Jeffrey</strong>, <strong>Alfred D’Orsay Tennison</strong>, <strong>Sydney Smith Haldimand</strong>, <strong>Henry Fielding</strong>, <strong>Dora Annie</strong>, and <strong>Edward Bulwer Lytton</strong>. Managing a large Victorian household placed Catherine at the centre of domestic life during a period when middle‑class ideals of motherhood, respectability, and domestic order were increasingly codified and celebrated.</p>
+<p>Life in London during these years was shaped by profound social and economic change. The city was the heart of a global empire, drawing in wealth, labour, and ideas, but it was also marked by overcrowding, pollution, and stark inequalities. Catherine’s marriage to a public figure meant that her private life was often entangled with the pressures of celebrity and the expanding reach of the Victorian press. By the 1850s, as Charles Dickens’s fame grew, the couple’s relationship deteriorated, culminating in their highly public separation in <strong>1858</strong>. In a society that offered limited protections or public sympathy to married women, Catherine endured scrutiny and misrepresentation, much of it shaped by her husband’s influence over the press and public opinion.</p>
+<p>After the separation, Catherine continued to live in London, maintaining her own household and preserving her relationships with her children as best she could within the constraints of Victorian marital norms. The deaths of several close family members marked her later life, including her mother <strong>Georgina</strong> in 1863, her son <strong>Walter</strong> later that same year, and her father <strong>George</strong> in 1870. The death of her estranged husband <strong>Charles Dickens</strong> in <strong>1870</strong> further altered the family landscape, though Catherine remained respected within her own circles and continued to assert her place within the Dickens family history.</p>
+<p>Catherine spent her final years at <strong>70 Gloucester Crescent</strong> in Regent’s Park, a neighbourhood associated with professional and artistic families during the later Victorian period. She died there on <strong>22 November 1879</strong>, aged sixty‑four, leaving an estate administered by her son <strong>Henry Fielding Dickens</strong>. Her life spanned a period of extraordinary transformation in Britain—from the aftermath of the Napoleonic Wars through the height of the Industrial Revolution—and her experiences reflect the complexities of Victorian womanhood, the pressures of literary celebrity, and the evolving expectations placed upon wives and mothers in a rapidly changing society.</p>
+`
+ 
+ 
+ 
+
+
+
+db[thisPerson].death.obit = ``
+
+
+
+
+places = `
+Age,Name,Latitude,Longitude,Precision
+0,"1815  Stow MLN: Birth",55.691340171823924,-2.860106767298486,📌 village
+20,"1836  St Lukes church, Chelsea LND: Marriage to Charles Dickens",51.489569,-0.169524,📌 exact
+21,"1837  48 Doughty St LND: Son Charley (Charles Culliford Boz)  born",51.523947346057795,-0.11684857767057455,📌 exact
+22,"1838  48 Doughty St LND: Daughter Mamie (Mary)  born",51.523947346057795,-0.11684857767057455,📌 exact
+24,"1839  1 Devonshire Terrace LND: Daughter Kate (Catherine Elizabeth Macready)  born",51.513611,-0.179810,📌 approx
+25,"1841  1 Devonshire Terrace LND: Son Walter (Walter Savage Landor)  born",51.513611,-0.179810,📌 approx
+28,"1844  1 Devonshire Terrace LND: Son Frank (Francis Jeffrey)  born",51.513611,-0.179810,📌 approx
+30,"1845  1 Devonshire Terrace LND: Son Alfred D'Orsay Tennison born",51.513611,-0.179810,📌 approx
+31,"1847  1 Devonshire Terrace LND: Son Sydney Smith Haldimand born",51.513611,-0.179810,📌 approx
+33,"1849  1 Devonshire Terrace LND: Son Henry Fielding born",51.513611,-0.179810,📌 approx
+35,"1850  1 Devonshire Terrace LND: Daughter Dora Annie born",51.513611,-0.179810,📌 approx
+35,"1851  1 Devonshire Terrace LND: Dora Annie dies",51.513611,-0.179810,📌 approx
+36,"1852  Tavistock House LND: Son Edward (Edward Bulwer Lytton)  born",51.52583813573959,-0.12884138657333563,📌 approx
+55,"1870  Gads Hill Place, Higham KEN: Charles dies",51.411201,0.457370,📌 exact
+64,"1879  70 Gloucester Crescent, Regent's Park MDX: Death",51.53807190514849,-0.14597952630996786,📌 exact
+`
+
+
+
+
+
+db[thisPerson].events["TIMESTAMP"] = {
+type: "note",
+title: "TITLE",
+notes: `
+Always_visible_intro_goes_here
+<section class="life_context">
+<details><summary>Details</summary>
+<p>CONTENT_GOES_HERE</p>
+<p><small>Created by AI</small></p>
+</details>
+</section>
+`
+}
+
