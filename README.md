@@ -55,3 +55,23 @@ On this page you can manage two types of list. You can use the checkboxes to cre
 
 
 
+
+THE HOURGLASS PAGE
+
+This page shows an individual in the centre, and two generations above and one generation below.  Siblings can optionally be displayed too.
+
+![Screenshot 2026-01-30 at 08 36 42](https://github.com/user-attachments/assets/2d3a664b-0120-41ce-91c5-33ac3a0615bd)
+
+
+
+ANCESTOR/DESCENDANT PAGES
+
+One of these pages shows all the ancestors in the database for a given individual.  The other shows all the descendants of that person.
+
+![descendants](https://github.com/user-attachments/assets/7f721730-ed4e-40bf-98b8-61a01f1e6513)
+
+
+
+There are also several pages that allow you to assemble information about an event and format it for inclusion in the database.
+
+
