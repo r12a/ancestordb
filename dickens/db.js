@@ -1,18 +1,80 @@
 db = {
 
-barrow_elizabeth_culliford_1789:{
-g:"Elizabeth Culliford", k:"Elizabeth", f:"Barrow", bdate:"21 Dec", b:"1789", ddate:"13 Sep", d:"1863",
-bplace:"", dplace:"London", thumb:true, p:true,
-father:"Charles Barrow", mother:"Mary Culliford", occ:"", m:['Dickens'],
-fg:[["1809-06-13", "dickens_john_1785", "dickens_frances_elizabeth_1810", "dickens_charles_john_huffam_1812", "dickens_alfred_allen_1813", "dickens_letitia_1816", "dickens_harriet_1819", "dickens_frederick_1820", "dickens_alfred_lamert_1822", "dickens_augustus_1827"]]
-},
+barrow_elizabeth_culliford_1789:{ 
+g:"Elizabeth Culliford", k:"Elizabeth", f:"Barrow", m:['Dickens'],  bdate:"21 Dec", b:"1789", ddate:"13 Sep", d:"1863", 
+bplace:"", dplace:"London",
+a:"", thumb:true, male:false, p:true,
+father:"Charles Barrow", mother:"Mary Culliford", occ:"",
+fg: [["1809-06-13", "dickens_john_1785", "dickens_frances_elizabeth_1810", "dickens_charles_john_huffam_1812", "dickens_alfred_allen_1813", "dickens_letitia_1816", "dickens_harriet_1819", "dickens_frederick_1820", "dickens_alfred_lamert_1822", "dickens_augustus_1827"]],
 
-collins_charles_allston_1828:{
-g:"Charles Allston", k:"Charles", f:"Collins", bdate:"25 Jan", b:"1828", ddate:"9 Apr", d:"1873",
-bplace:"Hampstead", dplace:"London", thumb:true, male:true, p:true,
-father:"William Collins", mother:"", occ:"Artist, writer", cstatus:"No children",
-fg:[["1860-07-01", "dickens_catherine_elizabeth_macready_1839"]],
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+"1851-03-30": {
+type: 'census',
+census: '1851_dickens_charles_john_huffam_1812',
+relation: "visitor",
+occ: "Author",
+notes: `Robert Davey was a 52 year old medical practitioner.
+The visitors included {dickens_charles_john_huffam_1812:kx0}'s mother, {barrow_elizabeth_culliford_1789:k},  widowed and living on an annuity, {dickens_charles_john_huffam_1812:kx0}, described as an author, and his brothers {dickens_alfred_allen_1813:k},  an engineer, and {dickens_augustus_1827:k},  a merchant's clerk. Also there were his sister {dickens_letitia_1816:k},  her husband Henry Austin<sup class="ageTag">38</sup>, an engineer, and his mother Elizabeth Austin<sup class="ageTag">64</sup>, an annuitant. Finally there were two visitors born in Jamaica, Elizabeth Dorothy Smithson<sup class="ageTag">40</sup>, and Amelia Thompson<sup class="ageTag">42</sup>, both annuitants.
+The servants were Rosanna Green<sup class="ageTag">30</sup>, cook (born in Dublin), Emma Riley<sup class="ageTag">24</sup>, house maid, and Frances Bousfield<sup class="ageTag">43</sup>, a general maid.
+His father, {dickens_john_1785:kf}, is not listed at this address, but this is the abode given in his burial record. His date of death is given as the following day, so the family members were presumably gathered together on this account.`
 },
+},//e
+},//p
+
+
+collins_charles_allston_1828:{     provisional: true,
+warning: "Only partially researched.",
+g:"Charles Allston", k:"Charles", f:"Collins",  bdate:"25 Jan", b:"1828", ddate:"9 Apr", d:"1873", 
+bplace:"Hampstead", dplace:"London",
+a:"", thumb:true, male:true, p:true,
+father:"William Collins", mother:"", occ:"Artist, writer",
+cstatus:"No children",
+fg: [["1860-07-01", "dickens_catherine_elizabeth_macready_1839"]],
+
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+"1861-04-07": {
+type: "census",
+census: "1861_collins_charles_allston_1828",
+relation: "head",
+occ: "author and journalist",
+notes: `{collins_charles_allston_1828:kx0} was an author and journalist. 
+The servant at the house was Mary Bull<sup class="ageTag">22</sup>, a general house servant.`,
+},
+"1871-04-02": {
+type: "census",
+census: "1871_collins_charles_allston_1828",
+relation: "head",
+occ: "working with literature",
+notes: `{collins_charles_allston_1828:kx0} was working with literature, as was his wife.
+The servants at the house were Maria Crombie<sup class="ageTag">25</sup>, domestic servant,  and Emma Pratt<sup class="ageTag">19</sup>, cook.`,
+},
+},//e
+},//p
+
 
 dickens_alfred_allen_1813:{ 
 g:"Alfred Allen", k:"", f:"Dickens",  bdate:"~22 Apr", b:"1814", ddate:"~10 Sep", d:"1814", 
@@ -114,7 +176,7 @@ events: {
 
 dickens_alfred_lamert_1822:{ provisional: true,
 warning: "Only partially researched.",
-g:"Alfred Lamert", k:"", f:"Dickens",  bdate:"Mar", b:"1822", ddate:"27 Jul", d:"1860", 
+g:"Alfred Lamert", k:"Alfred", f:"Dickens",  bdate:"Mar", b:"1822", ddate:"27 Jul", d:"1860", 
 bplace:"London", dplace:"Manchester",
 a:"208735037,372746738557", thumb:true, male:true, p:true,
 father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Railway engineer",
@@ -208,7 +270,16 @@ Page: 264
 },//m
 
 events: {
-// data
+"1851-03-30": {
+type: 'census',
+census: '1851_dickens_charles_john_huffam_1812',
+relation: "visitor",
+occ: "engineer",
+notes: `Robert Davey was a 52 year old medical practitioner.
+The visitors included {dickens_alfred_lamert_1822:kx0}'s mother, {barrow_elizabeth_culliford_1789:k}, living on an annuity and already described as a widow, {dickens_charles_john_huffam_1812:kx}, author, and his brothers {dickens_alfred_lamert_1822:k}, an engineer, and {dickens_augustus_1827:k}, a merchant's clerk. Also there were {dickens_charles_john_huffam_1812:kx0}'s daughter {dickens_letitia_1816:k}, her husband Henry Austin<sup class="ageTag">38</sup>, an engineer, and Henry's mother Elizabeth Austin<sup class="ageTag">64</sup>, an annuitant. Finally there were two visitors born in Jamaica, Elizabeth Dorothy Smithson<sup class="ageTag">40</sup>, and Amelia Thompson<sup class="ageTag">42</sup>, both annuitants.
+The servants were Rosanna Green<sup class="ageTag">30</sup>, cook (born in Dublin), Emma Riley<sup class="ageTag">24</sup>, house maid, and Frances Bousfield<sup class="ageTag">43</sup>, a general maid.
+His father, {dickens_john_1785:kf}, is not listed at this address, but this is the abode given in his burial record. His date of death is given as the following day, so the family members were presumably gathered together on this account.`
+},
 },//e
 },//p
 
@@ -243,7 +314,7 @@ events: {
 
 dickens_augustus_1827:{  provisional: true,
 warning: "Only partially researched.",
-g:"Augustus Newnham", k:"", f:"Dickens",  bdate:"10 Nov", b:"1827", ddate:"", d:"1866", 
+g:"Augustus Newnham", k:"Augustus", f:"Dickens",  bdate:"10 Nov", b:"1827", ddate:"", d:"1866", 
 bplace:"London", dplace:"",
 a:"208735037,372746738634", thumb:true, male:true, p:true,
 father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Railway engineer",
@@ -324,7 +395,16 @@ Page: 256
 },//m
 
 events: {
-// data
+"1851-03-30": {
+type: 'census',
+census: '1851_dickens_charles_john_huffam_1812',
+relation: "visitor",
+occ: "merchant's clerk",
+notes: `Robert Davey was a 52 year old medical practitioner.
+The visitors included {dickens_augustus_1827:kx0}'s mother, {barrow_elizabeth_culliford_1789:k}, living on an annuity and already described as a widow, {dickens_charles_john_huffam_1812:k}, author, and his brothers {dickens_alfred_lamert_1822:k}, an engineer, and {dickens_augustus_1827:k}, a merchant's clerk. Also there were {dickens_charles_john_huffam_1812:kx0}'s daughter {dickens_letitia_1816:k}, her husband Henry Austin<sup class="ageTag">38</sup>, an engineer, and Henry's mother Elizabeth Austin<sup class="ageTag">64</sup>, an annuitant. Finally there were two visitors born in Jamaica, Elizabeth Dorothy Smithson<sup class="ageTag">40</sup>, and Amelia Thompson<sup class="ageTag">42</sup>, both annuitants.
+The servants were Rosanna Green<sup class="ageTag">30</sup>, cook (born in Dublin), Emma Riley<sup class="ageTag">24</sup>, house maid, and Frances Bousfield<sup class="ageTag">43</sup>, a general maid.
+His father, {dickens_john_1785:kf}, is not listed at this address, but this is the abode given in his burial record. His date of death is given as the following day, so the family members were presumably gathered together on this account.`
+},
 },//e
 },//p
 
@@ -394,7 +474,46 @@ Page: 235
 },//b
 
 death: {
-// data
+timestamp: "1929-05-09",
+of: "3 Argyll Mansions, Beaufort Street, Chelsea MDX",
+age: "89",
+burplace: "St Nicholas Churchyard, Sevenoaks KEN",
+namedInProbate: "dickens_henry_fielding_1849",
+probate: `PERUGINI Katherine Elizabeth Macready otherwise Kate Elizabeth Macready of 3 Argyll-mansions Beaufort-street Chelsea Middlesex widow died 9 May 1929 Probate London 27 June to sir Henry Fielding Dickens knight.  Effects £5058 0s. 3d. Resworn £5693 19s. 8d.`,
+sources: `
+SOURCE: England & Wales, Civil Registration Death Index, 1916-2007  https://www.ancestry.co.uk/search/collections/7579/records/15203415
+Name: Kate M Perugini
+Death Age: 89
+Birth Date: abt 1840
+Registration Date: Apr 1929
+Registration Quarter: Apr-May-Jun
+Registration District: Chelsea
+Inferred County: London
+Volume: 1a
+Page: 444
+
+SOURCE: England & Wales, National Probate Calendar (Index of Wills and Administrations), 1858-1995  https://www.ancestry.co.uk/search/collections/1904/records/3426901
+Name: Katherine Elizabeth Macready Perugini
+Death Date: 9 May 1929
+Death Place: Middlesex, England
+Probate Date: 27 Jun 1929
+Probate Registry: London, England
+
+SOURCE: UK and Ireland, Find a Grave® Index, 1300s-Current  https://www.ancestry.co.uk/search/collections/60526/records/752878
+Name: Catherine Elizabeth Macready Perugini
+Maiden Name: Dickens
+Gender: Female
+Birth Date: 29 Oct 1839
+Death Date: 9 May 1929
+Cemetery: St Nicholas Churchyard
+Burial or Cremation Place: Sevenoaks, Sevenoaks District, Kent, England
+Has Bio?: Y
+Father: Charles Dickens
+Mother: Catherine Thomson Dickens
+Spouse: Charles Allston Collins
+Children: Leonard Ralph Dickens Perugini
+URL: https://www.findagrave.com/memorial/98501965/catherine-elizabeth_macready-perugini
+`
 },//d
 
 marriages: {
@@ -464,7 +583,46 @@ Witnesses: Francis Jeffrey Dickens, Mary Dickens, Georgina Hogarth, John Everett
 },//m
 
 events: {
-// data
+"1841-06-06": {
+type: 'census',
+census: '1841_dickens_charles_john_huffam_1812',
+relation: "child",
+occ: "",
+notes: `{dickens_charles_john_huffam_1812:kx} was a gentleman.
+The children were {dickens_charles_culliford_boz_1837:k}, {dickens_mary_1838:k}, {dickens_catherine_elizabeth_macready_1839:k}, and {dickens_walter_savage_landor_1841:k} (aged 4 months).`,
+},
+"1861-04-07": {
+type: "census",
+census: "1861_collins_charles_allston_1828",
+relation: "wife",
+occ: "",
+notes: `{collins_charles_allston_1828:kx0} was an author and journalist. 
+The servant at the house was Mary Bull<sup class="ageTag">22</sup>, a general house servant.`,
+},
+"1871-04-02": {
+type: "census",
+census: "1871_collins_charles_allston_1828",
+relation: "wife",
+occ: "working with literature",
+notes: `{collins_charles_allston_1828:kx0} was working with literature, as was his wife.
+The servants at the house were Maria Crombie<sup class="ageTag">25</sup>, domestic servant,  and Emma Pratt<sup class="ageTag">19</sup>, cook.`,
+},
+"1881-04-03": {
+type: "census",
+census: "1881_perugini_charles_edward_1839",
+relation: "wife",
+occ: "artist and painter",
+notes: `{perugini_charles_edward_1839:kx0} was an artist and painter, as was his wife.
+The servants at the house were Sarah Hercombe<sup class="ageTag">40</sup>, cook, Emily Smith<sup class="ageTag">23</sup>, parlour maid,  and Susan E Williams<sup class="ageTag">20</sup>, ladies maid.`,
+},
+"1891-04-05": {
+type: "census",
+census: "1891_perugini_charles_edward_1839",
+relation: "wife",
+occ: "artist & sculptress",
+notes: `{perugini_charles_edward_1839:kx0} was an artist. His wife {dickens_catherine_elizabeth_macready_1839:kx0} was an artist & sculptress.
+The servants at the house were Emily Smith<sup class="ageTag">32</sup>, Mary Venns<sup class="ageTag">24</sup>,  and Rachel Bando<sup class="ageTag">27</sup>.`,
+},
 },//e
 },//p
 
@@ -740,7 +898,7 @@ census: '1851_dickens_charles_john_huffam_1812',
 relation: "visitor",
 occ: "Author",
 notes: `Robert Davey was a 52 year old medical practitioner.
-The visitors included {dickens_charles_john_huffam_1812:kx0}'s mother, {barrow_elizabeth_culliford_1789:k},  widowed and living on an annuity, {dickens_charles_john_huffam_1812:kx0}, described as an author, and his brothers {dickens_alfred_allen_1813:k},  an engineer, and {dickens_augustus_1827:k},  a merchant's clerk. Also there were his sister {dickens_letitia_1816:k},  her husband Henry Austin<sup class="ageTag">38</sup>, an engineer, and his mother Elizabeth Austin<sup class="ageTag">64</sup>, an annuitant. Finally there were two visitors born in Jamaica, Elizabeth Dorothy Smithson<sup class="ageTag">40</sup>, and Amelia Thompson<sup class="ageTag">42</sup>, both annuitants.
+The visitors included {dickens_charles_john_huffam_1812:kx0}'s mother, {barrow_elizabeth_culliford_1789:k},  living on an annuity and already described as a widow, {dickens_charles_john_huffam_1812:k}, author, and his brothers {dickens_alfred_lamert_1822:k}, an engineer, and {dickens_augustus_1827:k}, a merchant's clerk. Also there were his sister {dickens_letitia_1816:k}, her husband Henry Austin<sup class="ageTag">38</sup>, an engineer, and his mother Elizabeth Austin<sup class="ageTag">64</sup>, an annuitant. Finally there were two visitors born in Jamaica, Elizabeth Dorothy Smithson<sup class="ageTag">40</sup>, and Amelia Thompson<sup class="ageTag">42</sup>, both annuitants.
 The servants were Rosanna Green<sup class="ageTag">30</sup>, cook (born in Dublin), Emma Riley<sup class="ageTag">24</sup>, house maid, and Frances Bousfield<sup class="ageTag">43</sup>, a general maid.
 His father, {dickens_john_1785:kf}, is not listed at this address, but this is the abode given in his burial record. His date of death is given as the following day, so the family members were presumably gathered together on this account.`
 },
@@ -855,7 +1013,15 @@ marriages: {
 },//m
 
 events: {
-// data
+"1861-04-07": {
+type: 'census',
+census: '1861_dickens_charles_john_huffam_1812',
+relation: "child",
+occ: "secretary",
+notes: `{dickens_charles_john_huffam_1812:kx} is described as an author, novelist, essayist & editor. His wife is not at the house because they had separated three years before.
+The children were {dickens_mary_1838:k},  {dickens_francis_jeffrey_1844:k}, a secretary, and {dickens_edward_bulwer_lytton_1852:k}, at school.
+The servants included aunt {hogarth_georgina_1827:kf}, the housekeeper, and Susannah Cooper<sup class="ageTag">51</sup>, the cook, Matilda Bush<sup class="ageTag">29</sup>, a housemaid, and Agnes Garrod<sup class="ageTag">21</sup>, a parlour maid.`
+},
 },//e
 },//p
 
@@ -966,7 +1132,15 @@ marriages: {
 },//m
 
 events: {
-// data
+"1861-04-07": {
+type: 'census',
+census: '1861_dickens_charles_john_huffam_1812',
+relation: "child",
+occ: "secretary",
+notes: `{dickens_charles_john_huffam_1812:kx} is described as an author, novelist, essayist & editor. His wife is not at the house because they had separated three years before.
+The children were {dickens_mary_1838:k},  {dickens_francis_jeffrey_1844:k}, a secretary, and {dickens_edward_bulwer_lytton_1852:k}, at school.
+The servants included aunt {hogarth_georgina_1827:kf}, the housekeeper, and Susannah Cooper<sup class="ageTag">51</sup>, the cook, Matilda Bush<sup class="ageTag">29</sup>, a housemaid, and Agnes Garrod<sup class="ageTag">21</sup>, a parlour maid.`
+},
 },//e
 },//p
 
@@ -1247,7 +1421,38 @@ marriages: {
 },//m
 
 events: {
-// data
+"1841-06-06": {
+type: 'census',
+census: '1841_dickens_charles_john_huffam_1812',
+relation: "wife",
+occ: "",
+notes: `{dickens_charles_john_huffam_1812:kx} was a gentleman.
+The children were {dickens_charles_culliford_boz_1837:k}, {dickens_mary_1838:k}, {dickens_catherine_elizabeth_macready_1839:k}, and {dickens_walter_savage_landor_1841:k} (aged 4 months).`,
+},
+"1851-03-03": {
+type: "census",
+census: "1851_hogarth_catherine_thompson_1815",
+relation: "visitor",
+notes: `{hogarth_catherine_thompson_1815:kfm} and her sister {hogarth_georgina_1827:kfm} were taking the waters at the Knotsford Lodge, Malvern. The lodge keeper was George Hicks<sup class="ageTag">39</sup>, who was there with his wife Martha Hicks<sup class="ageTag">41</sup>. There were 9 other guests at the Lodge at the time, and 8 servants.`,
+},
+"1861-04-07": {
+type: 'census',
+census: '1861_dickens_charles_john_huffam_1812',
+relation: "wife",
+occ: "",
+notes: `{dickens_charles_john_huffam_1812:kx} is described as an author, novelist, essayist & editor. His wife is not at the house because they had separated three years before.
+The children were {dickens_mary_1838:k},  {dickens_francis_jeffrey_1844:k},  a secretary, and {dickens_edward_bulwer_lytton_1852:k}, at school.
+The servants included Georgina Hogarth<sup class="ageTag">34</sup>, his wife's sister,  the housekeeper, and Susannah Cooper<sup class="ageTag">51</sup>, the cook, Matilda Bush<sup class="ageTag">29</sup>, a housemaid, and Agnes Garrod<sup class="ageTag">21</sup>, a parlour maid.`
+},
+"1871-04-02": {
+type: "census",
+census: "1871_hogarth_catherine_thompson_1815",
+relation: "head",
+occ: "annuitant",
+notes: `{hogarth_catherine_thompson_1815:kx0} was an annuitant. 
+The child was step-daughter Mary A Dickens<sup class="ageTag">8</sup>, at school.
+The servants at the house were Shared? Stattedy?<sup class="ageTag">40</sup>, cook, and Matilda Wright<sup class="ageTag">27</sup>, housemaid.`,
+},
 },//e
 },//p
 
@@ -1293,7 +1498,16 @@ marriages: {
 },//m
 
 events: {
-// data
+"1851-03-30": {
+type: 'census',
+census: '1851_dickens_charles_john_huffam_1812',
+relation: "visitor",
+occ: "",
+notes: `Robert Davey was a 52 year old medical practitioner.
+The visitors included {dickens_augustus_1827:kx0}'s mother, {barrow_elizabeth_culliford_1789:k}, living on an annuity and already described as a widow, {dickens_charles_john_huffam_1812:k}, author, and his brothers {dickens_alfred_lamert_1822:k}, an engineer, and {dickens_augustus_1827:k}, a merchant's clerk. Also there were {dickens_charles_john_huffam_1812:kx0}'s daughter {dickens_letitia_1816:k}, her husband Henry Austin<sup class="ageTag">38</sup>, an engineer, and Henry's mother Elizabeth Austin<sup class="ageTag">64</sup>, an annuitant. Finally there were two visitors born in Jamaica, Elizabeth Dorothy Smithson<sup class="ageTag">40</sup>, and Amelia Thompson<sup class="ageTag">42</sup>, both annuitants.
+The servants were Rosanna Green<sup class="ageTag">30</sup>, cook (born in Dublin), Emma Riley<sup class="ageTag">24</sup>, house maid, and Frances Bousfield<sup class="ageTag">43</sup>, a general maid.
+His father, {dickens_john_1785:kf}, is not listed at this address, but this is the abode given in his burial record. His date of death is given as the following day, so the family members were presumably gathered together on this account.`
+},
 },//e
 },//p
 
@@ -1341,7 +1555,23 @@ marriages: {
 },//m
 
 events: {
-// data
+"1841-06-06": {
+type: 'census',
+census: '1841_dickens_charles_john_huffam_1812',
+relation: "child",
+occ: "",
+notes: `{dickens_charles_john_huffam_1812:kx} was a gentleman.
+The children were {dickens_charles_culliford_boz_1837:k}, {dickens_mary_1838:k}, {dickens_catherine_elizabeth_macready_1839:k}, and {dickens_walter_savage_landor_1841:k} (aged 4 months).`,
+},
+"1861-04-07": {
+type: 'census',
+census: '1861_dickens_charles_john_huffam_1812',
+relation: "child",
+occ: "",
+notes: `{dickens_charles_john_huffam_1812:kx} is described as an author, novelist, essayist & editor. His wife is not at the house because they had separated three years before.
+The children were {dickens_mary_1838:k},  {dickens_francis_jeffrey_1844:k}, a secretary, and {dickens_edward_bulwer_lytton_1852:k}, at school.
+The servants included aunt {hogarth_georgina_1827:kf}, the housekeeper, and Susannah Cooper<sup class="ageTag">51</sup>, the cook, Matilda Bush<sup class="ageTag">29</sup>, a housemaid, and Agnes Garrod<sup class="ageTag">21</sup>, a parlour maid.`
+},
 },//e
 },//p
 
@@ -1430,17 +1660,58 @@ marriages: {
 },//m
 
 events: {
-// data
+"1841-06-06": {
+type: 'census',
+census: '1841_dickens_charles_john_huffam_1812',
+relation: "child",
+occ: "",
+notes: `{dickens_charles_john_huffam_1812:kx} was a gentleman.
+The children were {dickens_charles_culliford_boz_1837:k}, {dickens_mary_1838:k}, {dickens_catherine_elizabeth_macready_1839:k}, and {dickens_walter_savage_landor_1841:k} (aged 4 months).`,
+},
 },//e
 },//p
 
 
-perugini_charles_edward_1839:{
-g:"Charles Edward", k:"", f:"Perugini", bdate:"1 Sep", b:"1839", ddate:"22 Dec", d:"1918",
-bplace:"Naples, IT", dplace:"London", thumb:true, male:true, p:true,
+perugini_charles_edward_1839:{     provisional: true,
+warning: "Only partially researched.",
+g:"Charles Edward", k:"Charles", f:"Perugini",  bdate:"1 Sep", b:"1839", ddate:"22 Dec", d:"1918", 
+bplace:"Naples, IT", dplace:"London",
+a:"", thumb:true, male:true, p:true,
 father:"", mother:"", occ:"Artist, writer",
-fg:[["1874", "dickens_catherine_elizabeth_macready_1839", "perugini_leonard_ralph_dickens_1876"]]
+fg: [["1874", "dickens_catherine_elizabeth_macready_1839", "perugini_leonard_ralph_dickens_1876"]],
+
+birth: {
+// data
+},//b
+
+death: {
+// data
+},//d
+
+marriages: {
+// data
+},//m
+
+events: {
+"1881-04-03": {
+type: "census",
+census: "1881_perugini_charles_edward_1839",
+relation: "head",
+occ: "artist and painter",
+notes: `{perugini_charles_edward_1839:kx0} was an artist and painter, as was his wife.
+The servants at the house were Sarah Hercombe<sup class="ageTag">40</sup>, cook, Emily Smith<sup class="ageTag">23</sup>, parlour maid,  and Susan E Williams<sup class="ageTag">20</sup>, ladies maid.`,
 },
+"1891-04-05": {
+type: "census",
+census: "1891_perugini_charles_edward_1839",
+relation: "head",
+occ: "artist",
+notes: `{perugini_charles_edward_1839:kx0} was an artist. His wife {dickens_catherine_elizabeth_macready_1839:kx0} was an artist & sculptress.
+The servants at the house were Emily Smith<sup class="ageTag">32</sup>, Mary Venns<sup class="ageTag">24</sup>,  and Rachel Bando<sup class="ageTag">27</sup>.`,
+},
+},//e
+},//p
+
 
 perugini_leonard_ralph_dickens_1876:{
 g:"Leonard Ralph Dickens", k:"", f:"Perugini", bdate:"", b:"1876", ddate:"24 Jul", d:"1876",
@@ -1560,7 +1831,20 @@ father:"hogarth_george_1783", mother:"thomson_georgina_1793", occ:"",
 cstatus:"No spouse. No children.",
 
 birth: {
-// data
+timestamp: "1827-01-22",
+athome: "hogarth_george_1783 thomson_georgina_1793",
+bapplace: "Tolbooth Church, Edinburgh, Midlothian, Scotland",
+bapyear: "1827",
+bapdate: "18 Apr",
+sources: `
+SOURCE: Scotland, Select Births and Baptisms, 1564-1950  https://www.ancestry.co.uk/search/collections/60143/records/6971209,
+Name: Georgina Hogarth
+Gender: Female
+Baptism Date: 18 Apr 1827
+Baptism Place: Tolbooth Church, Edinburgh, Midlothian, Scotland
+Residence Place: Edinburgh, Midlothian, Scotland
+Father: George Hogarth
+`,
 },//b
 
 death: {
@@ -1572,7 +1856,21 @@ marriages: {
 },//m
 
 events: {
-// data
+"1851-03-03": {
+type: "census",
+census: "1851_hogarth_catherine_thompson_1815",
+relation: "visitor",
+notes: `{hogarth_catherine_thompson_1815:kfm} and her sister {hogarth_georgina_1827:kfm} were taking the waters at the Knotsford Lodge, Malvern. The lodge keeper was George Hicks<sup class="ageTag">39</sup>, who was there with his wife Martha Hicks<sup class="ageTag">41</sup>. There were 9 other guests at the Lodge at the time, and 8 servants.`,
+},
+"1861-04-07": {
+type: 'census',
+census: '1861_dickens_charles_john_huffam_1812',
+relation: "serv",
+occ: "housekeeper",
+notes: `{dickens_charles_john_huffam_1812:kx} is described as an author, novelist, essayist & editor. His wife is not at the house because they had separated three years before.
+The children were {dickens_mary_1838:k},  {dickens_francis_jeffrey_1844:k},  a secretary, and {dickens_edward_bulwer_lytton_1852:k}, at school.
+The servants included {hogarth_georgina_1827:k}, the housekeeper, and Susannah Cooper<sup class="ageTag">51</sup>, the cook, Matilda Bush<sup class="ageTag">29</sup>, a housemaid, and Agnes Garrod<sup class="ageTag">21</sup>, a parlour maid.`
+},
 },//e
 },//p
 

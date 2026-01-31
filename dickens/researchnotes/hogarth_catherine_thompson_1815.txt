@@ -53,17 +53,20 @@ Age,Name,Latitude,Longitude,Precision
 
 
 
-db[thisPerson].events["TIMESTAMP"] = {
+db[thisPerson].events["1851-03-31"] = {
 type: "note",
-title: "TITLE",
+title: "Malvern hydrotherapy",
 notes: `
-Always_visible_intro_goes_here
+While Charles's father was dying in London, Catherine and Georgina were taking the waters in Malvern. The Malvern Gazette has a piece describing the relationship of the Dickens family with Malvern. Extract below.
 <section class="life_context">
 <details><summary>Details</summary>
-<p>CONTENT_GOES_HERE</p>
-<p><small>Created by AI</small></p>
+quote: At that time his wife Catherine was suffering from depression, described by her medical adviser as “a tendency of blood to the head and alarming confusion and nervousness”, following the birth of their ninth child Dora so she was sent to Great Malvern for the Water Cure. Specifically, a ‘rigorous discipline of exercise, air and cold water’.
+quote: Catherine was treated by Dr Wilson.
+quote: She stayed at Knotsford Lodge, a boarding house adjacent to which the Abbey Hotel was built in 1848, and Dickens would take a room there when visiting her.
+quote: Fortunately, Catherine recovered, claiming to feel ‘a great deal better’ just a week after she arrived. 
 </details>
 </section>
-`
+`,
+sources: `SOURCE: Malvern Gazette https://www.malverngazette.co.uk/news/24926269.charles-dickens-mr-nightingales-diary-malvern/`,
 }
 
