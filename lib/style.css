@@ -417,7 +417,7 @@ article {
 
 
 #allSiblings a {
-    font-size: .9rem;
+    font-size: .8rem;
     text-transform: uppercase;
     }
 #allSiblings ul {
@@ -428,7 +428,9 @@ article {
 #allSiblings li {
     margin: 0;
     margin-inline: 1rem;
+    margin-block: .4rem;
     padding: 0;
+    line-height: 1.2;
     }
 
 
@@ -512,9 +514,6 @@ button {
     min-height: 9rem;
     font-size: 1.1rem;
     }
-#location_summary {
-    font-size: 1.1rem;
-    }
 
 .propagateButton {
     font-size:1.5rem; display: inline-block; margin-block:1.5rem; background:antiquewhite;
@@ -522,15 +521,16 @@ button {
 
 
 #summaryToggle {
-    font-size: 120%;
+    font-size: 1.1rem;
     color: #648200;
     cursor: pointer;
-    margin-block:3rem;
-    border: 1px solid lightgray;
-    padding: .5em;
-    border-radius: .5rem;
-    width: 6em;
     }
+#summaryToggle input {
+    display: none;
+    }
+#summaryToggle input[type="radio"]:checked + span {
+  font-weight: bold;
+}
 
 
 #lifeSummaryTable { }
@@ -586,10 +586,18 @@ button {
     vertical-align: top;
     }
 
+#summaryToggle {
+    font-variant: all-petite-caps;
+    }
+
 #summaryToggle p {
     margin-block: .25rem;
     font-size: 90%;
     line-height: 1.2;
+    }
+#summaryToggle input[checked] {
+    font-weight: bold;
+    font-variant: small-caps;
     }
 
 
@@ -597,3 +605,23 @@ button {
 .life_summary a {
     color: chocolate;
     }
+#location_summary {
+    font-size: 100%;
+    color: #648200;
+    cursor: pointer;
+    margin-block: 1rem;
+    border: 1px solid lightgray;
+    padding: .5em;
+    border-radius: .5rem;
+    width: 7.5rem;
+    margin-inline-start: -.3rem;
+    margin-block-start: .2rem;
+    margin-block-end: 2rem;
+    }
+#location_summary img {
+    height: 1rem;
+    vertical-align: baseline;
+    margin-inline-start: -1.6rem;
+    float: inline-start;
+    }
+
