@@ -57,9 +57,11 @@ details a {
     top: 0; 
     display:flex;
     flex-direction: column-reverse;
-    width: 1.6rem; 
+    width: 1.6rem;
+    width: 2rem;
     justify-content: space-around;
     background: transparent;
+    background: #706B63;
     border-bottom-left-radius: 1rem;
     text-align: center;
     font-size: 1.6rem;
@@ -75,8 +77,8 @@ details a {
     padding: 0;
     }
 
-.tag {font-weight:normal; font-family:serif; background:tan; color:white; min-width:1.2rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
-.atag {font-weight:normal; font-family:serif; background:coral; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+.tag {font-weight:normal; font-family:serif; background:coral; color:white; min-width:1.2rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+.atag {font-weight:normal; font-family:serif; background:tan; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
 .itag {font-weight:normal; font-family:serif; background:#d1c9b0; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
 
 
@@ -93,7 +95,108 @@ details[open] > summary.lineHead::before { content: '\25BC'; }
 details[open] > summary.lineEnd::before { content: '\25CF'; }
 details[open] > summary.lineTBD::before { content: '\25CB'; }
 
+
+/* ===== GENERAL LINK & ICON STYLING ===== */
+
+a.personLink {
+	color: black;
+	float: none;
+	text-decoration: none;
+}
+
+a.icon {
+	margin-inline: .1rem;
+	opacity: 80%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a.icon:hover {
+	opacity: 100%;
+}
+
+/* copy icon image */
+.icon img {
+	height: 1em;
+	width: 1em;
+	margin-inline-start: .5em;
+}
+
+/* flags */
+a.flag {
+	margin-inline: .1rem;
+	opacity: 80%;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 1em;
+	line-height: 1;
+}
+
+a.flag:hover {
+	opacity: 100%;
+}
+
+/* ===== SUMMARY HEAD ===== */
+
+.lineHead {
+	/* your existing summary styling goes here */
+}
+
+.lineHead.thisPerson {
+	color: chocolate;
+	font-size: 1.4rem;
+}
+
+/* ===== TEXT FIELDS ===== */
+
+span.n {
+	/* name wrapper */
+}
+
+span.dates {
+	/* birth–death */
+}
+
+span.bplace {
+	/* birthplace */
+}
+
+span.occ {
+	/* occupation */
+}
+
+/* spouse line */
+p.spouse {
+	/* spacing, indentation, etc. */
+    font-style: normal;
+}
+
+span.spousen {
+	/* spouse name wrapper */
+}
+.spousen a.personLink {
+    color: tan;
+}
+
+
+/* markers */
+.itag {
+	/* intro marker */
+}
+
+.atag {
+	/* a marker */
+}
+
+.tag {
+	/* ✓ marker */
+}
+
 </style>
+
+
+
+
 
 <script>
 var families = []
@@ -112,7 +215,7 @@ function closeAll () {
     first.style.marginLeft = '0'
     }
 
-function findFamily (id) {
+function findFamilyX (id) {
 	out = ''
 	if (db[id] && db[id].fg) {
 		var person = db[id]
@@ -133,7 +236,7 @@ function findFamily (id) {
     
         if (person.cstatus) out += ' <strong>&bull;</strong>'
         //out += ' <a href="tree.html?project='+window.project+'&person='+id+'" title="Go to Relationships page.">⏳</a>'
-        out += ' <span class="spacer">&nbsp;</span>'
+        /*out += ' <span class="spacer">&nbsp;</span>'
         out += ` <a href="javascript:void(0)" 
             title="Copy id to clipboard" 
             style="margin-inline:.1rem; opacity:80%; cursor:pointer;"><img 
@@ -143,7 +246,7 @@ function findFamily (id) {
         out += ` <a href="precedents.html?project=${ window.project }&person=${ id }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏫</a>`
         out += ` <a href="descendants.html?project=${ window.project }&person=${ id }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏬</a>`
         out += ` <a href="tree.html?project=${ window.project }&person=${ id }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏳</a>`
-        out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`
+        out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`*/
 
         // add a flag for persons born less than 100 years ago 
         if (person.b > window.currentYear-100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Born less than 100 years ago." style="margin-inline:.1rem; opacity:80%;">🚩</a>`
@@ -152,6 +255,11 @@ function findFamily (id) {
         out += ' <span class="bplace">'+person.bplace+'</span>'
         out += ' <span class="occ">'+person.occ+'</span>'
         out += '</summary>'
+
+
+
+
+
 
 		// show the family group
 		for (var g=0;g<fg.length;g++) {
@@ -168,7 +276,7 @@ function findFamily (id) {
                 if (person.tagged) out += ' <span class="tag">\u2713</span>'
     
                 //out += `<a href="tree.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Go to Relationships page.">⏳</a></span>`
-                out += ' <span class="spacer">&nbsp;</span>'
+                /*out += ' <span class="spacer">&nbsp;</span>'
                 out += ` <a href="javascript:void(0)" 
                     title="Copy id to clipboard" 
                     style="margin-inline:.1rem; opacity:80%; cursor:pointer;"><img 
@@ -178,7 +286,7 @@ function findFamily (id) {
                 out += ` <a href="precedents.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Show ancestors" style="margin-inline:.1rem; opacity:80%;">⏫</a>`
                 out += ` <a href="descendants.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Show descendants" style="margin-inline:.1rem; opacity:80%;">⏬</a>`
                 out += ` <a href="tree.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏳</a>`
-                out += ` <a href="person.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`
+                out += ` <a href="person.html?project=${ window.project }&person=${ person.fg[g][1] }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`*/
 
                 // add a flag for persons born less than 100 years ago 
                 if (db[person.fg[g][1]].b > window.currentYear-100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">🚩</a>`
@@ -215,7 +323,7 @@ function findFamily (id) {
 //        if (person.cstatus) out += '<strong>&bull;</strong>'
 //        else out += '...'
         //out += ' <a href="tree.html?project='+window.project+'&person='+id+'" title="Go to Relationships page.">⏳</a>'
-        out += ' <span class="spacer">&nbsp;</span>'
+        /*out += ' <span class="spacer">&nbsp;</span>'
         out += ` <a href="javascript:void(0)" 
             title="Copy id to clipboard" 
             style="margin-inline:.1rem; opacity:80%; cursor:pointer;"><img 
@@ -225,7 +333,7 @@ function findFamily (id) {
         out += ` <a href="precedents.html?project=${ window.project }&person=${ id }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏫</a>`
         out += ` <a href="descendants.html?project=${ window.project }&person=${ id }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏬</a>`
         out += ` <a href="tree.html?project=${ window.project }&person=${ id }" title="Show relationships" style="margin-inline:.1rem; opacity:80%;">⏳</a>`
-        out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`
+        out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">📄</a>`*/
 
         // add a flag for persons born less than 100 years ago 
         if (person.b > window.currentYear-100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">🚩</a>`
@@ -238,6 +346,269 @@ function findFamily (id) {
         }
    return out
 	}
+
+
+
+function findFamilyXX (id) {
+	// local output accumulator
+	let out = ''
+
+	// case 1: person exists and has a family group
+	if (db[id] && db[id].fg) {
+		let person = db[id]
+		let fg = person.fg
+
+		// open details wrapper
+		out += '<details>'
+
+		// summary head
+		out += `<summary class="lineHead"`
+		if (id === window.thisPerson) out += ` style="color:chocolate; font-size: 1.4rem;"`
+		out += `><span class="n"><input type="checkbox" checked title="${ id }" onclick="if (this.checked===false) clearChecks(this.parentNode.parentNode.parentNode)"> <a href="tree.html?project=${ project }&person=${ id }" style="float:none; color: black;">${ person.g } <strong>${ person.f }</strong></a></span>`
+
+		// optional markers
+		if (person.intro) out += ' <span class="itag">i</span>'
+		if (person.a) out += ' <span class="atag">a</span>'
+		if (person.tagged) out += ' <span class="tag">✓</span>'
+		if (person.cstatus) out += ' <strong>&bull;</strong>'
+
+		// flag for <100 years
+		if (person.b > window.currentYear - 100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Born less than 100 years ago." style="margin-inline:.1rem; opacity:80%;">🚩</a>`
+
+		// basic fields
+		out += ' <span class="dates">' + person.b + '–' + person.d + '</span>'
+		out += ' <span class="bplace">' + person.bplace + '</span>'
+		out += ' <span class="occ">' + person.occ + '</span>'
+		out += '</summary>'
+
+		// iterate family groups
+		for (let g = 0; g < fg.length; g++) {
+			// spouse exists in db
+			if (db[person.fg[g][1]]) {
+				let sid = person.fg[g][1]
+				let spouse = db[sid]
+
+				// spouse line
+				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ sid }"> <a href="tree.html?project=${ project }&person=${ sid }" style="float:none; color: black;">${ spouse.g } ${ spouse.f }</a>`
+
+				// optional markers
+				if (person.intro) out += ' <span class="itag">i</span>'
+				if (person.a) out += ' <span class="atag">a</span>'
+				if (person.tagged) out += ' <span class="tag">✓</span>'
+
+				// spouse <100 years flag
+				if (spouse.b > window.currentYear - 100) out += ` <a href="person.html?project=${ window.project }&person=${ sid }" title="Show details" style="margin-inline:.1rem; opacity:80%;">🚩</a>`
+
+				// spouse details
+				out += ' <span class="dates">' + spouse.b + '–' + spouse.d + ', &nbsp; marr ' + person.fg[g][0] + '</span>'
+				out += ' <span class="bplace">' + spouse.bplace + '</span>'
+				out += ' <span class="occ">' + spouse.occ + '</span>'
+				out += '</span></p>'
+			}
+
+			// spouse not in db (string only)
+			else if (person.fg[g][1]) {
+				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ id }"> ${ person.fg[g][1] }</span></p>`
+			}
+
+			// children
+			for (let i = 2; i < person.fg[g].length; i++) out += findFamily(person.fg[g][i])
+		}
+
+		out += '</details>'
+	}
+
+	// case 2: person exists but has no family group
+	else if (db[id]) {
+		let person = db[id]
+
+		out += '<details>'
+		out += '<summary'
+
+		// choose class based on completion status
+		if (person.cstatus) out += ' class="lineEnd"'
+		else out += ' class="lineTBD"'
+
+		out += `><span class="n"><input type="checkbox" checked title="${ id }"> ${ person.g } ${ person.f }</span>`
+
+		// optional markers
+		if (person.intro) out += ' <span class="itag">i</span>'
+		if (person.a) out += ' <span class="atag">a</span>'
+		if (person.tagged) out += ' <span class="tag">✓</span>'
+
+		// <100 years flag
+		if (person.b > window.currentYear - 100) out += ` <a href="person.html?project=${ window.project }&person=${ id }" title="Show details" style="margin-inline:.1rem; opacity:80%;">🚩</a>`
+
+		// basic fields
+		out += ' <span class="dates">' + person.b + '–' + person.d + '</span>'
+		out += ' <span class="occ">' + person.occ + '</span>'
+		out += ' <span class="bplace">' + person.bplace + '</span>'
+		out += '</summary>'
+		out += '</details>'
+	}
+
+	// return accumulated HTML
+	return out
+}
+
+
+
+
+// checkbox + name link for a person
+function renderPersonName (id, g, f) {
+	return `<span class="n"><input type="checkbox" checked title="${ id }"> <a class="personLink" href="tree.html?project=${ project }&person=${ id }">${ g } <strong>${ f }</strong></a></span>`
+}
+
+// checkbox + name link for a spouse
+function renderSpouseName (id, g, f) {
+	return `<span class="spousen"><input type="checkbox" checked title="${ id }"> <a class="personLink" href="tree.html?project=${ project }&person=${ id }">${ g } ${ f }</a>`
+}
+
+// markers (i, a, ✓)
+function renderMarkers (person) {
+	let out = ''
+	if (person.intro) out += ' <span class="itag">i</span>'
+	if (person.a) out += ' <span class="atag">a</span>'
+	if (person.tagged) out += ' <span class="tag">✓</span>'
+	return out
+}
+
+// flag logic (⚐ or ⚑)
+function renderFlagX (b, d, id) {
+	if (b <= window.currentYear - 100) return ''
+	let flag = d ? '⚐' : '⚑'
+	return ` <a class="flag" href="person.html?project=${ window.project }&person=${ id }" title="Born less than 100 years ago.">${ flag }</a>`
+}
+function renderFlag (b, d, id) {
+	let birth = Number(b)
+
+	// only show flag if birth year is a valid number AND <100 years ago
+	if (!birth || birth <= window.currentYear - 100) return ''
+
+	let flag = d ? '⚐' : '⚑'
+	return ` <a class="flag" href="person.html?project=${ window.project }&person=${ id }" title="Born less than 100 years ago.">${ flag }</a>`
+}
+
+
+// dates span
+function renderDates (b, d, marr) {
+	if (marr) return ` <span class="dates">${ b }–${ d }, &nbsp; marr ${ marr }</span>`
+	return ` <span class="dates">${ b }–${ d }</span>`
+}
+
+// birthplace span
+function renderBirthplace (place) {
+	return ` <span class="bplace">${ place }</span>`
+}
+
+// occupation span
+function renderOccupation (occ) {
+	return ` <span class="occ">${ occ }</span>`
+}
+
+
+
+function findFamily (id) {
+	// local output accumulator
+	let out = ''
+
+	// case 1: person exists and has a family group
+	if (db[id] && db[id].fg) {
+		let person = db[id]
+		let fg = person.fg
+
+		// open details wrapper
+		out += '<details>'
+
+		// summary head
+		out += `<summary class="lineHead"`
+		if (id === window.thisPerson) out += ` class="lineHead thisPerson"`
+		out += `>${ renderPersonName(id, person.g, person.f) }`
+
+		// markers
+		out += renderMarkers(person)
+
+		// flag
+		out += renderFlag(person.b, person.d, id)
+
+		// basic fields
+		out += renderDates(person.b, person.d)
+		out += renderBirthplace(person.bplace)
+		out += renderOccupation(person.occ)
+
+		out += '</summary>'
+
+		// iterate family groups
+		for (let g = 0; g < fg.length; g++) {
+			let sid = person.fg[g][1]
+
+			// spouse exists in db
+			if (db[sid]) {
+				let spouse = db[sid]
+
+				out += `<p class="spouse">${ renderSpouseName(sid, spouse.g, spouse.f) }`
+
+				// markers
+				out += renderMarkers(person)
+
+				// spouse flag
+				out += renderFlag(spouse.b, spouse.d, sid)
+
+				// spouse details
+				out += renderDates(spouse.b, spouse.d, person.fg[g][0])
+				out += renderBirthplace(spouse.bplace)
+				out += renderOccupation(spouse.occ)
+
+				out += '</span></p>'
+			}
+
+			// spouse not in db (string only)
+			else if (sid) {
+				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ id }"> ${ sid }</span></p>`
+			}
+
+			// children
+			for (let i = 2; i < person.fg[g].length; i++) out += findFamily(person.fg[g][i])
+		}
+
+		out += '</details>'
+	}
+
+	// case 2: person exists but has no family group
+	else if (db[id]) {
+		let person = db[id]
+
+		out += '<details>'
+		out += '<summary'
+
+		// choose class based on completion status
+		if (person.cstatus) out += ' class="lineEnd"'
+		else out += ' class="lineTBD"'
+
+		out += `>${ renderPersonName(id, person.g, person.f) }`
+
+		// markers
+		out += renderMarkers(person)
+
+		// flag
+		out += renderFlag(person.b, person.d, id)
+
+		// basic fields
+		out += renderDates(person.b, person.d)
+		out += renderOccupation(person.occ)
+		out += renderBirthplace(person.bplace)
+
+		out += '</summary>'
+		out += '</details>'
+	}
+
+	// return accumulated HTML
+	return out
+}
+
+
+
+
 
 function show (type) {
     var dates = document.querySelectorAll('.dates')
