@@ -25,8 +25,6 @@ document.head.appendChild(db);
 
 // get the name of the localStorage object that holds tagged items
 taggedRecords = project+'flags'
-
-
 </script>
 
 
@@ -47,7 +45,7 @@ details { margin-left: 3em; border-left: 1px solid #ccc; color: #333; /*border-b
 details[open] { width: auto; }
 .dates, .bplace, .occ { font-size: 70%; margin-left: 1em; color: gray; }
 details a { 
-    float:right;
+    /*float:right;*/
     /*border-radius: .2rem;
     background: gainsboro;*/
     font-size: 1rem;
@@ -86,8 +84,8 @@ details a {
     padding: 0;
     }
 
-.tag {font-weight:normal; font-family:serif; background:tan; color:white; min-width:1.2rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
-.atag {font-weight:normal; font-family:serif; background:coral; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+.tag {font-weight:normal; font-family:serif; background:coral; color:white; min-width:1.2rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
+.atag {font-weight:normal; font-family:serif; background:tan; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
 .itag {font-weight:normal; font-family:serif; background:#d1c9b0; color:white; min-width:1rem; display:inline-block; text-align:center; border-radius:5px; font-size:70%; }
 
 /* styles for summary marker - a bit kludgey until fully supported */
@@ -102,6 +100,29 @@ summary.lineTBD::before { content: '\25CB'; padding-right: 0.5em; }
 details[open] > summary.lineHead::before { content: '\25BC'; }
 details[open] > summary.lineEnd::before { content: '\25CF'; }
 details[open] > summary.lineTBD::before { content: '\25CB'; }
+
+
+
+/* auto highlight styling */
+.spouse-highlight {
+	background-color: antiquewhite;
+}
+
+.personLink {
+	color: black;
+	text-decoration: none;
+}
+
+.flag {
+	margin-inline: .1rem;
+	opacity: 80%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.flag:hover {
+	opacity: 100%;
+}
 
 </style>
 
@@ -127,7 +148,7 @@ function closeAll () {
     
 
 
-function returnName (personID) {
+/*function returnName (personID) {
     // get markup for a given id (person), will be called recursively
     console.log('returnName (person:',personID,')')
     if (typeof db[personID] === 'undefined' || personID === '') return ''
@@ -148,12 +169,12 @@ function returnName (personID) {
     
     if (personRec.tagged) out += ' <span class="tag">\u2713</span>'
     
-    out += ' <span class="spacer">&nbsp;</span>'
+    /*out += ' <span class="spacer">&nbsp;</span>'
     out += ` <a href="precedents.html?project=${ window.project }&person=${ personID }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">⏫</a>`
     out += ` <a href="descendants.html?project=${ window.project }&person=${ personID }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">⏬</a>`
     out += ` <a href="ancestors.html?project=${ window.project }&person=${ personID }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">🌳</a>`
     out += ` <a href="tree.html?project=${ window.project }&person=${ personID }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">⏳</a>`
-    out += ` <a href="person.html?project=${ window.project }&person=${ personID }" title="Show details" style="margin-inline:.1rem;">📄</a>`
+    out += ` <a href="person.html?project=${ window.project }&person=${ personID }" title="Show details" style="margin-inline:.1rem;">📄</a>`-/
     out += `</summary>`
 
         if (personRec.father) out += returnName(personRec.father)
@@ -175,12 +196,12 @@ function findFamily (id) {
 		out += `<summary class="lineHead"><span class="n" style="color:chocolate; font-size: 1.4rem;"><input type="checkbox" checked title="${ id }"> ${ person.g } ${ person.f }<\span>`
         if (person.cstatus) out += ' <strong>&bull;</strong>'
         
-        out += ' <span class="spacer">&nbsp;</span>'
+        /*out += ' <span class="spacer">&nbsp;</span>'
         out += ` <a href="precedents.html?project=${ window.project }&person=${ person }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">⏫</a>`
         out += ` <a href="descendants.html?project=${ window.project }&person=${ person }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">⏬</a>`
         out += ` <a href="ancestors.html?project=${ window.project }&person=${ person }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">🌳</a>`
         out += ` <a href="tree.html?project=${ window.project }&person=${ person }" title="Show relationships" style="opacity:80%; margin-inline:.1rem;">⏳</a>`
-        out += ` <a href="person.html?project=${ window.project }&person=${ person }" title="Show details">📄</a>`
+        out += ` <a href="person.html?project=${ window.project }&person=${ person }" title="Show details">📄</a>`-/
       
         out += ' <span class="dates">'+person.b+'–'+person.d+'</span>'
         out += ' <span class="bplace">'+person.bplace+'</span>'
@@ -195,6 +216,160 @@ function findFamily (id) {
 
    return out
 	}
+*/
+
+
+
+
+
+
+/* ===========================
+   HOVER HIGHLIGHT FUNCTIONS
+   =========================== */
+
+// get all spouse ids for a given person from fg
+function getSpouseIds (personID) {
+	let rec = db[personID]
+	if (!rec || !rec.fg) return []
+	let spouses = []
+	for (let g = 0; g < rec.fg.length; g++) {
+		let sid = rec.fg[g][1]
+		if (sid) spouses.push(sid)
+	}
+	return spouses
+}
+
+// add highlight to all spouse summaries
+function highlightSpouses (personID) {
+	if (!personID) return
+	let spouses = getSpouseIds(personID)
+	for (let i = 0; i < spouses.length; i++) {
+		let el = document.getElementById('person-' + spouses[i])
+		if (el) el.classList.add('spouse-highlight')
+	}
+}
+
+// remove highlight from all spouse summaries
+function unhighlightSpouses (personID) {
+	if (!personID) return
+	let spouses = getSpouseIds(personID)
+	for (let i = 0; i < spouses.length; i++) {
+		let el = document.getElementById('person-' + spouses[i])
+		if (el) el.classList.remove('spouse-highlight')
+	}
+}
+
+
+/* ===========================
+   HELPER FUNCTIONS
+   =========================== */
+
+// checkbox + name link for a person
+function renderPersonName (id, g, f) {
+	return `<span class="n"><input type="checkbox" checked title="${ id }"> <a class="personLink" onmouseover="highlightSpouses('${ id }')" onmouseout="unhighlightSpouses('${ id }')" href="tree.html?project=${ project }&person=${ id }">${ g } <strong>${ f }</strong></a></span>`
+}
+
+// markers (i, a, ✓)
+function renderMarkers (person) {
+	let out = ''
+	if (person.intro) out += ' <span class="itag">i</span>'
+	if (person.a) out += ' <span class="atag">a</span>'
+	if (person.tagged) out += ' <span class="tag">✓</span>'
+	return out
+}
+
+// flag logic (⚐ or ⚑)
+function renderFlag (b, d, id) {
+	let birth = Number(b)
+	if (!birth || birth <= window.currentYear - 100) return ''
+	let flag = d ? '⚐' : '⚑'
+	return ` <a class="flag" href="person.html?project=${ window.project }&person=${ id }" title="Born less than 100 years ago.">${ flag }</a>`
+}
+
+// dates span
+function renderDates (b, d, marr) {
+	if (marr) return ` <span class="dates">${ b }–${ d }, &nbsp; marr ${ marr }</span>`
+	return ` <span class="dates">${ b }–${ d }</span>`
+}
+
+// birthplace span
+function renderBirthplace (place) {
+	return ` <span class="bplace">${ place }</span>`
+}
+
+// occupation span
+function renderOccupation (occ) {
+	return ` <span class="occ">${ occ }</span>`
+}
+
+
+/* ===========================
+   ANCESTOR RECURSIVE FUNCTION
+   =========================== */
+
+function returnName (personID) {
+	if (typeof db[personID] === 'undefined' || personID === '') return ''
+
+	let out = ''
+	let personRec = db[personID]
+
+	out += '<details>'
+
+	// summary head with unique id for highlighting
+	out += `<summary id="person-${ personID }">${ renderPersonName(personID, personRec.g, personRec.f) }`
+	out += renderDates(personRec.b, personRec.d)
+	out += renderBirthplace(personRec.bplace)
+	out += renderOccupation(personRec.occ)
+	out += renderMarkers(personRec)
+	out += '</summary>'
+
+	// parents
+	if (personRec.father) out += returnName(personRec.father)
+	if (personRec.mother) out += returnName(personRec.mother)
+
+	out += '</details>'
+	return out
+}
+
+
+/* ===========================
+   ROOT PERSON + PARENTS
+   =========================== */
+
+function findFamily (id) {
+	let out = ''
+
+	if (db[id]) {
+		let person = db[id]
+
+		out += '<details>'
+
+		// root person summary with unique id
+		out += `<summary id="person-${ id }" class="lineHead">${ renderPersonName(id, person.g, person.f) }`
+		out += renderDates(person.b, person.d)
+		out += renderBirthplace(person.bplace)
+		out += renderOccupation(person.occ)
+		out += renderMarkers(person)
+		out += '</summary>'
+
+		// parents
+		out += returnName(person.father)
+		out += returnName(person.mother)
+
+		out += '</details>'
+	}
+
+	return out
+}
+
+
+
+
+
+
+
+
+
 
 function show (type) {
     var dates = document.querySelectorAll('.dates')
