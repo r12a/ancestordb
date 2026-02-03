@@ -266,8 +266,8 @@ function unhighlightSpouses (personID) {
 
 // checkbox + name link for a person
 function renderPersonName (id, g, f) {
-	return `<span class="n"><input type="checkbox" checked title="${ id }"> <a class="personLink" onmouseover="highlightSpouses('${ id }')" onmouseout="unhighlightSpouses('${ id }')" href="tree.html?project=${ project }&person=${ id }">${ g } <strong>${ f }</strong></a></span>`
-}
+	return `<span class="n"><input type="checkbox" checked title="${ id }"> <a class="personLink" onmouseover="highlightSpouses('${ id }')" onmouseout="unhighlightSpouses('${ id }')" href="tree.html?project=${ project }&person=${ id }">${ g } <strong>${ f }</strong></a>`
+}   // <img src="lib/i/copytiny.svg" alt="Copy ID." style="height: .8rem; vertical-align:middle;"></span>
 
 // markers (i, a, ✓)
 function renderMarkers (person) {

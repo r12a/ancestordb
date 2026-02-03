@@ -313,7 +313,7 @@ function getPersonDetails (id, type, loc) {
 		if (db[id].a) out += `<a title="Show in Ancestry.com family tree." style="opacity:80%;" href="javascript:void(0)" onclick="ancestry='${ db[id].a }'.split(','); openWindow('https://www.ancestry.co.uk/family-tree/tree/'+ancestry[0]+'/family?cfpid='+ancestry[1])"><img src="lib/i/chart.png" style="height:1.7em; width:2em; vertical-align:top;"></a>`
 		
 		// Copy ID to clipboard icon
-		out += `<a title="Copy id to clipboard" style="opacity:80%;" href="javascript:void(0)"><img src="lib/i/copytiny.svg" style="height:1em; width:1em; margin-inline:.25em;" onclick="navigator.clipboard.writeText('${ id }'); document.getElementById('copyNotice').style.display='block'; setTimeout(() => { document.getElementById('copyNotice').style.display='none' }, '500')"></a> `
+		out += `<a title="Copy id to clipboard" style="opacity:80%;" href="javascript:void(0)"><img src="lib/i/copyinline.svg" style="height:1.4em; width:1.6em; vertical-align:top; margin-inline-start:1em;" onclick="navigator.clipboard.writeText('${ id }'); document.getElementById('copyNotice').style.display='block'; setTimeout(() => { document.getElementById('copyNotice').style.display='none' }, '500')"></a> `
 		
 		// Tagged indicator if this person has been tagged
 		if (db[id].tagged) out += `<span style="font-size:140%; color:gray; margin-block-start:.25rem;" title="This person has been tagged.">✓</span>`
