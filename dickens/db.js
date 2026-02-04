@@ -437,7 +437,7 @@ events: {
 dickens_catherine_elizabeth_macready_1839:{     provisional: true,
 warning: "Only partially researched.",
 g:"Catherine Elizabeth Macready", k:"Kate", f:"Dickens", m:['Perugini'],  bdate:"29 Oct", b:"1839", ddate:"9 May", d:"1929", 
-bplace:"Marylebone", dplace:"",
+bplace:"Marylebone LND", dplace:"Chelsea",
 a:"", thumb:true, male:false, p:true,
 father:"dickens_charles_john_huffam_1812", mother:"hogarth_catherine_thompson_1815", occ:"painter",
 fg: [["1860", "collins_charles_allston_1828"],
@@ -772,7 +772,7 @@ fg:[["1861-07-01", "dickens_charles_culliford_boz_1837"]]
 
 dickens_charles_john_huffam_1812:{ 
 g:"Charles John Huffam", k:"Charles", f:"Dickens",  bdate:"7 Feb", b:"1812", ddate:"9 Jun", d:"1870", 
-bplace:"Landport, Hants", dplace:"Higham, London",
+bplace:"Landport HAM", dplace:"Higham LND",
 a:"208735037,372746703319", thumb:true, male:true, p:true,
 father:"dickens_john_1785", mother:"barrow_elizabeth_culliford_1789", occ:"Writer",
 fg: [["1836", "hogarth_catherine_thompson_1815", "dickens_charles_culliford_boz_1837", "dickens_mary_1838", "dickens_catherine_elizabeth_macready_1839", "dickens_walter_savage_landor_1841", "dickens_francis_jeffrey_1844", "dickens_alfred_dorsay_tennison_1845", "dickens_sydney_smith_haldimand_1847", "dickens_henry_fielding_1849", "dickens_dora_annie_1850", "dickens_edward_bulwer_lytton_1852"]],
