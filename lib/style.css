@@ -584,6 +584,7 @@ button {
 
 .listTable td {
     vertical-align: top;
+    padding-inline: .5em;
     }
 
 #summaryToggle {
@@ -625,3 +626,9 @@ button {
     float: inline-start;
     }
 
+
+.life_summary strong {
+    color: firebrick;
+    color: chocolate;
+    font-weight: normal;
+    }
