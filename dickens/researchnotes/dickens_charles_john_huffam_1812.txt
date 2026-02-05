@@ -98,8 +98,7 @@ Age,Name,Latitude,Longitude,Precision
 7,"1819  11 Ordnance Terrace, Chatham KEN: Sister Harriet Ellen born",51.380102141015925,0.5201019784727644,📌 exact
 8,"1820 11 Ordnance Terrace, Chatham KEN: Brother Fred (Frederick)  born",51.380102141015925,0.5201019784727644,📌 exact
 10,"1822  St Mary’s Place, Chatham KEN: Brother Alfred Lamert born",51.38764524978052,0.524421227799185,📌 exact
-12,"1824  Marshalsea Prison location, Southwark: Marshalsea debtor's prison • boot black labeller",51.501800,-0.092100,📌 —✅
-12,"1824  112 College Place, Camden Town, London: Marshalsea debtor's prison • boot black labeller",51.53852983395088,-0.13641449660565133,📌 —✅
+12,"1824  112 College Place, Camden Town, London: Marshalsea debtor's prison • boot black labeller",51.53853061013824,-0.1363945143453612,📌 exact
 15,"1827  Saint Pancras, Euston Rd, London: Brother Augustus Newnham baptised",51.527213047761215,-0.1300909286326682,📌 exact
 24,"1836  Furnival's Inn, London: Address at marriage to Kate Hogarth",51.51814694111903,-0.10985003298183434,📌 exact
 24,"1836  St Lukes church, Chelsea, London: Marriage to Kate Hogarth",51.489569,-0.169524,📌 exact
@@ -113,7 +112,6 @@ Age,Name,Latitude,Longitude,Precision
 35,"1847  1 Devonshire Terrace, London: Son Sydney Smith Haldimand born • gentleman",51.513611,-0.179810,📌 approx
 36,"1849  1 Devonshire Terrace, London: Son Henry Fielding born • gentleman",51.513611,-0.179810,📌 approx
 38,"1850  1 Devonshire Terrace, London: Daughter Dora Annie born",51.513611,-0.179810,📌 approx
-39,"1851  34 Keppel St, London: Census • Author",51.520668,-0.129617,📌 —✅
 39,"1851  1 Devonshire Terrace, London: Dora Annie dies",51.513611,-0.179810,📌 approx
 40,"1852 Tavistock House, Tavistock Square, London: Son Edward (Edward Bulwer Lytton)  born • esquire",51.525835939399165,-0.1289017382045879,📌 approx
 49,"1861  3 Hanover Terrace, London: Census • Author, novelist, essayist & editor",51.527356,-0.162363,📌 exact

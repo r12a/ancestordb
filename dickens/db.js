@@ -872,7 +872,7 @@ type: "note",
 notes: `
 note: The family had left Kent amidst rapidly mounting debts, and, living beyond his means, {dickens_john_1785:kf} was forced by his creditors into the Marshalsea debtors' prison in Southwark, London in 1824. His wife and youngest children joined him there, as was the practice at the time. {dickens_charles_john_huffam_1812:kx0}, then 12 years old, boarded with Elizabeth Roylance, a family friend, at 112 College Place, Camden Town.
 note: On Sundays—with his sister {dickens_frances_elizabeth_1810:k}, free from her studies at the Royal Academy of Music—{dickens_charles_john_huffam_1812:kx0} spent the day at the Marshalsea. He later used the prison as a setting in Little Dorrit. To pay for his board and to help his family, Dickens was forced to leave school and work ten-hour days at Warren's Blacking Warehouse, on Hungerford Stairs, near the present Charing Cross railway station, where he earned six shillings a week pasting labels on pots of boot blacking.`,
-place: "112 College Place, Camden Town",
+place: "112 College Place, Camden Town LND https://www.google.com/maps?q=51.53853061013824,-0.1363945143453612§exact",
 occ: "boot black labeller",
 gps: ["Marshalsea Prison, Southwark LND https://maps.google.com/maps?q=51.501800,-0.092100§exact", "112 College Place, Camden Town LND https://maps.google.com/maps?q=51.53852983395088,-0.13641449660565133§exact", "Charing Cross Railway Station LND https://maps.google.com/maps?q=51.50811290986514,-0.12469758957022929§exact"],
 sources: `
