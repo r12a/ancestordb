@@ -113,7 +113,20 @@ function makeNotes (content, target) {
 
 
 
-function fillAtHome () {
+function fillAtHome (type) { console.log(type, db[theperson].fg, db[theperson].father, db[theperson].mother)
+    if (type === 'parents' && (db[theperson].father || db[theperson].mother)) {
+        if (db[theperson].father) document.getElementById('atHomeIn').value += db[theperson].father+' '
+        if (db[theperson].mother) document.getElementById('atHomeIn').value += db[theperson].mother+' '
+        } 
+    else if (type === 'spouse' && db[theperson].fg) {
+        for (i=0;i<db[theperson].fg.length;i++) document.getElementById('atHomeIn').value += db[theperson].fg[i][1]+' '
+        }
+    else alert('Nothing found.')
+    }
+
+
+
+function fillAtHomeX () {
     if (db[theperson].fg) {
         for (i=0;i<db[theperson].fg.length;i++) document.getElementById('atHomeIn').value += db[theperson].fg[i][1]+' '
         } 
@@ -1251,7 +1264,7 @@ function makeTimestampX () {
       </tr>
 
 <tr>
-<td>At home: &nbsp; <button onclick="fillAtHome()">Fill</button></td>
+<td style="white-space: nowrap">At home: <button onclick="fillAtHome('spouse')" title="spouse">Fill</button> <button onclick="fillAtHome('parents')" title="parents">Fill</button></td>
 <td>
     <input type="text" id="atHomeIn"
     placeholder="Ids of resident spouse and parents." class="wideInputBox"
