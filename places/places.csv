@@ -1,0 +1,10 @@
+Age,Name,Latitude,Longitude,Precision
+0,"1808  Hogsthorpe LIN: Birth",53.2256891909446,0.3005686580608065,📌 village
+4,"1813  Slackholme End LIN",53.20956064324832, 0.297148487752215,📌 settlement
+14,"1822  Markby LIN",53.2857957904266,0.22808587554428755,📌 village
+22,"1830  St Mary & St Gabriels Church, Binbrook LIN: Marriage to Thomas Fridlington",53.42831303688226,-0.1776135066894377,📌 exact
+23,"1831  Binbrook LIN",53.42875674383383,-0.18037511976317167,📌 village
+32,"1841  Main Street, Binbrook St Gabriel LIN",53.42875674383383,-0.18037511976317167,📌 village
+52,"1861  North Farm, Middle Rasen LIN",53.38803515105093,-0.36291752247592607,📌 village
+62,"1871  North St, Middle Rasen LIN",53.391025081576515, -0.3668475323441142,📌 road
+67,"1876  Middle Rasen LIN: Death",53.38803515105093,-0.36291752247592607,📌 village
