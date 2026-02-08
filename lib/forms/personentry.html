@@ -877,6 +877,18 @@ fg:[["1943", "lakelin_robert_henry_1902", "lakelin_john_e_1945"]],
 
 <tr>
 <td>Child status:</td>
+<td><select onChange="document.getElementById('summaryCStatus').value = this.value" style="background: saddlebrown; color:white; opacity: 60%;">
+    <option value="">use a standard value...</option>
+    <option value="died as infant">died as infant</option>
+    <option value="died as child">died as child</option>
+    <option value="no spouse \u2022 no children">no spouse • no children</option>
+    <option value="no children">no children</option>    
+    </select>
+    </td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
 <td><input type="text" id="summaryCStatus"  
     placeholder="" class="wideInputBox"
     onInput="draftResult()">
