@@ -454,7 +454,7 @@ article {
     }
 
 
-.record div.censusSummary {
+/*.record div.censusSummary {
     font-size:78%;
     color:gray;
     
@@ -470,7 +470,18 @@ article {
     margin-block: 0.5em;
     line-height: 1.4;
     }
+*/
 
+.record div.censusSummary {
+    color: darkgray;
+    font-size: 90%;
+    line-height: 1;
+    margin-block-end: 1em;
+    }
+.record div.censusSummary img {
+    height: 1.5em;
+    vertical-align: middle;
+    }
 
 
 section.life_context {
