@@ -126,7 +126,13 @@ figcaption { font-style: italic; text-align: center; }
 .keypoints .occ:first-letter {
     text-transform: uppercase;
 	}
-.keypoints .place {font-style:italic; }
+.keypoints .occ {
+    margin-block-end: .5em;
+    }
+.keypoints .place {
+    color: brown;
+    margin-block-end: .5em;
+    }
 .floatedIcons {
     font-size: 1rem;
     }
@@ -277,9 +283,6 @@ article {
     text-align: center;
     }
 */
-.place {
-    color: chocolate;
-    }
 
 .personRow {
     line-height: 1.6;
