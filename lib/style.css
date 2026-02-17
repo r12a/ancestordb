@@ -128,10 +128,15 @@ figcaption { font-style: italic; text-align: center; }
 	}
 .keypoints .occ {
     margin-block-end: .5em;
+    font-size: 1.2em;
     }
 .keypoints .place {
     color: brown;
     margin-block-end: .5em;
+    }
+.keypoints .place img {
+    height: 1em;
+    vertical-align: text-top;
     }
 .floatedIcons {
     font-size: 1rem;
