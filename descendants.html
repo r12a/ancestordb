@@ -367,8 +367,8 @@ function findFamilyXX (id) {
 		out += `><span class="n"><input type="checkbox" checked title="${ id }" onclick="if (this.checked===false) clearChecks(this.parentNode.parentNode.parentNode)"> <a href="tree.html?project=${ project }&person=${ id }" style="float:none; color: black;">${ person.g } <strong>${ person.f }</strong></a></span>`
 
 		// optional markers
-		if (person.intro) out += ' <span class="itag">i</span>'
-		if (person.a) out += ' <span class="atag">a</span>'
+		//if (person.intro) out += ' <span class="itag">i</span>'
+		//if (person.a) out += ' <span class="atag">a</span>'
 		if (person.tagged) out += ' <span class="tag">✓</span>'
 		if (person.cstatus) out += ' <strong>&bull;</strong>'
 
@@ -392,8 +392,8 @@ function findFamilyXX (id) {
 				out += `<p class="spouse"><span class="spousen"><input type="checkbox" checked title="${ sid }"> <a href="tree.html?project=${ project }&person=${ sid }" style="float:none; color: black;">${ spouse.g } ${ spouse.f }</a>`
 
 				// optional markers
-				if (person.intro) out += ' <span class="itag">i</span>'
-				if (person.a) out += ' <span class="atag">a</span>'
+				//if (person.intro) out += ' <span class="itag">i</span>'
+				//if (person.a) out += ' <span class="atag">a</span>'
 				if (person.tagged) out += ' <span class="tag">✓</span>'
 
 				// spouse <100 years flag
@@ -467,8 +467,8 @@ function renderSpouseName (id, g, f) {
 // markers (i, a, ✓)
 function renderMarkers (person) {
 	let out = ''
-	if (person.intro) out += ' <span class="itag">i</span>'
-	if (person.a) out += ' <span class="atag">a</span>'
+	//if (person.intro) out += ' <span class="itag">i</span>'
+	//if (person.a) out += ' <span class="atag">a</span>'
 	if (person.tagged) out += ' <span class="tag">✓</span>'
 	return out
 }
