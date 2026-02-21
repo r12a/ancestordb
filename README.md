@@ -1,4 +1,4 @@
-# ancestry
+# ancestryDB
 Content management for family history.
 
 This is very much in development, so expect constant churn and change.
