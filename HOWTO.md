@@ -612,6 +612,8 @@ Once you find a person and click through to the 'hourglass' page (which shows th
 
 You can also click on the magnifying glass icon to search the database for occupations, places, or all events in a particular year.
 
+If you add checkmarks to two people in the index (you can use the filters to find people — the checkboxes will remain ticked as long as you stay on the index page), you can then click on the icon on the right that looks like a timepiece in order to find out how they are related.
+
 
 
 
