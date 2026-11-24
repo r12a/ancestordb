@@ -608,7 +608,7 @@ If you want to find someone, open the file `ancestordb/index.html`. It will list
 
 You can add check marks to people that allow you to view groups of people, or you can produce a list of people who were born less than 100 years ago, or you can convert checked names to a list and vice versa.  All of these functions are accessed by clicking on the links at the bottom of the page.
 
-Once you find a person you can also click on the orange diamond at the top left to mark them as the root.  Then the names of all direct relations of that person get orange-coloured text.  This can be very helpful in a large database for navigating around close vs more distant relations.
+Once you find a person and click through to the 'hourglass' page (which shows their immediate ancestors and children), you can also click on "Set as Root" at the bottom of the page to mark them as the root.  Then the names of all direct ancestors of that person in hourglass pages are coloured orange.  This can be very helpful in a large database for navigating around close vs more distant relations. Clicking on the orange diamond to the right of an 'hourglass' page will take you directly back to the root person's hourglass page.
 
 You can also click on the magnifying glass icon to search the database for occupations, places, or all events in a particular year.
 
