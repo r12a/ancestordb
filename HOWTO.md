@@ -3,7 +3,7 @@
 
 The application reads data from files in a subdirectory on your computer. 
 
-The main data files are ancestordb/{project_name}/db.js, which contains data for each person separately, and ancestordb/{project_name}/db.js, which contains centralised census information. These files are referred to as 'databases'.
+The main data files are ancestordb/{project_name}/db.js, which contains data for each person separately, and ancestordb/{project_name}/census.js, which contains centralised census information. These files are referred to as 'databases'.
 
 These files are all plain text files that can be edited by hand. However, the format needs to be carefully followed – a missing comma or parenthesis can cause the software to fail.  As an alternative, data can be created in a web-based form, which will automatically produce data in the correct form so that you can copy it to the database. The forms can be opened by clicking on the 'edit' icon (a pen pointing into a 3-sided box). 
 
