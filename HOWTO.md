@@ -606,7 +606,7 @@ There is no required format for the notes themselves.
 
 If you want to find someone, open the file `ancestordb/index.html`. It will list all the people in the database. By typing the name of the person you are looking for, family name first, you can filter the results to more quickly find a person.
 
-You can add check marks to people that allow you to view groups of people, or you can produce a list of people who were born less than 100 years ago, or you can convert checked names to a list and vice versa.  All of these functions are accessed by clicking on the links at the bottom of the page.
+You can add check marks to people that allow you to view groups of people, or you can produce a list of people who were born less than 100 years ago, or you can convert checked names to a list and vice versa.  These and other commands are accessed by clicking on the small box with horizontal lines at the bottom of the page; that opens a popup menu from which you can select what you want to do.
 
 Once you find a person and click through to the 'hourglass' page (which shows their immediate ancestors and children), you can also click on "Set as Root" at the bottom of the page to mark them as the root.  Then the names of all direct ancestors of that person in hourglass pages are coloured orange.  This can be very helpful in a large database for navigating around close vs more distant relations. Clicking on the orange diamond to the right of an 'hourglass' page will take you directly back to the root person's hourglass page.
 
